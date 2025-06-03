@@ -28,25 +28,26 @@ namespace SecGemApp.Http
         }
         public async static void RecipySend(int index)
         {
+            //Globalo.yamlManager.recipeData.vPPRecipeSpecEquip
             var recipe = new
             {
-                O_RING = "1",
-                CONE = "0",
-                KEYTYPE = "C",
-                HEIGHT_LH_MIN = 10.5,
-                HEIGHT_LH_MAX = 12.3,
-                HEIGHT_MH_MIN = 10.5,
-                HEIGHT_MH_MAX = 12.3,
-                HEIGHT_RH_MIN = 10.5,
-                HEIGHT_RH_MAX = 12.3,
-                CONCENTRICITY_IN_MIN = 10.5,
-                CONCENTRICITY_IN_MAX = 12.3,
-                CONCENTRICITY_OUT_MIN = 10.5,
-                CONCENTRICITY_OUT_MAX = 12.3,
-                GASKET_MIN = 10.5,
-                GASKET_MAX = 12.3,
-                DENT_MIN = 10.5,
-                DENT_MAX = 12.3
+                O_RING = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value,
+                CONE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value,
+                KEYTYPE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value,
+                HEIGHT_LH_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MIN"].value,
+                HEIGHT_LH_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MAX"].value,
+                HEIGHT_MH_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MIN"].value,
+                HEIGHT_MH_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MAX"].value,
+                HEIGHT_RH_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MIN"].value,
+                HEIGHT_RH_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MAX"].value,
+                CONCENTRICITY_IN_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MIN"].value,
+                CONCENTRICITY_IN_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value,
+                CONCENTRICITY_OUT_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value,
+                CONCENTRICITY_OUT_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value,
+                GASKET_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value,
+                GASKET_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value,
+                DENT_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MIN"].value,
+                DENT_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MAX"].value
             };
 
             string json = JsonConvert.SerializeObject(recipe);

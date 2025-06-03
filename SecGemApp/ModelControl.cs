@@ -35,6 +35,9 @@ namespace SecGemApp
             string strData = dataGridView_Model.Rows[SelectedCellRow].Cells[0].Value.ToString();
             return strData;
         }
+        #region [MODEL INIT GRID]
+
+        
         private void InitModelGrid()
         {
             int i = 0;
@@ -110,6 +113,8 @@ namespace SecGemApp
 
             //dataGridView_Model.ClearSelection();
         }
+
+        #endregion
         private void GridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 

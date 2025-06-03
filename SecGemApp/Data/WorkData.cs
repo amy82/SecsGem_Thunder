@@ -91,7 +91,7 @@ namespace SecGemApp.Data
         public void DataLoad()
         {
             //int i = 0;
-            using (StreamReader reader = File.OpenText(CPath.BASE_DATA_PATH + "\\Data.toml"))
+            using (StreamReader reader = File.OpenText(CPath.BASE_ENV_PATH + "\\Data.toml"))
             {
                 // Parse the table
                 //TomlTable table = TOML.Parse(reader);

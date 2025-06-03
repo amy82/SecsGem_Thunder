@@ -75,46 +75,6 @@ namespace SecGemApp.Data
                 return false;
             }
         }
-
-        //public bool ModelDataSet(string modelName)
-        //{
-        //    //Sensor ini 파일 설정
-        //    //CurrentModelName
-        //    ModelData.CurrentModelName = modelName;
-        //    string modelFolerPath = Path.Combine(CPath.BASE_MODEL_PATH, ModelData.CurrentModelName);
-        //    if (!File.Exists(modelFolerPath))
-        //    {
-        //        //새로 추가된 모델 -> [DEFAULT_MODEL] 폴더 복사해서 추가해라
-        //        //BASE_MODEL_DEFAULT_PATH  -> copy ->ModelData.CurrentModelName
-        //        CopyDirectory(CPath.BASE_MODEL_DEFAULT_PATH, modelFolerPath);
-
-        //    }
-        //    return true;
-        //}
-        //public void CopyDirectory(string sourceDir, string destinationDir)
-        //{
-        //    // 대상 폴더가 없으면 생성
-        //    if (!Directory.Exists(destinationDir))
-        //    {
-        //        Directory.CreateDirectory(destinationDir);
-        //    }
-
-        //    // 현재 폴더의 파일 복사
-        //    foreach (string file in Directory.GetFiles(sourceDir))
-        //    {
-        //        string fileName = Path.GetFileName(file);
-        //        string destFile = Path.Combine(destinationDir, fileName);
-        //        File.Copy(file, destFile, true); // 덮어쓰기 허용
-        //    }
-
-        //    // 하위 폴더 복사 (재귀적으로 수행)
-        //    foreach (string subDir in Directory.GetDirectories(sourceDir))
-        //    {
-        //        string dirName = Path.GetFileName(subDir);
-        //        string destSubDir = Path.Combine(destinationDir, dirName);
-        //        CopyDirectory(subDir, destSubDir); // 재귀 호출
-        //    }
-        //}
     }
 
     

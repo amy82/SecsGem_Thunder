@@ -20,32 +20,28 @@ namespace SecGemApp.Data
     public class CPath
     {
         //BASE
-        public const string BASE_PATH = "D:\\EVMS\\EEPROM_VERIFY";
-        
-        //CONFIG
-        public const string BASE_DATA_PATH = "D:\\EVMS\\EEPROM_VERIFY\\Data";
-        //LAON
-        public const string MIU_DIR = "D:\\EVMS\\EEPROM_VERIFY\\Initialize";
+        public const string BASE_PATH = "D:\\EVMS\\OP";
+        public const string BASE_LOG_PATH = "D:\\EVMS\\LOG";
+        public const string BASE_ENV_PATH = "D:\\EVMS\\OP\\ENV";
         //Mes
         public const string BASE_RECIPE_PATH = "D:\\EVMS\\OP\\ENV\\RECIPE";
+        public const string BASE_MODEL_PATH = "D:\\EVMS\\OP\\ENV\\Model";
+        public const string BASE_SECSGEM_PATH = "D:\\EVMS\\OP\\ENV";
+        public const string BASE_UBISAM_PATH = "D:\\EVMS\\OP\\ENV\\ugc";
 
 
-        public const string BASE_SECSGEM_PATH = "D:\\EVMS\\EEPROM_VERIFY\\SecsGem";
-        public const string BASE_UBISAM_PATH = "D:\\EVMS\\EEPROM_VERIFY\\SecsGem\\ugc";
-        public const string BASE_MODEL_PATH = "D:\\EVMS\\EEPROM_VERIFY\\Model";
-        public const string BASE_MODEL_DEFAULT_PATH = "D:\\EVMS\\EEPROM_VERIFY\\Model\\DEFAULT_MODEL";
 
 
         //LOG
-        public const string BASE_LOG_PATH = "D:\\EVMS\\LOG";
+        
         public const string BASE_LOG_CLIENT_PATH = "D:\\EVMS\\LOG\\CLIENT";
         public const string BASE_LOG_ALARM_PATH = "D:\\EVMS\\LOG\\ALARM";
         public const string BASE_LOG_TERMINAL_PATH = "D:\\EVMS\\LOG\\TERMINAL_MSG";
 
+        
 
-        public const string yamlFilePathModel = "ClientSecGemData.yaml";
+        public const string yamlFilePathModel = "SecGemData.yaml";   //"ClientSecGemData.yaml";
         public const string yamlFilePathConfig = "Client_Config.yaml";
-        public const string yamlFilePathImage = "imageData.yaml";
         public const string yamlFilePathUgc = "ugcFilePath.yaml";
         public const string yamlFilePathRecipe = "Recipe.yaml";
         public const string yamlFilePathProduct = "products.yaml";

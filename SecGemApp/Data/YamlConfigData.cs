@@ -39,7 +39,7 @@ namespace SecGemApp.Data
         {
             GetConfigData();
 
-            string filePath = Path.Combine(CPath.BASE_DATA_PATH, CPath.yamlFilePathConfig);
+            string filePath = Path.Combine(CPath.BASE_ENV_PATH, CPath.yamlFilePathConfig);
             try
             {
                 string directoryPath = Path.GetDirectoryName(filePath);
@@ -61,7 +61,7 @@ namespace SecGemApp.Data
         }
         public bool configDataLoad()
         {
-            string filePath = Path.Combine(CPath.BASE_DATA_PATH, CPath.yamlFilePathConfig);
+            string filePath = Path.Combine(CPath.BASE_ENV_PATH, CPath.yamlFilePathConfig);
             try
             {
                 if (!File.Exists(filePath))
