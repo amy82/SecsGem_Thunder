@@ -147,6 +147,10 @@ namespace SecGemApp.Http
                 context.Response.ContentType = "application/json";
                 context.Response.OutputStream.Write(buffer, 0, buffer.Length);
             }
+            else if (path == "/ApdReport")
+            {
+                //검사 pc에서 바로 apd 보고?
+            }
             else if (path == "/req")
             {
                 //aoi만 레시피 파일 있음.
