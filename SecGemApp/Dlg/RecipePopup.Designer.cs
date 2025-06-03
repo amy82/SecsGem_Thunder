@@ -144,7 +144,7 @@ namespace SecGemApp.Dlg
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView_Recipe.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView_Recipe.RowTemplate.Height = 23;
-            this.dataGridView_Recipe.Size = new System.Drawing.Size(309, 426);
+            this.dataGridView_Recipe.Size = new System.Drawing.Size(327, 426);
             this.dataGridView_Recipe.TabIndex = 46;
             // 
             // label3

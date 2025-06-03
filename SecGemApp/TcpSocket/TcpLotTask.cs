@@ -14,7 +14,6 @@ namespace SecGemApp.TcpSocket
 
         public TcpLotTask()
         {
-            
 
         }
 

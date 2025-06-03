@@ -88,6 +88,8 @@ namespace SecGemApp
             Globalo.tcpManager.SetClient("127.0.0.1", 2001);
             Globalo.ubisamForm.UbisamUgcLoad();
 
+            Http.HttpService.Start();
+            //Http.HttpService.RecipySend(0);       //test
 
             Globalo.configControl.setUgcPath();
             // MEMO: ubisam Start는 설비와 연결된후 하는게 좋을듯 사용중인 레시피 ppid 받아와야돼서
@@ -204,6 +206,9 @@ namespace SecGemApp
         private void operatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ModeChanged(0);
+
+            LeeTest leeTest = new LeeTest();
+            leeTest.Show();
         }
     }
 }

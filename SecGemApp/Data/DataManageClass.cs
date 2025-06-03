@@ -27,9 +27,11 @@ namespace SecGemApp.Data
         //LAON
         public const string MIU_DIR = "D:\\EVMS\\EEPROM_VERIFY\\Initialize";
         //Mes
+        public const string BASE_RECIPE_PATH = "D:\\EVMS\\OP\\ENV\\RECIPE";
+
+
         public const string BASE_SECSGEM_PATH = "D:\\EVMS\\EEPROM_VERIFY\\SecsGem";
         public const string BASE_UBISAM_PATH = "D:\\EVMS\\EEPROM_VERIFY\\SecsGem\\ugc";
-        public const string BASE_RECIPE_PATH = "D:\\EVMS\\EEPROM_VERIFY\\SecsGem\\Recipe";
         public const string BASE_MODEL_PATH = "D:\\EVMS\\EEPROM_VERIFY\\Model";
         public const string BASE_MODEL_DEFAULT_PATH = "D:\\EVMS\\EEPROM_VERIFY\\Model\\DEFAULT_MODEL";
 

@@ -161,6 +161,13 @@
     <Compile Include="FThread\LogThread.cs" />
     <Compile Include="FThread\TimeThread.cs" />
     <Compile Include="Globalo.cs" />
+    <Compile Include="Http\HttpService.cs" />
+    <Compile Include="LeeTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LeeTest.Designer.cs">
+      <DependentUpon>LeeTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="LogControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -239,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dlg\TerminalMsgForm.resx">
       <DependentUpon>TerminalMsgForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LeeTest.resx">
+      <DependentUpon>LeeTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LogControl.resx">
       <DependentUpon>LogControl.cs</DependentUpon>

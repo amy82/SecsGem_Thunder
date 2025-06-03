@@ -14,11 +14,11 @@ namespace SecGemApp.Dlg
     {
         private Data.PP_RECIPE_SPEC reciveSpec;
         private const int RecipeGridRowViewCount = 13;
-        private int[] GridColWidth = { 30, 150, 210, 70, 270, 50, 50, 1 };
+        private int[] GridColWidth = { 30, 200, 150, 70, 270, 50, 50, 1 };
         private int RecipeGridWidth = 0;
         private int GridRowHeight = 30;
         private int GridHeaderHeight = 30;
-
+        private readonly string[] keyTypes = { "A", "B", "C", "D", "E" };
         private string loadRecipeName = "";
 
         public RecipePopup(string recipyName)
@@ -111,17 +111,21 @@ namespace SecGemApp.Dlg
                 foreach (var kvp in reciveSpec.RECIPE.ParamMap)
                 {
                     //Console.WriteLine($"Task: {kvp.Key}, Value: {kvp.Value.value}, Flag: {kvp.Value.use}");
-                    if (count <= RecipeGridRowViewCount)
-                    {
-                        dataGridView_Recipe.Rows.Add(
+                    dataGridView_Recipe.Rows.Add(
                             kvp.Value.use,
                             kvp.Key,
                             kvp.Value.value);
-                    }
-                    else
-                    {
-                        dataGridView_Recipe.Rows.Add(false, "", ""); // 행 추가
-                    }
+                    //if (count <= RecipeGridRowViewCount)
+                    //{
+                    //    dataGridView_Recipe.Rows.Add(
+                    //        kvp.Value.use,
+                    //        kvp.Key,
+                    //        kvp.Value.value);
+                    //}
+                    //else
+                    //{
+                    //    dataGridView_Recipe.Rows.Add(false, "", ""); // 행 추가
+                    //}
 
                     dataGridView_Recipe.Rows[count].Cells[0].Style.BackColor = Color.White;
                     dataGridView_Recipe.Rows[count].Cells[0].Style.ForeColor = Color.Black;
@@ -147,6 +151,8 @@ namespace SecGemApp.Dlg
                 dataGridView_Recipe.ClearSelection();
             }
         }
+        #region [INIT GRID]
+        
         private void InitRecipeGrid()
         {
             //BankGrid
@@ -310,7 +316,7 @@ namespace SecGemApp.Dlg
             dataGridView_Recipe.Columns[0].DefaultCellStyle.ForeColor = Color.Yellow; // 배경색 설정
             dataGridView_Recipe.Columns[0].DefaultCellStyle.Font = new Font("나눔고딕", 10F, FontStyle.Bold); // 굵은 글씨
             dataGridView_Recipe.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView_Recipe.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView_Recipe.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridView_Recipe.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
 
@@ -322,6 +328,7 @@ namespace SecGemApp.Dlg
 
             dataGridView_Recipe.ClearSelection();
         }
+        #endregion
         private void RecipeGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -336,22 +343,53 @@ namespace SecGemApp.Dlg
             if (e.ColumnIndex == 2) //value
             {
                 string sValue = dataGridView_Recipe.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                NumPadForm popupForm = new NumPadForm(sValue);
 
-                DialogResult dialogResult = popupForm.ShowDialog();
-                if (dialogResult == DialogResult.OK)
+                //250603 AOI 레시피 전용
+                string titleChk = dataGridView_Recipe.Rows[e.RowIndex].Cells[1].Value.ToString();
+                if (titleChk == "O_RING" || titleChk == "CONE")
                 {
-                    if (popupForm.NumPadResult.Contains(".") == true)// || popupForm.NumPadResult.Length < 2)
+                    //0하고 1만 반복
+                    if (sValue == "0")
                     {
-                        //Globalo.LogPrint("Recipe", "소수 점이 포함돼 있습니다.", Globalo.eMessageName.M_WARNING);
-                        Globalo.LogPrint("Recipe", "입력이 값 확인바랍니다.", Globalo.eMessageName.M_WARNING);
-                        
+                        sValue = "1";
                     }
                     else
                     {
-                        dataGridView_Recipe.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = popupForm.NumPadResult;// dNumData.ToString();
+                        sValue = "0";
+                    }
+                    dataGridView_Recipe.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = sValue;
+                }
+                else if (titleChk == "KEYTYPE")
+                {
+                    //A ~ E 까지만 반복
+                    int index = Array.IndexOf(keyTypes, sValue);
+                    int nextIndex = (index >= 0) ? (index + 1) % keyTypes.Length : 0;
+
+
+                    dataGridView_Recipe.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = keyTypes[nextIndex]; ;
+                }
+                else
+                {
+                    NumPadForm popupForm = new NumPadForm(sValue);
+
+                    DialogResult dialogResult = popupForm.ShowDialog();
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        dataGridView_Recipe.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = popupForm.NumPadResult;
+
+                        //if (popupForm.NumPadResult.Contains(".") == true)
+                        //{
+                        //    //Globalo.LogPrint("Recipe", "소수 점이 포함돼 있습니다.", Globalo.eMessageName.M_WARNING);
+                        //    Globalo.LogPrint("Recipe", "입력이 값 확인바랍니다.", Globalo.eMessageName.M_WARNING);
+
+                        //}
+                        //else
+                        //{
+                        //    dataGridView_Recipe.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = popupForm.NumPadResult;
+                        //}
                     }
                 }
+                
             }
         }
         private void HeaderCheckBox_CheckedChanged(object sender, EventArgs e)
