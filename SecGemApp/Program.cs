@@ -13,10 +13,8 @@ namespace SecGemApp
     {
         public static bool NORIN_MODE = false;            //TODO:  ★★테스트 모드 설정, 실행파일 배포 할 때 false로 변경
         public static string _Ver = "Ver. 1.0.0.1";
-        public static string _Build = "25/04/25";
+        public static string _Build = "25/06/03";
 
-
-        
         [STAThread]
         static void Main()
         {

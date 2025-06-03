@@ -15,7 +15,7 @@ using ReaLTaiizor.Controls;  // ReaLTaiizor에서 제공하는 컨트롤을 사�
 //SecGemApp 이 Client 이고 Eol프로그램이 Server 이다.
 namespace SecGemApp
 {
-    public partial class MainForm : Form//LostForm
+    public partial class MainForm : Form
     {
         private int DlgGap = 6;
         private int DefaultWidth = 400;
