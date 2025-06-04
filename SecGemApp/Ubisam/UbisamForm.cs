@@ -2450,21 +2450,6 @@ namespace SecGemApp.Ubisam
             {
                 Globalo.dataManage.TaskWork.bRecv_S6F12_Lot_Processing_Completed = 0;
                 Globalo.dataManage.TaskWork.bRecv_S6F12_Lot_Processing_Completed_Ack = ack;
-                //if (ack != 0)
-                //{
-                //    //FAIL
-                    
-                //    if (Globalo.threadControl.autoRunthread.GetThreadRun() == true)
-                //    {
-                //        //설비 일시 정지는 시키지말고 팝업만 띄워라 완공 실패로
-
-                //        TcpSocket.EquipmentData ProcessComData = new TcpSocket.EquipmentData();
-                //        ProcessComData.Command = "LOT_PROCESSING_COMPLETE_FAIL";        // "LOT_PROCESSING_COMPLETED";
-                //        ProcessComData.Judge = 0;
-                //        ProcessComData.ErrText = "Lot Processing Completed Fail";
-                //        Globalo.tcpManager.SendMessageToHost(ProcessComData);
-                //    }
-                //}
             }
 
             if (ceid == ReportConstants.LOT_APD_REPORT_10711)
