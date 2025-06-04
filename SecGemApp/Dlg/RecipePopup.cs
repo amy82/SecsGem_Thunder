@@ -465,8 +465,8 @@ namespace SecGemApp.Dlg
 
 
                 //레시피 값이 변경 저장되면 Test 프로그램으로 보내줘야된다.
-                Http.HttpService.RecipySend(0);     //Aoi pc1
-                Http.HttpService.RecipySend(1);     //Aoi pc2
+                Http.HttpService.RecipeSend(0);     //Aoi pc1
+                Http.HttpService.RecipeSend(1);     //Aoi pc2
             }
             else
             {

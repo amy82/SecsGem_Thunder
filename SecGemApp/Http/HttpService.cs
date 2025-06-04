@@ -24,9 +24,17 @@ namespace SecGemApp.Http
         };
         public HttpService()
         {
-
+            Event.EventManager.PgExitCall += OnPgExitCall;
         }
-        public async static void RecipySend(int index)
+        private void OnPgExitCall(object sender, EventArgs e)
+        {
+            //await HttpService.Stop();
+            _ = HttpService.Stop();
+        }
+        //Apd Report
+        //Tester 1  ===>  SecsGem
+        //Tester 2  ===>  SecsGem
+        public async static void RecipeSend(int index)      //aoi Tester 프로그램에서 레시피 요청시 대응
         {
             //Globalo.yamlManager.recipeData.vPPRecipeSpecEquip
             var recipe = new
@@ -50,25 +58,39 @@ namespace SecGemApp.Http
                 DENT_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MAX"].value
             };
 
+
             string json = JsonConvert.SerializeObject(recipe);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             HttpClient client = new HttpClient();
             try
             {
+                //PC Ip:
+                //Handler : 192.168.100.1
+                //SecsGem : 192.168.100.1
+                //Tester Pc : 192.168.100.{11, 12, 13, 14, 15, 16, 17, 18}
+
+                //검사 PC Port:
+                //AOI: 4001, 4002
+                //FW:  4001, 4002, 4003 , 4004
+
+                //eeprom Write  = 4001, 4002, 4003, 4004
+                //eeprom verify = 4005, 4006, 4007, 4008
+
+                //string url = $"http://192.168.100.{index}:{port}/set-recipe";
                 int port = 4000 + index;
                 string url = $"http://127.0.0.1:{port}/set-recipe";
-                var response = await client.PostAsync(url, content);
-                //var response = await client.PostAsync("http://127.0.0.1:4001/set-recipe", content);
 
+
+                var response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("레시피 전송 성공!");
+                    Console.WriteLine("Recipe Send Complete!");
                 }
                 else
                 {
-                    Console.WriteLine($"전송 실패: 상태 코드 {(int)response.StatusCode} {response.ReasonPhrase}");
+                    Console.WriteLine($"Recipe Send Fail: ErrCode {(int)response.StatusCode} {response.ReasonPhrase}");
                     string errorContent = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("서버 응답 내용: " + errorContent);
+                    Console.WriteLine("Server Response Content: " + errorContent);
                 }
             }
             catch (HttpRequestException ex)
@@ -147,15 +169,23 @@ namespace SecGemApp.Http
                 context.Response.ContentType = "application/json";
                 context.Response.OutputStream.Write(buffer, 0, buffer.Length);
             }
+            else if (path == "/ObjectReport")   //Return : /LotValidation  으로 리턴
+            {
+                //검사 pc에서 Object 보고 들어오는 곳 :
+                //EEprom Verify 공정에서만 들어올 듯 , 다른 공정은 Handler에서 바코드 스캔하면서 바로 보냄
+                //착공하고 결과를 다시 verify 공정으로 보내줘야될듯 
+                // 
+            }
             else if (path == "/ApdReport")
             {
-                //검사 pc에서 바로 apd 보고?
+                //검사 pc에서 Apd 보고 들어오는 곳
+                //Lot Processing Completed Processing 받고 , Handler로 결과 전송?
             }
-            else if (path == "/req")
+            else if (path == "/reqRecipe")
             {
                 //aoi만 레시피 파일 있음.
-                RecipySend(0);  //aoi pc1
-                RecipySend(1);  //aoi pc2
+                RecipeSend(0);  //aoi pc1
+                RecipeSend(1);  //aoi pc2
             }
             else if (path == "/recipe")
             {

@@ -85,6 +85,7 @@ namespace SecGemApp
             Globalo.threadControl.AllThreadStart();
 
             //Globalo.tcpManager.AddClient("127.0.0.1", 2001);
+
             Globalo.tcpManager.SetClient("127.0.0.1", 2001);
             Globalo.ubisamForm.UbisamUgcLoad();
 
