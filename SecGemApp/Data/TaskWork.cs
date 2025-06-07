@@ -12,9 +12,6 @@ namespace SecGemApp.Data
         public int m_nStartStep;
         public int m_nEndStep;
 
-        public Rectangle[] rtChartRect = new Rectangle[Globalo.CHART_ROI_COUNT];
-        public Rectangle[] rtSfrSmallRect = new Rectangle[Globalo.MTF_ROI_COUNT];
-
         public string m_szChipID;
 
         public int bRecv_Lgit_Pp_select;
@@ -54,22 +51,13 @@ namespace SecGemApp.Data
             bRecv_S6F12_Lot_Apd = -1;
             bRecv_S6F12_Lot_Processing_Completed = -1;
             bRecv_S6F12_Lot_Processing_Completed_Ack = -1;
+
             bRecv_S2F49_LG_EEprom_Data = -1;
             bRecv_S2F49_LG_EEprom_Fail = -1;
 
             m_nCurrentStep = 0;
             m_nStartStep = 0;
             m_nEndStep = 0;
-
-            int i = 0;
-            for (i = 0; i < Globalo.CHART_ROI_COUNT; i++)
-            {
-                rtChartRect[i] = new Rectangle();
-            }
-            for (i = 0; i < Globalo.MTF_ROI_COUNT; i++)
-            {
-                rtSfrSmallRect[i] = new Rectangle();
-            }
 
             m_szIdleStartTime = DateTime.Now.ToString("yyMMddhhmmss");
         }

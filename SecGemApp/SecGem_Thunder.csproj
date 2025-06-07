@@ -121,6 +121,7 @@
     <Compile Include="Data\CMesData.cs" />
     <Compile Include="Data\csvData.cs" />
     <Compile Include="Data\DataManageClass.cs" />
+    <Compile Include="Data\ParallelTaskWork.cs" />
     <Compile Include="Data\TaskWork.cs" />
     <Compile Include="Data\WorkData.cs" />
     <Compile Include="Data\YamlConfigData.cs" />
