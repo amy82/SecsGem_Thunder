@@ -260,7 +260,7 @@ namespace SecGemApp.Process
                         Globalo.LogPrint("LotProcess", szLog);
                         nRetStep = -1;
                     }
-                    else if (Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start == 0)
+                    else if (Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start == 0)     //500
                     {
                         Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start = -1;
 
@@ -370,10 +370,9 @@ namespace SecGemApp.Process
                         nRetStep = -1;  //OBJECT ID REPORT Step
                         break;
                     }
-
                     break;
                 case 650:
-                    if (Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start == 0)
+                    if (Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start == 0)  //650
                     {
                         szLog = $"[LOT] Lgit Lot Start Send acknowledge [STEP : {nRetStep}]";
                         Globalo.LogPrint("LotProcess", szLog);
@@ -384,6 +383,7 @@ namespace SecGemApp.Process
                         m_dTickCount = Environment.TickCount;
 
                         nRetStep = 700;
+                        break;
                     }
                     else if (Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start == 1)
                     {
@@ -408,63 +408,76 @@ namespace SecGemApp.Process
                         nRetStep = -1;
                     }
                     break;
+
                 case 700:       //JUMP STEP
-                    if (Globalo.dataManage.TaskWork.bRecv_S2F49_LG_EEprom_Data == 0)
-                    {
-                        szLog = $"[LOT] Lgit EEpromData acknowledge [STEP : {nRetStep}]";
-                        Globalo.LogPrint("LotProcess", szLog);
+                    Globalo.dataManage.mesData.m_dProcessState[0] = Globalo.dataManage.mesData.m_dProcessState[1];
+                    Globalo.dataManage.mesData.m_dProcessState[1] = (int)Ubisam.ePROCESS_STATE_INFO.eEXECUTING;
 
-                        Globalo.dataManage.TaskWork.bRecv_S6F12_Process_State_Change = -1;
+                    Globalo.dataManage.mesData.m_dLotProcessingState = (int)Ubisam.eLOT_PROCESSING_STATE.eWait;
 
-                        Globalo.dataManage.mesData.m_dProcessState[0] = Globalo.dataManage.mesData.m_dProcessState[1];
-                        Globalo.dataManage.mesData.m_dProcessState[1] = (int)Ubisam.ePROCESS_STATE_INFO.eEXECUTING;
+                    szLog = $"[LOT] (Executing)Process State Change Report [STEP : {nRetStep}]";
+                    Globalo.LogPrint("LotProcess", szLog);
 
-                        Globalo.dataManage.mesData.m_dLotProcessingState = (int)Ubisam.eLOT_PROCESSING_STATE.eWait;
+                    Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.PROCESS_STATE_CHANGED_REPORT_10401);//SEND S6F11
+                    m_dTickCount = Environment.TickCount;
 
-                        szLog = $"[LOT] (Executing)Process State Change Report [STEP : {nRetStep}]";
-                        Globalo.LogPrint("LotProcess", szLog);
-
-                        Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.PROCESS_STATE_CHANGED_REPORT_10401);//SEND S6F11
-                        m_dTickCount = Environment.TickCount;
-
-                        Globalo.tcpManager.SendProcessState("EXECUTING");
-
-                        nRetStep = 750;
-                        break;
-                    }
-                    else if (Globalo.dataManage.TaskWork.bRecv_S2F49_LG_EEprom_Data == 1)
-                    {
-                        //EEPROM DATA csv File Save 실패
-                        szLog = $"[LOT] EEprom Data Save Fail [STEP : {nRetStep}]";
-                        Globalo.LogPrint("LotProcess", szLog);
-                        nRetStep = -1;
-                    }
-                    else if (Globalo.dataManage.TaskWork.bRecv_S2F49_LG_EEprom_Fail == 1)
-                    {
-                        //Alarm or Stop Process
-                        szLog = $"[LOT] EEprom Fail Recv [STEP : {nRetStep}]";
-                        Globalo.LogPrint("LotProcess", szLog);
-                        nRetStep = -1;
-                    }
-                    else if ((Environment.TickCount - m_dTickCount) > nRunTimeOutSec)
-                    {
-                        TcpSocket.EquipmentData ProcessComData = new TcpSocket.EquipmentData();
-                        ProcessComData.Command = "CT_TIMEOUT";
-                        ProcessComData.Judge = 0;
-                        ProcessComData.ErrCode = "97";
-                        ProcessComData.ErrText = "[LOT] EEprom Data CT TimeOut";
-                        Globalo.tcpManager.SendMessageToHost(ProcessComData);
-
-                        szLog = $"[LOT] EEprom Data CT TimeOut [STEP : {nRetStep}]";
-                        Globalo.LogPrint("LotProcess", szLog);
-
-                        Globalo.ubisamForm.cTTimeOutSendFn("S02F49", "10704");      //없어서 10704로 보냄
-                        nRetStep = -1;
-                    }
-
-                    break;
-                case 750:
+                    Globalo.tcpManager.SendProcessState("EXECUTING");
                     nRetStep = 800;
+
+                    //#region [EEPROM VERIFY 공정만 사용]
+                    //                    if (Globalo.dataManage.TaskWork.bRecv_S2F49_LG_EEprom_Data == 0)
+                    //                    {
+                    //                        szLog = $"[LOT] Lgit EEpromData acknowledge [STEP : {nRetStep}]";
+                    //                        Globalo.LogPrint("LotProcess", szLog);
+
+                    //                        Globalo.dataManage.TaskWork.bRecv_S6F12_Process_State_Change = -1;
+
+                    //                        Globalo.dataManage.mesData.m_dProcessState[0] = Globalo.dataManage.mesData.m_dProcessState[1];
+                    //                        Globalo.dataManage.mesData.m_dProcessState[1] = (int)Ubisam.ePROCESS_STATE_INFO.eEXECUTING;
+
+                    //                        Globalo.dataManage.mesData.m_dLotProcessingState = (int)Ubisam.eLOT_PROCESSING_STATE.eWait;
+
+                    //                        szLog = $"[LOT] (Executing)Process State Change Report [STEP : {nRetStep}]";
+                    //                        Globalo.LogPrint("LotProcess", szLog);
+
+                    //                        Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.PROCESS_STATE_CHANGED_REPORT_10401);//SEND S6F11
+                    //                        m_dTickCount = Environment.TickCount;
+
+                    //                        Globalo.tcpManager.SendProcessState("EXECUTING");
+
+                    //                        nRetStep = 750;
+                    //                        break;
+                    //                    }
+                    //                    else if (Globalo.dataManage.TaskWork.bRecv_S2F49_LG_EEprom_Data == 1)
+                    //                    {
+                    //                        //EEPROM DATA csv File Save 실패
+                    //                        szLog = $"[LOT] EEprom Data Save Fail [STEP : {nRetStep}]";
+                    //                        Globalo.LogPrint("LotProcess", szLog);
+                    //                        nRetStep = -1;
+                    //                    }
+                    //                    else if (Globalo.dataManage.TaskWork.bRecv_S2F49_LG_EEprom_Fail == 1)
+                    //                    {
+                    //                        //Alarm or Stop Process
+                    //                        szLog = $"[LOT] EEprom Fail Recv [STEP : {nRetStep}]";
+                    //                        Globalo.LogPrint("LotProcess", szLog);
+                    //                        nRetStep = -1;
+                    //                    }
+                    //                    else if ((Environment.TickCount - m_dTickCount) > nRunTimeOutSec)
+                    //                    {
+                    //                        TcpSocket.EquipmentData ProcessComData = new TcpSocket.EquipmentData();
+                    //                        ProcessComData.Command = "CT_TIMEOUT";
+                    //                        ProcessComData.Judge = 0;
+                    //                        ProcessComData.ErrCode = "97";
+                    //                        ProcessComData.ErrText = "[LOT] EEprom Data CT TimeOut";
+                    //                        Globalo.tcpManager.SendMessageToHost(ProcessComData);
+
+                    //                        szLog = $"[LOT] EEprom Data CT TimeOut [STEP : {nRetStep}]";
+                    //                        Globalo.LogPrint("LotProcess", szLog);
+
+                    //                        Globalo.ubisamForm.cTTimeOutSendFn("S02F49", "10704");      //없어서 10704로 보냄
+                    //                        nRetStep = -1;
+                    //                    }
+                    //#endregion
                     break;
                 case 800:
                     m_dTickCount = Environment.TickCount;
@@ -560,9 +573,16 @@ namespace SecGemApp.Process
                     TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
                     LotstartData.Command = "APS_LOT_START_CMD";
                     LotstartData.Judge = 0;
+
+                    LotstartData.CommandParameter.Add(new TcpSocket.EquipmentParameterInfo
+                    {
+                        Name = "IDLETEXT",
+                        Value = "special data"
+                    });
+                    //TODO: 여기서 Special Data 여기서 보내야된다.
+                    //
                     Globalo.tcpManager.SendMessageToHost(LotstartData);
-
-
+                    //
                     szLog = $"[LOT] Lot Processing Start Complete [STEP : {nRetStep}]";
                     Globalo.LogPrint("LotProcess", szLog);
                     nRetStep = 1000;

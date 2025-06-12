@@ -36,6 +36,8 @@ namespace SecGemApp.Data
         public string m_szIdleStartTime;
         public string m_szIdleEndTime;
 
+        public List<TcpSocket.EquipmentParameterInfo> SpecialDataParameter { get; set; } = new List<TcpSocket.EquipmentParameterInfo>();
+
         public TaskWork()
         {
             m_szChipID = "";
@@ -60,6 +62,7 @@ namespace SecGemApp.Data
             m_nEndStep = 0;
 
             m_szIdleStartTime = DateTime.Now.ToString("yyMMddhhmmss");
+            SpecialDataParameter.Clear();
         }
     }
 }

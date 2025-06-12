@@ -1194,7 +1194,7 @@ namespace SecGemApp.Ubisam
                     
                 }
 
-                paramResult = new RemoteCommandParameterResult(paramInfo.Name, _ack);// (int)CPACK.IllegalFormatSpecifiedForCPVAL);
+                paramResult = new RemoteCommandParameterResult(paramInfo.Name, _ack);       // (int)CPACK.IllegalFormatSpecifiedForCPVAL);
                 if(result != null && _ack != 0)
                 {
                     result.Items.Add(paramResult);
@@ -1440,8 +1440,30 @@ namespace SecGemApp.Ubisam
                 Globalo.dataManage.TaskWork.bRecv_S2F49_PP_UpLoad_Confirm = 0;		//LGIT_PP_UPLOAD_CONFIRM
             }
             
-            if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_LOT_START)
+            if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_LOT_START)      //TODO: 
             {
+                Globalo.dataManage.TaskWork.SpecialDataParameter.Clear();
+                foreach (var item in Globalo.dataManage.mesData.vLotStart)
+                {
+                    foreach (var Sub in item.Children)
+                    {
+                        if (Sub.name == "SPECIAL_DATA")
+                        {
+                            //lotId = Sub.value;
+                            foreach (var sData in Sub.Children)
+                            {
+                                Console.WriteLine($"{sData.name} : {sData.value}");
+                                Globalo.dataManage.TaskWork.SpecialDataParameter.Add(new TcpSocket.EquipmentParameterInfo
+                                {
+                                    Name = sData.name,
+                                    Value = sData.value
+                                });
+                            }
+                                
+                        }
+                    }
+
+                }
                 Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start = 0;
             }
             if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_MATERIAL_ID_CONFIRM)
