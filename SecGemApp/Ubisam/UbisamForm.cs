@@ -1464,6 +1464,9 @@ namespace SecGemApp.Ubisam
                     }
 
                 }
+
+                TcpSocket.EquipmentData testtttData = new TcpSocket.EquipmentData();
+                testtttData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
                 Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start = 0;
             }
             if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_MATERIAL_ID_CONFIRM)

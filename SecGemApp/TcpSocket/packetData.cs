@@ -18,6 +18,17 @@ namespace SecGemApp.TcpSocket
         public string Name { get; set; }
         public string Value { get; set; }
         public List<EquipmentParameterInfo> ChildItem { get; set; } = new List<EquipmentParameterInfo>();
+
+        // 깊은 복사 메서드
+        public EquipmentParameterInfo DeepCopy()
+        {
+            return new EquipmentParameterInfo
+            {
+                Name = this.Name,
+                Value = this.Value,
+                ChildItem = this.ChildItem.Select(child => child.DeepCopy()).ToList()
+            };
+        }
     }
 
     public class EquipmentData

@@ -573,12 +573,9 @@ namespace SecGemApp.Process
                     TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
                     LotstartData.Command = "APS_LOT_START_CMD";
                     LotstartData.Judge = 0;
+                    LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
 
-                    LotstartData.CommandParameter.Add(new TcpSocket.EquipmentParameterInfo
-                    {
-                        Name = "IDLETEXT",
-                        Value = "special data"
-                    });
+                    //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter;
                     //TODO: 여기서 Special Data 여기서 보내야된다.
                     //
                     Globalo.tcpManager.SendMessageToHost(LotstartData);
