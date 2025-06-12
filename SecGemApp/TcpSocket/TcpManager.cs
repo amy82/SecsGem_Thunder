@@ -472,7 +472,16 @@ namespace SecGemApp.TcpSocket
         }
         public async void SendMessageToHost(EquipmentData data)//string message)
         {
-            if(_client.bHostConnectedState() == false)
+            if (_client.bHostConnectedState() == false)
+            {
+                return;
+            }
+            string jsonData = JsonConvert.SerializeObject(data);
+            await _client.SendDataAsync(jsonData);
+        }
+        public async void SendMessageToHostNew(MessageWrapper data)//string message)
+        {
+            if (_client.bHostConnectedState() == false)
             {
                 return;
             }

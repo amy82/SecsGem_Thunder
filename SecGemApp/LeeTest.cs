@@ -73,5 +73,26 @@ namespace SecGemApp
                 Console.WriteLine("알 수 없는 예외: " + ex.Message);
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            TcpSocket.MessageWrapper objectData = new TcpSocket.MessageWrapper();
+            objectData.Type = "EquipmentData";
+            //
+
+
+
+            TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
+            LotstartData.Command = "APS_LOT_START_CMD";
+            LotstartData.Judge = 0;
+            LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
+
+
+            objectData.Data = LotstartData;
+            //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter;
+            //TODO: 여기서 Special Data 여기서 보내야된다.
+            //
+            Globalo.tcpManager.SendMessageToHostNew(objectData);
+        }
     }
 }

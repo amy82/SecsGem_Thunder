@@ -45,6 +45,11 @@ namespace SecGemApp.TcpSocket
         public string ErrText { get; set; }
         public List<EquipmentParameterInfo> CommandParameter { get; set; } = new List<EquipmentParameterInfo>();
     }
+    public class MessageWrapper
+    {
+        public string Type { get; set; }        //공정명: EEPROM_WRITE, EEPROM_VERIFY, AOI, FW
+        public object Data { get; set; }        //Data 안에 EquipmentData 또는 SocketTestState 추가해서 전달
+    }
 
     //
 }
