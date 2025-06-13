@@ -245,24 +245,27 @@ namespace SecGemApp
             }
             if (SelectedCellRow < Globalo.yamlManager.recipeData.recipeInventory.recipeYamlFiles.Count())
             {
-                
                 if (strData.Length < 1)
                 {
                     return;
                 }
+
+
                 Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName = strData;
                 Globalo.yamlManager.mesManager.MesSave();
 
                 string logData = $"[Recipe] Change : {strData}";
                 Globalo.LogPrint("Recipe", logData);
 
-                //Host로 선택 레시피명 보내기
+                //tester로 레시피명 , 파라미터 보내기
                 Globalo.tcpManager.SendRecipeName(Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName);
 
+                Globalo.yamlManager.recipeData.vPPRecipeSpecEquip = Globalo.yamlManager.recipeData.RecipeLoad(Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName);
+
+
+                Http.HttpService.RecipeSend(0);     //Aoi pc1
+                Http.HttpService.RecipeSend(1);     //Aoi pc2
             }
-
-            //Globalo.yamlManager.MesLoad();
-
             SetRecipeListView();
         }
 

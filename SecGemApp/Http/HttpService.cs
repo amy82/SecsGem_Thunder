@@ -37,8 +37,10 @@ namespace SecGemApp.Http
         public async static void RecipeSend(int index)      //aoi Tester 프로그램에서 레시피 요청시 대응
         {
             //Globalo.yamlManager.recipeData.vPPRecipeSpecEquip
+
             var recipe = new
             {
+                NAME = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.Ppid,
                 O_RING = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value,
                 CONE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value,
                 KEYTYPE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value,
@@ -57,7 +59,6 @@ namespace SecGemApp.Http
                 DENT_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MIN"].value,
                 DENT_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MAX"].value
             };
-
 
             string json = JsonConvert.SerializeObject(recipe);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -162,6 +163,7 @@ namespace SecGemApp.Http
             string path = context.Request.Url.AbsolutePath;
             var query = context.Request.QueryString;
 
+
             if (path == "/recipes")
             {
                 string json = JsonConvert.SerializeObject(RecipeFiles);
@@ -174,9 +176,7 @@ namespace SecGemApp.Http
                 //검사 pc에서 Object 보고 들어오는 곳 :
                 //EEprom Verify 공정에서만 들어올 듯 , 다른 공정은 Handler에서 바코드 스캔하면서 바로 보냄
                 //착공하고 결과를 다시 verify 공정으로 보내줘야될듯 
-                
             }
-
             else if (path == "/ApdReport")
             {
                 //검사 pc에서 Apd 보고 들어오는 곳

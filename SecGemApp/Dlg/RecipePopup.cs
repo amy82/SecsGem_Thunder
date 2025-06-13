@@ -366,7 +366,7 @@ namespace SecGemApp.Dlg
                     int nextIndex = (index >= 0) ? (index + 1) % keyTypes.Length : 0;
 
 
-                    dataGridView_Recipe.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = keyTypes[nextIndex]; ;
+                    dataGridView_Recipe.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = keyTypes[nextIndex];
                 }
                 else
                 {
@@ -460,13 +460,6 @@ namespace SecGemApp.Dlg
                 reciveSpec.RECIPE.Version = tempVer.ToString();
                 string logData = $"[Rerpot] Process Program State Changed Report - Edited{reciveSpec.RECIPE.Version}";
                 Globalo.LogPrint("MainControl", logData);
-
-
-
-
-                //레시피 값이 변경 저장되면 Test 프로그램으로 보내줘야된다.
-                Http.HttpService.RecipeSend(0);     //Aoi pc1
-                Http.HttpService.RecipeSend(1);     //Aoi pc2
             }
             else
             {
@@ -479,16 +472,17 @@ namespace SecGemApp.Dlg
             Globalo.LogPrint("MainControl", "[Rerpot] Process Program State Changed Report - Created");
 
             Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.PROCESS_PROGRAM_STATE_CHANGED_REPORT_10601, loadRecipeName);//ppRs.RECIPE.Ppid);
+
             Globalo.yamlManager.recipeData.vPPRecipeSpecEquip = Globalo.yamlManager.recipeData.RecipeLoad(Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName);
+
             Globalo.tcpManager.SendRecipeName(Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName);
 
 
+
+            //레시피 값이 변경 저장되면 Test 프로그램으로 보내줘야된다.
+            Http.HttpService.RecipeSend(0);     //Aoi pc1
+            Http.HttpService.RecipeSend(1);     //Aoi pc2
             
-
-
-
-
-
             //Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.PROCESS_PROGRAM_STATE_CHANGED_REPORT_10601, selectedItem);
 
 

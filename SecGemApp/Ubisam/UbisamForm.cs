@@ -3493,7 +3493,6 @@ namespace SecGemApp.Ubisam
             {
                 ppid = string.IsNullOrEmpty(txtPPID.Text) == true ? "MGL19SS06MD" : txtPPID.Text;
             });
-
             GemDriverError driverResult = _gemDriver.RequestPPChanged(ppstate, ppid);
             WriteLog(LogLevel.Error, $"Request PP Changed Result : {driverResult}");
         }
@@ -3502,13 +3501,9 @@ namespace SecGemApp.Ubisam
             GemDriverError driverResult = _gemDriver.RequestFmtPPRequest(ppId);
             WriteLog(LogLevel.Error, $"Request Fmt PP Request Result : {driverResult}");
         }
-
         private void btnRequestFmtPPRequest_Click(object sender, EventArgs e)
         {
             string ppid = string.IsNullOrEmpty(txtFMTPPID.Text) == true ? "MGL19SS06MD" : txtFMTPPID.Text;
-            
-
-
             FormattedProcessProgramRequest(ppid);
         }
 

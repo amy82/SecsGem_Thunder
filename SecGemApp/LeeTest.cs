@@ -23,25 +23,25 @@ namespace SecGemApp
         {
             var recipe = new
             {
+                NAME = "recipename",
                 O_RING = "1",
-                CONE = "0",
+                CONE = "1",
                 KEYTYPE = "C",
-                HEIGHT_LH_MIN = 10.5,
-                HEIGHT_LH_MAX = 12.3,
-                HEIGHT_MH_MIN = 10.5,
-                HEIGHT_MH_MAX = 12.3,
-                HEIGHT_RH_MIN = 10.5,
-                HEIGHT_RH_MAX = 12.3,
-                CONCENTRICITY_IN_MIN = 10.5,
-                CONCENTRICITY_IN_MAX = 12.3,
-                CONCENTRICITY_OUT_MIN = 10.5, 
-                CONCENTRICITY_OUT_MAX = 12.3,
-                GASKET_MIN = 10.5,
-                GASKET_MAX = 12.3,
-                DENT_MIN = 10.5,
-                DENT_MAX = 12.3
+                HEIGHT_LH_MIN = 7.6,
+                HEIGHT_LH_MAX = 8.0,
+                HEIGHT_MH_MIN = 29.62,
+                HEIGHT_MH_MAX = 30.42,
+                HEIGHT_RH_MIN = 7.6,
+                HEIGHT_RH_MAX = 8.0,
+                CONCENTRICITY_IN_MIN = 0.3,
+                CONCENTRICITY_IN_MAX = 0.3,
+                CONCENTRICITY_OUT_MIN = 0.3, 
+                CONCENTRICITY_OUT_MAX = 0.3,
+                GASKET_MIN = 150,
+                GASKET_MAX = 150,
+                DENT_MIN = 220,
+                DENT_MAX = 220
             };
-
             string json = JsonConvert.SerializeObject(recipe);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             HttpClient client = new HttpClient();
