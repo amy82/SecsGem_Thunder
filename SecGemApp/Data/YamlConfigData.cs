@@ -10,6 +10,8 @@ namespace SecGemApp.Data
     public class _DrivingSettings
     {
         public bool IdleReportPass { get; set; }
+        public string HandlerIp { get; set; }
+        public int HandlerPort { get; set; }
     }
     public class ConfigData
     {
@@ -28,6 +30,10 @@ namespace SecGemApp.Data
         public void GetConfigData()
         {
             configData.DrivingSettings.IdleReportPass = Globalo.configControl.checkBox_IdleReportPass.Checked;
+
+            configData.DrivingSettings.HandlerIp = "";      //label_Handler_Ip1
+            configData.DrivingSettings.HandlerPort = 1234;      //label_Handler_Ip1
+
         }
 
         public void ShowConfigData()

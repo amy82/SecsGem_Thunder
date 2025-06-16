@@ -336,9 +336,6 @@ namespace SecGemApp
                 Globalo.yamlManager.configManager.configDataSave();
                 Globalo.LogPrint("[config]", $"[Config] Data Save Complete");
             }
-
-
-            
         }
 
         private void crownButton_Config_Refresh_Click(object sender, EventArgs e)

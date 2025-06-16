@@ -31,6 +31,11 @@ namespace SecGemApp
         {
             this.bigLabel5 = new ReaLTaiizor.Controls.BigLabel();
             this.parrotGroupBox2 = new ReaLTaiizor.Controls.ParrotGroupBox();
+            this.bigLabel4 = new ReaLTaiizor.Controls.BigLabel();
+            this.crownButton_Config_Refresh = new ReaLTaiizor.Controls.CrownButton();
+            this.crownButton_Config_Save = new ReaLTaiizor.Controls.CrownButton();
+            this.checkBox_IdleReportPass = new ReaLTaiizor.Controls.HopeCheckBox();
+            this.separator4 = new ReaLTaiizor.Controls.Separator();
             this.button_Control_Online = new System.Windows.Forms.Button();
             this.button_Control_Offline = new System.Windows.Forms.Button();
             this.button_Driver_Stop = new System.Windows.Forms.Button();
@@ -48,10 +53,11 @@ namespace SecGemApp
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
             this.crownButton1 = new ReaLTaiizor.Controls.CrownButton();
             this.crownButton_Driver_Init = new ReaLTaiizor.Controls.CrownButton();
-            this.separator4 = new ReaLTaiizor.Controls.Separator();
-            this.checkBox_IdleReportPass = new ReaLTaiizor.Controls.HopeCheckBox();
-            this.crownButton_Config_Save = new ReaLTaiizor.Controls.CrownButton();
-            this.crownButton_Config_Refresh = new ReaLTaiizor.Controls.CrownButton();
+            this.label_Handler_Ip1 = new System.Windows.Forms.Label();
+            this.label_Handler_Ip2 = new System.Windows.Forms.Label();
+            this.label_Handler_Ip3 = new System.Windows.Forms.Label();
+            this.label_Handler_Ip4 = new System.Windows.Forms.Label();
+            this.label_Handler_Port = new System.Windows.Forms.Label();
             this.parrotGroupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,6 +78,12 @@ namespace SecGemApp
             // 
             this.parrotGroupBox2.BorderColor = System.Drawing.Color.White;
             this.parrotGroupBox2.BorderWidth = 1;
+            this.parrotGroupBox2.Controls.Add(this.label_Handler_Port);
+            this.parrotGroupBox2.Controls.Add(this.label_Handler_Ip4);
+            this.parrotGroupBox2.Controls.Add(this.label_Handler_Ip3);
+            this.parrotGroupBox2.Controls.Add(this.label_Handler_Ip2);
+            this.parrotGroupBox2.Controls.Add(this.label_Handler_Ip1);
+            this.parrotGroupBox2.Controls.Add(this.bigLabel4);
             this.parrotGroupBox2.Controls.Add(this.crownButton_Config_Refresh);
             this.parrotGroupBox2.Controls.Add(this.crownButton_Config_Save);
             this.parrotGroupBox2.Controls.Add(this.checkBox_IdleReportPass);
@@ -102,6 +114,69 @@ namespace SecGemApp
             this.parrotGroupBox2.TabStop = false;
             this.parrotGroupBox2.Text = "Configuration";
             this.parrotGroupBox2.TextColor = System.Drawing.Color.White;
+            // 
+            // bigLabel4
+            // 
+            this.bigLabel4.AutoSize = true;
+            this.bigLabel4.BackColor = System.Drawing.Color.Transparent;
+            this.bigLabel4.Font = new System.Drawing.Font("돋움", 9.75F);
+            this.bigLabel4.ForeColor = System.Drawing.Color.White;
+            this.bigLabel4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.bigLabel4.Location = new System.Drawing.Point(21, 327);
+            this.bigLabel4.Name = "bigLabel4";
+            this.bigLabel4.Size = new System.Drawing.Size(123, 13);
+            this.bigLabel4.TabIndex = 68;
+            this.bigLabel4.Text = "HANDLER IP / PORT";
+            // 
+            // crownButton_Config_Refresh
+            // 
+            this.crownButton_Config_Refresh.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.crownButton_Config_Refresh.Location = new System.Drawing.Point(285, 593);
+            this.crownButton_Config_Refresh.Name = "crownButton_Config_Refresh";
+            this.crownButton_Config_Refresh.Padding = new System.Windows.Forms.Padding(5);
+            this.crownButton_Config_Refresh.Size = new System.Drawing.Size(89, 25);
+            this.crownButton_Config_Refresh.TabIndex = 66;
+            this.crownButton_Config_Refresh.Text = "Refresh";
+            this.crownButton_Config_Refresh.Click += new System.EventHandler(this.crownButton_Config_Refresh_Click);
+            // 
+            // crownButton_Config_Save
+            // 
+            this.crownButton_Config_Save.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.crownButton_Config_Save.Location = new System.Drawing.Point(285, 624);
+            this.crownButton_Config_Save.Name = "crownButton_Config_Save";
+            this.crownButton_Config_Save.Padding = new System.Windows.Forms.Padding(5);
+            this.crownButton_Config_Save.Size = new System.Drawing.Size(89, 25);
+            this.crownButton_Config_Save.TabIndex = 65;
+            this.crownButton_Config_Save.Text = "Save";
+            this.crownButton_Config_Save.Click += new System.EventHandler(this.crownButton_Config_Save_Click);
+            // 
+            // checkBox_IdleReportPass
+            // 
+            this.checkBox_IdleReportPass.CheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
+            this.checkBox_IdleReportPass.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBox_IdleReportPass.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(198)))), ((int)(((byte)(202)))));
+            this.checkBox_IdleReportPass.DisabledStringColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(187)))), ((int)(((byte)(189)))));
+            this.checkBox_IdleReportPass.Enable = true;
+            this.checkBox_IdleReportPass.EnabledCheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
+            this.checkBox_IdleReportPass.EnabledStringColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.checkBox_IdleReportPass.EnabledUncheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(158)))), ((int)(((byte)(161)))));
+            this.checkBox_IdleReportPass.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_IdleReportPass.ForeColor = System.Drawing.Color.White;
+            this.checkBox_IdleReportPass.Location = new System.Drawing.Point(24, 401);
+            this.checkBox_IdleReportPass.Name = "checkBox_IdleReportPass";
+            this.checkBox_IdleReportPass.Size = new System.Drawing.Size(212, 20);
+            this.checkBox_IdleReportPass.TabIndex = 64;
+            this.checkBox_IdleReportPass.Text = "IDLE REASON REPORT PASS";
+            this.checkBox_IdleReportPass.UseVisualStyleBackColor = true;
+            // 
+            // separator4
+            // 
+            this.separator4.LineColor = System.Drawing.Color.Gray;
+            this.separator4.Location = new System.Drawing.Point(24, 314);
+            this.separator4.Name = "separator4";
+            this.separator4.Size = new System.Drawing.Size(350, 10);
+            this.separator4.TabIndex = 63;
+            this.separator4.Text = "separator4";
             // 
             // button_Control_Online
             // 
@@ -162,7 +237,7 @@ namespace SecGemApp
             // crownButton_Model_Del
             // 
             this.crownButton_Model_Del.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.crownButton_Model_Del.Location = new System.Drawing.Point(130, 307);
+            this.crownButton_Model_Del.Location = new System.Drawing.Point(130, 280);
             this.crownButton_Model_Del.Name = "crownButton_Model_Del";
             this.crownButton_Model_Del.Padding = new System.Windows.Forms.Padding(5);
             this.crownButton_Model_Del.Size = new System.Drawing.Size(89, 25);
@@ -173,7 +248,7 @@ namespace SecGemApp
             // crownButton_Model_Add
             // 
             this.crownButton_Model_Add.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.crownButton_Model_Add.Location = new System.Drawing.Point(35, 307);
+            this.crownButton_Model_Add.Location = new System.Drawing.Point(35, 280);
             this.crownButton_Model_Add.Name = "crownButton_Model_Add";
             this.crownButton_Model_Add.Padding = new System.Windows.Forms.Padding(5);
             this.crownButton_Model_Add.Size = new System.Drawing.Size(89, 25);
@@ -188,7 +263,7 @@ namespace SecGemApp
             this.bigLabel3.Font = new System.Drawing.Font("돋움", 9.75F);
             this.bigLabel3.ForeColor = System.Drawing.Color.White;
             this.bigLabel3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.bigLabel3.Location = new System.Drawing.Point(20, 280);
+            this.bigLabel3.Location = new System.Drawing.Point(20, 257);
             this.bigLabel3.Name = "bigLabel3";
             this.bigLabel3.Size = new System.Drawing.Size(50, 13);
             this.bigLabel3.TabIndex = 56;
@@ -197,7 +272,7 @@ namespace SecGemApp
             // separator1
             // 
             this.separator1.LineColor = System.Drawing.Color.Gray;
-            this.separator1.Location = new System.Drawing.Point(24, 263);
+            this.separator1.Location = new System.Drawing.Point(24, 241);
             this.separator1.Name = "separator1";
             this.separator1.Size = new System.Drawing.Size(350, 10);
             this.separator1.TabIndex = 55;
@@ -206,7 +281,7 @@ namespace SecGemApp
             // Button_RecipeCreate
             // 
             this.Button_RecipeCreate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.Button_RecipeCreate.Location = new System.Drawing.Point(35, 219);
+            this.Button_RecipeCreate.Location = new System.Drawing.Point(35, 208);
             this.Button_RecipeCreate.Name = "Button_RecipeCreate";
             this.Button_RecipeCreate.Padding = new System.Windows.Forms.Padding(5);
             this.Button_RecipeCreate.Size = new System.Drawing.Size(89, 25);
@@ -217,7 +292,7 @@ namespace SecGemApp
             // Button_RecipeDel
             // 
             this.Button_RecipeDel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.Button_RecipeDel.Location = new System.Drawing.Point(130, 219);
+            this.Button_RecipeDel.Location = new System.Drawing.Point(130, 208);
             this.Button_RecipeDel.Name = "Button_RecipeDel";
             this.Button_RecipeDel.Padding = new System.Windows.Forms.Padding(5);
             this.Button_RecipeDel.Size = new System.Drawing.Size(89, 25);
@@ -303,55 +378,75 @@ namespace SecGemApp
             this.crownButton_Driver_Init.Text = "Initialize";
             this.crownButton_Driver_Init.Click += new System.EventHandler(this.crownButton_Driver_Init_Click);
             // 
-            // separator4
+            // label_Handler_Ip1
             // 
-            this.separator4.LineColor = System.Drawing.Color.Gray;
-            this.separator4.Location = new System.Drawing.Point(24, 353);
-            this.separator4.Name = "separator4";
-            this.separator4.Size = new System.Drawing.Size(350, 10);
-            this.separator4.TabIndex = 63;
-            this.separator4.Text = "separator4";
+            this.label_Handler_Ip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.label_Handler_Ip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Handler_Ip1.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip1.ForeColor = System.Drawing.Color.White;
+            this.label_Handler_Ip1.Location = new System.Drawing.Point(24, 344);
+            this.label_Handler_Ip1.Name = "label_Handler_Ip1";
+            this.label_Handler_Ip1.Size = new System.Drawing.Size(36, 30);
+            this.label_Handler_Ip1.TabIndex = 69;
+            this.label_Handler_Ip1.Text = "192";
+            this.label_Handler_Ip1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // checkBox_IdleReportPass
+            // label_Handler_Ip2
             // 
-            this.checkBox_IdleReportPass.CheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
-            this.checkBox_IdleReportPass.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBox_IdleReportPass.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(198)))), ((int)(((byte)(202)))));
-            this.checkBox_IdleReportPass.DisabledStringColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(187)))), ((int)(((byte)(189)))));
-            this.checkBox_IdleReportPass.Enable = true;
-            this.checkBox_IdleReportPass.EnabledCheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
-            this.checkBox_IdleReportPass.EnabledStringColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.checkBox_IdleReportPass.EnabledUncheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(158)))), ((int)(((byte)(161)))));
-            this.checkBox_IdleReportPass.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_IdleReportPass.ForeColor = System.Drawing.Color.White;
-            this.checkBox_IdleReportPass.Location = new System.Drawing.Point(24, 379);
-            this.checkBox_IdleReportPass.Name = "checkBox_IdleReportPass";
-            this.checkBox_IdleReportPass.Size = new System.Drawing.Size(244, 20);
-            this.checkBox_IdleReportPass.TabIndex = 64;
-            this.checkBox_IdleReportPass.Text = "IDLE REASON REPORT PASS";
-            this.checkBox_IdleReportPass.UseVisualStyleBackColor = true;
+            this.label_Handler_Ip2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.label_Handler_Ip2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Handler_Ip2.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip2.ForeColor = System.Drawing.Color.White;
+            this.label_Handler_Ip2.Location = new System.Drawing.Point(62, 344);
+            this.label_Handler_Ip2.Name = "label_Handler_Ip2";
+            this.label_Handler_Ip2.Size = new System.Drawing.Size(36, 30);
+            this.label_Handler_Ip2.TabIndex = 70;
+            this.label_Handler_Ip2.Text = "168";
+            this.label_Handler_Ip2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // crownButton_Config_Save
+            // label_Handler_Ip3
             // 
-            this.crownButton_Config_Save.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.crownButton_Config_Save.Location = new System.Drawing.Point(285, 624);
-            this.crownButton_Config_Save.Name = "crownButton_Config_Save";
-            this.crownButton_Config_Save.Padding = new System.Windows.Forms.Padding(5);
-            this.crownButton_Config_Save.Size = new System.Drawing.Size(89, 25);
-            this.crownButton_Config_Save.TabIndex = 65;
-            this.crownButton_Config_Save.Text = "Save";
-            this.crownButton_Config_Save.Click += new System.EventHandler(this.crownButton_Config_Save_Click);
+            this.label_Handler_Ip3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.label_Handler_Ip3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Handler_Ip3.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip3.ForeColor = System.Drawing.Color.White;
+            this.label_Handler_Ip3.Location = new System.Drawing.Point(100, 344);
+            this.label_Handler_Ip3.Name = "label_Handler_Ip3";
+            this.label_Handler_Ip3.Size = new System.Drawing.Size(36, 30);
+            this.label_Handler_Ip3.TabIndex = 71;
+            this.label_Handler_Ip3.Text = "0";
+            this.label_Handler_Ip3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // crownButton_Config_Refresh
+            // label_Handler_Ip4
             // 
-            this.crownButton_Config_Refresh.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.crownButton_Config_Refresh.Location = new System.Drawing.Point(285, 593);
-            this.crownButton_Config_Refresh.Name = "crownButton_Config_Refresh";
-            this.crownButton_Config_Refresh.Padding = new System.Windows.Forms.Padding(5);
-            this.crownButton_Config_Refresh.Size = new System.Drawing.Size(89, 25);
-            this.crownButton_Config_Refresh.TabIndex = 66;
-            this.crownButton_Config_Refresh.Text = "Refresh";
-            this.crownButton_Config_Refresh.Click += new System.EventHandler(this.crownButton_Config_Refresh_Click);
+            this.label_Handler_Ip4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.label_Handler_Ip4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Handler_Ip4.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip4.ForeColor = System.Drawing.Color.White;
+            this.label_Handler_Ip4.Location = new System.Drawing.Point(138, 344);
+            this.label_Handler_Ip4.Name = "label_Handler_Ip4";
+            this.label_Handler_Ip4.Size = new System.Drawing.Size(36, 30);
+            this.label_Handler_Ip4.TabIndex = 72;
+            this.label_Handler_Ip4.Text = "1";
+            this.label_Handler_Ip4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_Handler_Port
+            // 
+            this.label_Handler_Port.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.label_Handler_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Port.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Handler_Port.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Port.ForeColor = System.Drawing.Color.White;
+            this.label_Handler_Port.Location = new System.Drawing.Point(215, 344);
+            this.label_Handler_Port.Name = "label_Handler_Port";
+            this.label_Handler_Port.Size = new System.Drawing.Size(65, 30);
+            this.label_Handler_Port.TabIndex = 73;
+            this.label_Handler_Port.Text = "1";
+            this.label_Handler_Port.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ConfigControl
             // 
@@ -391,5 +486,11 @@ namespace SecGemApp
         public ReaLTaiizor.Controls.HopeCheckBox checkBox_IdleReportPass;
         private ReaLTaiizor.Controls.CrownButton crownButton_Config_Save;
         private ReaLTaiizor.Controls.CrownButton crownButton_Config_Refresh;
+        private ReaLTaiizor.Controls.BigLabel bigLabel4;
+        private System.Windows.Forms.Label label_Handler_Ip1;
+        private System.Windows.Forms.Label label_Handler_Ip4;
+        private System.Windows.Forms.Label label_Handler_Ip3;
+        private System.Windows.Forms.Label label_Handler_Ip2;
+        private System.Windows.Forms.Label label_Handler_Port;
     }
 }
