@@ -127,5 +127,13 @@ namespace SecGemApp
             //Object Report
             Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.OBJECT_ID_REPORT_10701);
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            int alarmNum = 1000;
+            bool alarmLevel = false;
+
+            Globalo.ubisamForm.AlarmSendFn(alarmNum, alarmLevel);
+        }
     }
 }

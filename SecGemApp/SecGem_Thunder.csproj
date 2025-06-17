@@ -224,6 +224,7 @@
     <Compile Include="TcpSocket\TcpClientHandler.cs" />
     <Compile Include="TcpSocket\TcpLotTask.cs" />
     <Compile Include="TcpSocket\TcpManager.cs" />
+    <Compile Include="TcpSocket\TcpServer.cs" />
     <Compile Include="ThreadControl.cs" />
     <Compile Include="Ubisam\Constants.cs" />
     <Compile Include="Ubisam\DriverHelper.cs" />

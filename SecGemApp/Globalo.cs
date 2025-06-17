@@ -27,7 +27,7 @@ namespace SecGemApp
 
 
 
-        public static TcpSocket.TcpManager tcpManager = new TcpSocket.TcpManager();
+        public static TcpSocket.TcpManager tcpManager;// = new TcpSocket.TcpManager();
         public static Data.DataManageClass dataManage = new Data.DataManageClass();
         public static Data.YamlManager yamlManager = new Data.YamlManager();
         public static Data.TaskWork taskWork = new Data.TaskWork();
