@@ -76,6 +76,7 @@ namespace SecGemApp.TcpSocket
                     case "EquipmentData":
                         EquipmentData edata = JsonConvert.DeserializeObject<EquipmentData>(wrapper.Data.ToString());
                         //hostMessageParse(edata);
+                        clientMessageParse(edata);
                         break;
 
                     case "TesterData":      //Verify 검사에서 들어온다.

@@ -101,9 +101,11 @@ namespace SecGemApp
 
 
             Http.HttpService.ModelAllSend();
-
-            Http.HttpService.RecipeSend(1);
-            Http.HttpService.RecipeSend(2);
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                Http.HttpService.RecipeSend(1);
+                Http.HttpService.RecipeSend(2);
+            }
         }
         
         private void sendBtn()
