@@ -17,6 +17,7 @@ namespace SecGemApp.Process
         public LotProcess()
         {
             //_syncContext = SynchronizationContext.Current;
+            nRunTimeOutSec = 60 * 1000;
             m_dTickCount = 0;
         }
 
@@ -602,6 +603,12 @@ namespace SecGemApp.Process
             switch (nStep)
             {
                 case 1000:
+                    nRunTimeOutSec = Globalo.dataManage.mesData.ConversationTimeoutCount * 1000;
+
+                    if (nRunTimeOutSec < 1)
+                    {
+                        nRunTimeOutSec = 60 * 1000;
+                    }
                     if (Globalo.dataManage.mesData.vMesApdData.Count < 1)
                     {
                         //fail
