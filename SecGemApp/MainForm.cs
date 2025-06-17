@@ -83,6 +83,8 @@ namespace SecGemApp
             Http.HttpService.Start();
             //Http.HttpService.RecipySend(0);       //test
 
+            
+
             Globalo.configControl.setUgcPath();
             // MEMO: ubisam Start는 설비와 연결된후 하는게 좋을듯 사용중인 레시피 ppid 받아와야돼서
 
@@ -91,6 +93,12 @@ namespace SecGemApp
             //Globalo.ubisamForm.Show();
             Globalo.secsGemStatusControl.Set_OperatorId(Globalo.dataManage.mesData.m_sMesOperatorID);
             ModeChanged(0);
+
+
+            Http.HttpService.ModelAllSend();
+
+            Http.HttpService.RecipeSend(1);
+            Http.HttpService.RecipeSend(2);
         }
 
         private void sendBtn()

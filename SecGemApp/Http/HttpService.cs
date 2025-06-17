@@ -142,35 +142,43 @@ namespace SecGemApp.Http
         {
             //Globalo.yamlManager.recipeData.vPPRecipeSpecEquip
 
-            var recipe = new
+
+            if (Globalo.yamlManager.recipeData.vPPRecipeSpecEquip == null)
             {
-                RECIPE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.Ppid,
-                O_RING = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value,
-                CONE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value,
-                KEYTYPE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value,
-                HEIGHT_LH_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MIN"].value,
-                HEIGHT_LH_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MAX"].value,
-                HEIGHT_MH_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MIN"].value,
-                HEIGHT_MH_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MAX"].value,
-                HEIGHT_RH_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MIN"].value,
-                HEIGHT_RH_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MAX"].value,
-                CONCENTRICITY_IN_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MIN"].value,
-                CONCENTRICITY_IN_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value,
-                CONCENTRICITY_OUT_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value,
-                CONCENTRICITY_OUT_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value,
-                GASKET_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value,
-                GASKET_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value,
-                DENT_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MIN"].value,
-                DENT_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MAX"].value
-            };
+                Console.WriteLine($"vPPRecipeSpecEquip: null");
+                return;
+            }
             String szLog = string.Empty;
             string url = string.Empty;
-            string json = JsonConvert.SerializeObject(recipe);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            HttpClient client = new HttpClient();
+            
 
             try
             {
+                var recipe = new
+                {
+                    RECIPE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.Ppid,
+                    O_RING = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value,
+                    CONE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value,
+                    KEYTYPE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value,
+                    GASKET = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET"].value,
+                    HEIGHT_LH_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MIN"].value,
+                    HEIGHT_LH_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_LH_MAX"].value,
+                    HEIGHT_MH_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MIN"].value,
+                    HEIGHT_MH_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_MH_MAX"].value,
+                    HEIGHT_RH_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MIN"].value,
+                    HEIGHT_RH_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["HEIGHT_RH_MAX"].value,
+                    CONCENTRICITY_IN_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MIN"].value,
+                    CONCENTRICITY_IN_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_IN_MAX"].value,
+                    CONCENTRICITY_OUT_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MIN"].value,
+                    CONCENTRICITY_OUT_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONCENTRICITY_OUT_MAX"].value,
+                    GASKET_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MIN"].value,
+                    GASKET_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["GASKET_MAX"].value,
+                    DENT_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MIN"].value,
+                    DENT_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MAX"].value
+                };
+                string json = JsonConvert.SerializeObject(recipe);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient();
                 //PC Ip:
                 //Handler : 192.168.100.100
                 //SecsGem : 192.168.100.100
@@ -332,14 +340,20 @@ namespace SecGemApp.Http
             else if (path == "/reqRecipe")
             {
                 //aoi만 레시피 파일 있음.
-                if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
-                {
-                    RecipeSend(1);  //aoi pc1
-                    RecipeSend(2);  //aoi pc2
-                }
-                    
-
                 
+                using (var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding))
+                {
+                    string body = reader.ReadToEnd();
+                    var data = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
+                    int number = Convert.ToInt32(data["ipNumber"]);
+
+                    if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+                    {
+                        RecipeSend(number);
+                    }
+                }
+
+
             }
             else if (path == "/reqModel")   //여기서는 요청오는 것만 보내면될듯
             {
