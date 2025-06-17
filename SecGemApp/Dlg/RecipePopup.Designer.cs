@@ -39,6 +39,8 @@ namespace SecGemApp.Dlg
             this.BTN_RECIPE_DOWN_REQ = new System.Windows.Forms.Button();
             this.dataGridView_Recipe = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label_Recipe_Version = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Recipe)).BeginInit();
             this.SuspendLayout();
@@ -46,6 +48,8 @@ namespace SecGemApp.Dlg
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.Controls.Add(this.label_Recipe_Version);
+            this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.label_Recipe);
             this.groupBox2.Controls.Add(this.BTN_RECIPE_CLOSE);
             this.groupBox2.Controls.Add(this.BTN_RECIPE_SAVE);
@@ -76,7 +80,7 @@ namespace SecGemApp.Dlg
             this.BTN_RECIPE_CLOSE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_RECIPE_CLOSE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_RECIPE_CLOSE.ForeColor = System.Drawing.Color.White;
-            this.BTN_RECIPE_CLOSE.Location = new System.Drawing.Point(376, 449);
+            this.BTN_RECIPE_CLOSE.Location = new System.Drawing.Point(376, 475);
             this.BTN_RECIPE_CLOSE.Name = "BTN_RECIPE_CLOSE";
             this.BTN_RECIPE_CLOSE.Size = new System.Drawing.Size(104, 40);
             this.BTN_RECIPE_CLOSE.TabIndex = 49;
@@ -90,7 +94,7 @@ namespace SecGemApp.Dlg
             this.BTN_RECIPE_SAVE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_RECIPE_SAVE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_RECIPE_SAVE.ForeColor = System.Drawing.Color.White;
-            this.BTN_RECIPE_SAVE.Location = new System.Drawing.Point(376, 122);
+            this.BTN_RECIPE_SAVE.Location = new System.Drawing.Point(376, 148);
             this.BTN_RECIPE_SAVE.Name = "BTN_RECIPE_SAVE";
             this.BTN_RECIPE_SAVE.Size = new System.Drawing.Size(104, 53);
             this.BTN_RECIPE_SAVE.TabIndex = 48;
@@ -104,7 +108,7 @@ namespace SecGemApp.Dlg
             this.BTN_RECIPE_DOWN_REQ.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTN_RECIPE_DOWN_REQ.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.BTN_RECIPE_DOWN_REQ.ForeColor = System.Drawing.Color.White;
-            this.BTN_RECIPE_DOWN_REQ.Location = new System.Drawing.Point(376, 63);
+            this.BTN_RECIPE_DOWN_REQ.Location = new System.Drawing.Point(376, 89);
             this.BTN_RECIPE_DOWN_REQ.Name = "BTN_RECIPE_DOWN_REQ";
             this.BTN_RECIPE_DOWN_REQ.Size = new System.Drawing.Size(104, 53);
             this.BTN_RECIPE_DOWN_REQ.TabIndex = 47;
@@ -133,7 +137,7 @@ namespace SecGemApp.Dlg
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView_Recipe.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView_Recipe.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.dataGridView_Recipe.Location = new System.Drawing.Point(26, 63);
+            this.dataGridView_Recipe.Location = new System.Drawing.Point(26, 89);
             this.dataGridView_Recipe.Name = "dataGridView_Recipe";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
@@ -158,6 +162,30 @@ namespace SecGemApp.Dlg
             this.label3.TabIndex = 26;
             this.label3.Text = "RECIPE :";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("굴림", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.ForeColor = System.Drawing.Color.DimGray;
+            this.label1.Location = new System.Drawing.Point(23, 45);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(93, 23);
+            this.label1.TabIndex = 51;
+            this.label1.Text = "VERSION :";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label_Recipe_Version
+            // 
+            this.label_Recipe_Version.BackColor = System.Drawing.Color.Transparent;
+            this.label_Recipe_Version.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Recipe_Version.ForeColor = System.Drawing.Color.Black;
+            this.label_Recipe_Version.Location = new System.Drawing.Point(111, 45);
+            this.label_Recipe_Version.Name = "label_Recipe_Version";
+            this.label_Recipe_Version.Size = new System.Drawing.Size(220, 23);
+            this.label_Recipe_Version.TabIndex = 52;
+            this.label_Recipe_Version.Text = "0";
+            this.label_Recipe_Version.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // RecipePopup
             // 
@@ -185,5 +213,7 @@ namespace SecGemApp.Dlg
         private System.Windows.Forms.Button BTN_RECIPE_DOWN_REQ;
         private System.Windows.Forms.Button BTN_RECIPE_CLOSE;
         private System.Windows.Forms.Label label_Recipe;
+        private System.Windows.Forms.Label label_Recipe_Version;
+        private System.Windows.Forms.Label label1;
     }
 }

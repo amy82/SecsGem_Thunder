@@ -263,8 +263,8 @@ namespace SecGemApp
                 Globalo.yamlManager.recipeData.vPPRecipeSpecEquip = Globalo.yamlManager.recipeData.RecipeLoad(Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName);
 
 
-                Http.HttpService.RecipeSend(0);     //Aoi pc1
-                Http.HttpService.RecipeSend(1);     //Aoi pc2
+                Http.HttpService.RecipeSend(1);     //Aoi pc1
+                Http.HttpService.RecipeSend(2);     //Aoi pc2
             }
             SetRecipeListView();
         }

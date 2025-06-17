@@ -31,6 +31,11 @@ namespace SecGemApp
         {
             this.bigLabel5 = new ReaLTaiizor.Controls.BigLabel();
             this.parrotGroupBox2 = new ReaLTaiizor.Controls.ParrotGroupBox();
+            this.label_Handler_Port = new System.Windows.Forms.Label();
+            this.label_Handler_Ip4 = new System.Windows.Forms.Label();
+            this.label_Handler_Ip3 = new System.Windows.Forms.Label();
+            this.label_Handler_Ip2 = new System.Windows.Forms.Label();
+            this.label_Handler_Ip1 = new System.Windows.Forms.Label();
             this.bigLabel4 = new ReaLTaiizor.Controls.BigLabel();
             this.crownButton_Config_Refresh = new ReaLTaiizor.Controls.CrownButton();
             this.crownButton_Config_Save = new ReaLTaiizor.Controls.CrownButton();
@@ -53,11 +58,7 @@ namespace SecGemApp
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
             this.crownButton1 = new ReaLTaiizor.Controls.CrownButton();
             this.crownButton_Driver_Init = new ReaLTaiizor.Controls.CrownButton();
-            this.label_Handler_Ip1 = new System.Windows.Forms.Label();
-            this.label_Handler_Ip2 = new System.Windows.Forms.Label();
-            this.label_Handler_Ip3 = new System.Windows.Forms.Label();
-            this.label_Handler_Ip4 = new System.Windows.Forms.Label();
-            this.label_Handler_Port = new System.Windows.Forms.Label();
+            this.bigLabel6 = new ReaLTaiizor.Controls.BigLabel();
             this.parrotGroupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,6 +79,7 @@ namespace SecGemApp
             // 
             this.parrotGroupBox2.BorderColor = System.Drawing.Color.White;
             this.parrotGroupBox2.BorderWidth = 1;
+            this.parrotGroupBox2.Controls.Add(this.bigLabel6);
             this.parrotGroupBox2.Controls.Add(this.label_Handler_Port);
             this.parrotGroupBox2.Controls.Add(this.label_Handler_Ip4);
             this.parrotGroupBox2.Controls.Add(this.label_Handler_Ip3);
@@ -114,6 +116,81 @@ namespace SecGemApp
             this.parrotGroupBox2.TabStop = false;
             this.parrotGroupBox2.Text = "Configuration";
             this.parrotGroupBox2.TextColor = System.Drawing.Color.White;
+            // 
+            // label_Handler_Port
+            // 
+            this.label_Handler_Port.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.label_Handler_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Port.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Handler_Port.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Port.ForeColor = System.Drawing.Color.White;
+            this.label_Handler_Port.Location = new System.Drawing.Point(199, 344);
+            this.label_Handler_Port.Name = "label_Handler_Port";
+            this.label_Handler_Port.Size = new System.Drawing.Size(65, 30);
+            this.label_Handler_Port.TabIndex = 73;
+            this.label_Handler_Port.Text = "1";
+            this.label_Handler_Port.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Handler_Port.Click += new System.EventHandler(this.label_Handler_Port_Click);
+            // 
+            // label_Handler_Ip4
+            // 
+            this.label_Handler_Ip4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.label_Handler_Ip4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Handler_Ip4.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip4.ForeColor = System.Drawing.Color.White;
+            this.label_Handler_Ip4.Location = new System.Drawing.Point(138, 344);
+            this.label_Handler_Ip4.Name = "label_Handler_Ip4";
+            this.label_Handler_Ip4.Size = new System.Drawing.Size(36, 30);
+            this.label_Handler_Ip4.TabIndex = 72;
+            this.label_Handler_Ip4.Text = "1";
+            this.label_Handler_Ip4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Handler_Ip4.Click += new System.EventHandler(this.label_Handler_Ip4_Click);
+            // 
+            // label_Handler_Ip3
+            // 
+            this.label_Handler_Ip3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.label_Handler_Ip3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Handler_Ip3.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip3.ForeColor = System.Drawing.Color.White;
+            this.label_Handler_Ip3.Location = new System.Drawing.Point(100, 344);
+            this.label_Handler_Ip3.Name = "label_Handler_Ip3";
+            this.label_Handler_Ip3.Size = new System.Drawing.Size(36, 30);
+            this.label_Handler_Ip3.TabIndex = 71;
+            this.label_Handler_Ip3.Text = "0";
+            this.label_Handler_Ip3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Handler_Ip3.Click += new System.EventHandler(this.label_Handler_Ip3_Click);
+            // 
+            // label_Handler_Ip2
+            // 
+            this.label_Handler_Ip2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.label_Handler_Ip2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Handler_Ip2.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip2.ForeColor = System.Drawing.Color.White;
+            this.label_Handler_Ip2.Location = new System.Drawing.Point(62, 344);
+            this.label_Handler_Ip2.Name = "label_Handler_Ip2";
+            this.label_Handler_Ip2.Size = new System.Drawing.Size(36, 30);
+            this.label_Handler_Ip2.TabIndex = 70;
+            this.label_Handler_Ip2.Text = "168";
+            this.label_Handler_Ip2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Handler_Ip2.Click += new System.EventHandler(this.label_Handler_Ip2_Click);
+            // 
+            // label_Handler_Ip1
+            // 
+            this.label_Handler_Ip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.label_Handler_Ip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Handler_Ip1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Handler_Ip1.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Handler_Ip1.ForeColor = System.Drawing.Color.White;
+            this.label_Handler_Ip1.Location = new System.Drawing.Point(24, 344);
+            this.label_Handler_Ip1.Name = "label_Handler_Ip1";
+            this.label_Handler_Ip1.Size = new System.Drawing.Size(36, 30);
+            this.label_Handler_Ip1.TabIndex = 69;
+            this.label_Handler_Ip1.Text = "192";
+            this.label_Handler_Ip1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Handler_Ip1.Click += new System.EventHandler(this.label_Handler_Ip1_Click);
             // 
             // bigLabel4
             // 
@@ -378,75 +455,18 @@ namespace SecGemApp
             this.crownButton_Driver_Init.Text = "Initialize";
             this.crownButton_Driver_Init.Click += new System.EventHandler(this.crownButton_Driver_Init_Click);
             // 
-            // label_Handler_Ip1
+            // bigLabel6
             // 
-            this.label_Handler_Ip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-            this.label_Handler_Ip1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Handler_Ip1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Handler_Ip1.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Handler_Ip1.ForeColor = System.Drawing.Color.White;
-            this.label_Handler_Ip1.Location = new System.Drawing.Point(24, 344);
-            this.label_Handler_Ip1.Name = "label_Handler_Ip1";
-            this.label_Handler_Ip1.Size = new System.Drawing.Size(36, 30);
-            this.label_Handler_Ip1.TabIndex = 69;
-            this.label_Handler_Ip1.Text = "192";
-            this.label_Handler_Ip1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_Handler_Ip2
-            // 
-            this.label_Handler_Ip2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-            this.label_Handler_Ip2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Handler_Ip2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Handler_Ip2.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Handler_Ip2.ForeColor = System.Drawing.Color.White;
-            this.label_Handler_Ip2.Location = new System.Drawing.Point(62, 344);
-            this.label_Handler_Ip2.Name = "label_Handler_Ip2";
-            this.label_Handler_Ip2.Size = new System.Drawing.Size(36, 30);
-            this.label_Handler_Ip2.TabIndex = 70;
-            this.label_Handler_Ip2.Text = "168";
-            this.label_Handler_Ip2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_Handler_Ip3
-            // 
-            this.label_Handler_Ip3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-            this.label_Handler_Ip3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Handler_Ip3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Handler_Ip3.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Handler_Ip3.ForeColor = System.Drawing.Color.White;
-            this.label_Handler_Ip3.Location = new System.Drawing.Point(100, 344);
-            this.label_Handler_Ip3.Name = "label_Handler_Ip3";
-            this.label_Handler_Ip3.Size = new System.Drawing.Size(36, 30);
-            this.label_Handler_Ip3.TabIndex = 71;
-            this.label_Handler_Ip3.Text = "0";
-            this.label_Handler_Ip3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_Handler_Ip4
-            // 
-            this.label_Handler_Ip4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-            this.label_Handler_Ip4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Handler_Ip4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Handler_Ip4.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Handler_Ip4.ForeColor = System.Drawing.Color.White;
-            this.label_Handler_Ip4.Location = new System.Drawing.Point(138, 344);
-            this.label_Handler_Ip4.Name = "label_Handler_Ip4";
-            this.label_Handler_Ip4.Size = new System.Drawing.Size(36, 30);
-            this.label_Handler_Ip4.TabIndex = 72;
-            this.label_Handler_Ip4.Text = "1";
-            this.label_Handler_Ip4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_Handler_Port
-            // 
-            this.label_Handler_Port.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-            this.label_Handler_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label_Handler_Port.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label_Handler_Port.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label_Handler_Port.ForeColor = System.Drawing.Color.White;
-            this.label_Handler_Port.Location = new System.Drawing.Point(215, 344);
-            this.label_Handler_Port.Name = "label_Handler_Port";
-            this.label_Handler_Port.Size = new System.Drawing.Size(65, 30);
-            this.label_Handler_Port.TabIndex = 73;
-            this.label_Handler_Port.Text = "1";
-            this.label_Handler_Port.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.bigLabel6.AutoSize = true;
+            this.bigLabel6.BackColor = System.Drawing.Color.Transparent;
+            this.bigLabel6.Font = new System.Drawing.Font("돋움", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.bigLabel6.ForeColor = System.Drawing.Color.White;
+            this.bigLabel6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.bigLabel6.Location = new System.Drawing.Point(180, 350);
+            this.bigLabel6.Name = "bigLabel6";
+            this.bigLabel6.Size = new System.Drawing.Size(16, 19);
+            this.bigLabel6.TabIndex = 74;
+            this.bigLabel6.Text = "/";
             // 
             // ConfigControl
             // 
@@ -487,10 +507,11 @@ namespace SecGemApp
         private ReaLTaiizor.Controls.CrownButton crownButton_Config_Save;
         private ReaLTaiizor.Controls.CrownButton crownButton_Config_Refresh;
         private ReaLTaiizor.Controls.BigLabel bigLabel4;
-        private System.Windows.Forms.Label label_Handler_Ip1;
-        private System.Windows.Forms.Label label_Handler_Ip4;
-        private System.Windows.Forms.Label label_Handler_Ip3;
-        private System.Windows.Forms.Label label_Handler_Ip2;
-        private System.Windows.Forms.Label label_Handler_Port;
+        public System.Windows.Forms.Label label_Handler_Ip1;
+        public System.Windows.Forms.Label label_Handler_Ip4;
+        public System.Windows.Forms.Label label_Handler_Ip3;
+        public System.Windows.Forms.Label label_Handler_Ip2;
+        public System.Windows.Forms.Label label_Handler_Port;
+        private ReaLTaiizor.Controls.BigLabel bigLabel6;
     }
 }

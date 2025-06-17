@@ -335,12 +335,74 @@ namespace SecGemApp
             {
                 Globalo.yamlManager.configManager.configDataSave();
                 Globalo.LogPrint("[config]", $"[Config] Data Save Complete");
+
+                Globalo.tcpManager._client.handleripSet(Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerIp, Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerPort);
             }
         }
 
         private void crownButton_Config_Refresh_Click(object sender, EventArgs e)
         {
             Globalo.yamlManager.configManager.ShowConfigData();
+        }
+
+        private void label_Handler_Port_Click(object sender, EventArgs e)
+        {
+            string sValue = label_Handler_Port.Text;
+            Dlg.NumPadForm popupForm = new Dlg.NumPadForm(sValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                label_Handler_Port.Text = popupForm.NumPadResult;
+            }
+        }
+
+        private void label_Handler_Ip1_Click(object sender, EventArgs e)
+        {
+            string sValue = label_Handler_Ip1.Text;
+            Dlg.NumPadForm popupForm = new Dlg.NumPadForm(sValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                label_Handler_Ip1.Text = popupForm.NumPadResult;
+            }
+        }
+
+        private void label_Handler_Ip2_Click(object sender, EventArgs e)
+        {
+            string sValue = label_Handler_Ip2.Text;
+            Dlg.NumPadForm popupForm = new Dlg.NumPadForm(sValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                label_Handler_Ip2.Text = popupForm.NumPadResult;
+            }
+        }
+
+        private void label_Handler_Ip3_Click(object sender, EventArgs e)
+        {
+            string sValue = label_Handler_Ip3.Text;
+            Dlg.NumPadForm popupForm = new Dlg.NumPadForm(sValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                label_Handler_Ip3.Text = popupForm.NumPadResult;
+            }
+        }
+
+        private void label_Handler_Ip4_Click(object sender, EventArgs e)
+        {
+            string sValue = label_Handler_Ip4.Text;
+            Dlg.NumPadForm popupForm = new Dlg.NumPadForm(sValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                label_Handler_Ip4.Text = popupForm.NumPadResult;
+            }
         }
     }
 }

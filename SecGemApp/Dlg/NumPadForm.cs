@@ -39,6 +39,14 @@ namespace SecGemApp.Dlg
             BTN_NUMPAD_8.Click += Num_Button_Click;
             BTN_NUMPAD_9.Click += Num_Button_Click;
 
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is Button btn)
+                {
+                    btn.TabStop = false;        //넘패드에 있는 버튼의 포커스 안받게 , 엔터키 누르면 눌려지는 문제
+                }
+            }
+
             materialButton1.Font = new Font("맑은 고딕", 20, FontStyle.Bold);
 
 
@@ -75,6 +83,8 @@ namespace SecGemApp.Dlg
 
                 NumberTextBox.Text = m_sVal;
             }
+
+            BTN_NUMPAD_ENTER.Focus();
         }
         private void NumPadForm_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -193,6 +203,97 @@ namespace SecGemApp.Dlg
             {
                 m_sVal = m_sVal.Substring(0,m_sVal.Length - 1);
                 NumberTextBox.Text = m_sVal;
+            }
+        }
+        private void InsertText(string text)
+        {
+            if (m_bInit == true)
+            {
+                m_sVal = "";
+                m_bInit = false;
+            }
+            if (m_sVal.Length > 0)
+            {
+                int rtn = m_sVal.IndexOf("0", 0, 1);
+
+                if (rtn > -1)
+                {
+                    rtn = m_sVal.IndexOf('.');
+                    if (text == ".")
+                    {
+                        if (rtn > -1)
+                        {
+                            return;
+                        }
+                        if (m_sVal.Length < 1)
+                        {
+                            return;
+                        }
+                    }
+                    //if (rtn < 0)
+                    //{
+                    //    return;
+                    //}
+                }
+            }
+            m_sVal += text;
+            NumberTextBox.Text = m_sVal;
+        }
+        private void ConfirmInput()
+        {
+            // 입력된 숫자 값을 가져오기
+            // double number = 0.0;
+            //// this.teachingControl.LABEL_TEACH_MOVE_VALUE.Text = NumberTextBox.Text;
+            //NumPadResult = double.Parse(NumberTextBox.Text);
+
+
+            NumPadResult = NumberTextBox.Text;
+
+
+            this.DialogResult = DialogResult.OK; // DialogResult 설정
+            this.Close();
+            //if (double.TryParse(NumberTextBox.Text, out number))
+            //{
+            //    //EnteredNumber = number;
+            //    NumberEntered?.Invoke(this, number, true);
+            //}
+        }
+        private void Backspace()
+        {
+            if (!string.IsNullOrEmpty(NumberTextBox.Text))
+            {
+                NumberTextBox.Text = NumberTextBox.Text.Substring(0, NumberTextBox.Text.Length - 1);
+                m_sVal = NumberTextBox.Text;
+            }
+        }
+        private void NumPadForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
+            {
+                int number = e.KeyCode - Keys.D0;
+                InsertText(number.ToString());
+                e.Handled = true;
+            }
+            else if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
+            {
+                int number = e.KeyCode - Keys.NumPad0;
+                InsertText(number.ToString());
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Decimal || e.KeyCode == Keys.OemPeriod)
+            {
+                InsertText(".");
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
+            {
+                ConfirmInput(); // 엔터키 누르면 처리
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Back)
+            {
+                Backspace();
+                e.Handled = true;
             }
         }
     }

@@ -31,14 +31,31 @@ namespace SecGemApp.Data
         {
             configData.DrivingSettings.IdleReportPass = Globalo.configControl.checkBox_IdleReportPass.Checked;
 
-            configData.DrivingSettings.HandlerIp = "";      //label_Handler_Ip1
-            configData.DrivingSettings.HandlerPort = 1234;      //label_Handler_Ip1
+            string Handlerip = Globalo.configControl.label_Handler_Ip1.Text + "."
+                + Globalo.configControl.label_Handler_Ip2.Text + "."
+                + Globalo.configControl.label_Handler_Ip3.Text + "."
+                + Globalo.configControl.label_Handler_Ip4.Text;
+
+
+            configData.DrivingSettings.HandlerIp = Handlerip;      //label_Handler_Ip1
+            configData.DrivingSettings.HandlerPort = int.Parse(Globalo.configControl.label_Handler_Port.Text);      //label_Handler_Ip1
 
         }
 
         public void ShowConfigData()
         {
             Globalo.configControl.checkBox_IdleReportPass.Checked = configData.DrivingSettings.IdleReportPass;
+
+            string Handlerip = configData.DrivingSettings.HandlerIp;
+            string[] parts = Handlerip.Split('.');
+
+            Globalo.configControl.label_Handler_Ip1.Text = parts[0];
+            Globalo.configControl.label_Handler_Ip2.Text = parts[1];
+            Globalo.configControl.label_Handler_Ip3.Text = parts[2];
+            Globalo.configControl.label_Handler_Ip4.Text = parts[3];
+
+            Globalo.configControl.label_Handler_Port.Text = configData.DrivingSettings.HandlerPort.ToString();
+
         }
 
         public bool configDataSave()

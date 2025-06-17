@@ -17,7 +17,7 @@ namespace SecGemApp.TcpSocket
         ///public TcpLotTask lotTask = new TcpLotTask();
         private System.Timers.Timer _IdleTimer;
         private readonly List<TcpClientHandler> _clients = new List<TcpClientHandler>();
-        private TcpClientHandler _client;   // = new TcpClientHandler();
+        public TcpClientHandler _client;   // = new TcpClientHandler();
         public TcpManager()
         {
             if (Program.NORIN_MODE == true)

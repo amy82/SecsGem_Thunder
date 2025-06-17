@@ -27,20 +27,13 @@ namespace SecGemApp
             InitializeComponent();
             this.CenterToScreen();
             /// MetroForm 스타일로 변경
-            //this.Text = "ReaLTaiizor MetroForm Example";  // 제목 설정
-            //this.Style = ReaLTaiizor.Controls.MetroColorStyle.Red;  // 스타일 설정
-            //this.Style = ReaLTaiizor.Design.Metro.MetroStyleManagerDesigner;  // 스타일 설정
-            //DefaultWidth = this.Width;
-
+            /// 
             Globalo.MainForm = this;
             this.Width = DefaultWidth;
-
-            //public static string _Ver = "Ver.1.0.0.1";
-            //public static string _Build = "250313";
+            
             string pgVer = "CLIENT  " + Program._Ver + " Build: " + Program._Build;
             this.Text = pgVer;
-                        //"Client Ver: 1.0.0.1 Build: 2025/03/03";
-
+            
             Globalo.modelControl = new ModelControl();
             Globalo.recipeControl = new RecipeControl();
             Globalo.secsGemStatusControl = new SecsGemStatusControl();
@@ -51,12 +44,13 @@ namespace SecGemApp
             Globalo.threadControl = new ThreadControl();
 
             Globalo.LogPrint("Main", "PG Start");
-
             Globalo.LogPrint("Main", pgVer);
-            Globalo.yamlManager.UgcLoad();
+
+            Globalo.yamlManager.UgcLoad();      //ugcFilePath.yaml 에 정의된 ugc 파일명 로드
             Globalo.yamlManager.mesManager.MesLoad();
             Globalo.yamlManager.recipeData.RecipeYamlListLoad();           //init
             Globalo.yamlManager.configManager.configDataLoad();
+
             Globalo.yamlManager.terminalMsgData.tmLoad();
 
 
@@ -66,9 +60,6 @@ namespace SecGemApp
 
             Globalo.ubisamForm = new Ubisam.UbisamForm();
             
-
-           
-
             LeftPanel.Controls.Add(Globalo.secsGemStatusControl);
             LeftPanel.Controls.Add(Globalo.recipeControl);
             LeftPanel.Controls.Add(Globalo.modelControl);
@@ -86,7 +77,7 @@ namespace SecGemApp
 
             //Globalo.tcpManager.AddClient("127.0.0.1", 2001);
 
-            Globalo.tcpManager.SetClient("127.0.0.1", 2001);
+            Globalo.tcpManager.SetClient(Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerIp, Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerPort);// "127.0.0.1", 2001);
             Globalo.ubisamForm.UbisamUgcLoad();
 
             Http.HttpService.Start();

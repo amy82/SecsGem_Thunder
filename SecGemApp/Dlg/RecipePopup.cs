@@ -32,7 +32,7 @@ namespace SecGemApp.Dlg
 
             label_Recipe.Text = loadRecipeName;
 
-
+            
             if (loadRecipeName != Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName)
             {
                 BTN_RECIPE_DOWN_REQ.Enabled = false;
@@ -40,6 +40,7 @@ namespace SecGemApp.Dlg
             }
 
             reciveSpec = Globalo.yamlManager.recipeData.RecipeLoad(loadRecipeName);
+            label_Recipe_Version.Text = reciveSpec.RECIPE.Version;
 
         }
         private int GetRecipeList()

@@ -17,6 +17,7 @@ namespace SecGemApp
         public LeeTest()
         {
             InitializeComponent();
+            this.CenterToScreen();
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -93,6 +94,38 @@ namespace SecGemApp
             //TODO: 여기서 Special Data 여기서 보내야된다.
             //
             Globalo.tcpManager.SendMessageToHostNew(objectData);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //apd Test
+            string[] apdName = { "LH", "RH", "MH", "Gasket", "KeyType", 
+                "CircleDented", "Concentrycity_A", "Concentrycity_D", 
+                "Cone", "ORing", "Result", "Barcode", "Socket_Num" };
+
+            Globalo.dataManage.mesData.vMesApdData.Clear();
+
+            for (int i = 0; i < apdName.Length; i++)
+            {
+                Data.ApdData apddata = new Data.ApdData();
+                apddata.DATANAME = apdName[i];
+                apddata.DATAVALUE = (0.1 + i).ToString();
+                Globalo.dataManage.mesData.vMesApdData.Add(apddata);
+            }
+
+            Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.LOT_APD_REPORT_10711);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //LOT_PROCESSING_COMPLETED_REPORT
+            Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.LOT_PROCESSING_COMPLETED_REPORT_10710);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            //Object Report
+            Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.OBJECT_ID_REPORT_10701);
         }
     }
 }

@@ -66,20 +66,26 @@ namespace SecGemApp.Http
             try
             {
                 //PC Ip:
-                //Handler : 192.168.100.1
-                //SecsGem : 192.168.100.1
-                //Tester Pc : 192.168.100.{11, 12, 13, 14, 15, 16, 17, 18}
+                //Handler : 192.168.100.100
+                //SecsGem : 192.168.100.100
+                //Verify Handler = 192.168.100.101
 
-                //검사 PC Port:
-                //AOI: 4001, 4002
-                //FW:  4001, 4002, 4003 , 4004
+                //Tester Pc : 192.168.100.{1, 2, 3, 4, 5, 6, 7, 8}
 
-                //eeprom Write  = 4001, 4002, 4003, 4004
-                //eeprom verify = 4005, 4006, 4007, 4008
+                //검사 PC Port: 4001로 전부 고정하면될듯
 
-                //string url = $"http://192.168.100.{index}:{port}/set-recipe";
-                int port = 4000 + index;
-                string url = $"http://127.0.0.1:{port}/set-recipe";
+                string url = string.Empty;
+                int port = 4001;    //SecsGem ------->>>  T Pg 4001
+                if (Program.NORIN_MODE == true)
+                {
+                    url = $"http://192.168.100.{index}:{port}/set-recipe";
+                }
+                else
+                {
+                    url = $"http://127.0.0.1:{port}/set-recipe";
+                }
+
+                Console.WriteLine($"Recipe Send : {url}");
 
 
                 var response = await client.PostAsync(url, content);
@@ -116,7 +122,7 @@ namespace SecGemApp.Http
             //Start에서 오류나면 관리자 권한으로 시작하거나
             //cmd 관리자 권한에서 실행하기=>netsh http add urlacl url=http://+:3001/ user=Everyone
 
-            Console.WriteLine("HTTP 서버 시작됨: http://+:8080/");
+            Console.WriteLine("Http Listener Start: http://+:8080/");
 
             _serverTask = Task.Run(() => RunServerLoop(_HttpCts.Token));
         }
@@ -181,12 +187,35 @@ namespace SecGemApp.Http
             {
                 //검사 pc에서 Apd 보고 들어오는 곳
                 //Lot Processing Completed Processing 받고 , Handler로 결과 전송?
+
+                using (var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding))
+                {
+                    string body = reader.ReadToEnd();
+                    var data = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
+
+                    foreach (var pair in data)
+                    {
+                        Data.ApdData apddata = new Data.ApdData();
+                        string key = pair.Key;
+                        object value = pair.Value;
+
+                        apddata.DATANAME = pair.Key;
+                        apddata.DATAVALUE = pair.Value.ToString();
+                        Globalo.dataManage.mesData.vMesApdData.Add(apddata);
+
+                        Console.WriteLine($"{key} = {value}");
+                    }
+                    //Globalo.yamlManager.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value = data["O_RING"].ToString();
+
+
+                }
+
             }
             else if (path == "/reqRecipe")
             {
                 //aoi만 레시피 파일 있음.
-                RecipeSend(0);  //aoi pc1
-                RecipeSend(1);  //aoi pc2
+                RecipeSend(1);  //aoi pc1
+                RecipeSend(2);  //aoi pc2
             }
             else if (path == "/recipe")
             {

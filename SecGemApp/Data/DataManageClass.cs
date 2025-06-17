@@ -42,8 +42,8 @@ namespace SecGemApp.Data
 
         
 
-        public const string yamlFilePathModel = "SecGemData.yaml";   //"ClientSecGemData.yaml";
-        public const string yamlFilePathConfig = "Client_Config.yaml";
+        public const string yamlFilePathModel = "SecGem_Data.yaml";   //"ClientSecGemData.yaml";
+        public const string yamlFilePathConfig = "SecGem_Config.yaml";
         public const string yamlFilePathUgc = "ugcFilePath.yaml";
         public const string yamlFilePathRecipe = "Recipe.yaml";
         public const string yamlFilePathProduct = "products.yaml";

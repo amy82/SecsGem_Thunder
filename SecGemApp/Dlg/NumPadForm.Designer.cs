@@ -339,6 +339,7 @@ namespace SecGemApp.Dlg
             // materialButton1
             // 
             this.materialButton1.AutoSize = false;
+            this.materialButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.materialButton1.Density = ReaLTaiizor.Controls.MaterialButton.MaterialButtonDensity.Dense;
             this.materialButton1.Depth = 0;
             this.materialButton1.Font = new System.Drawing.Font("굴림", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -388,9 +389,11 @@ namespace SecGemApp.Dlg
             this.Controls.Add(this.BTN_NUMPAD_2);
             this.Controls.Add(this.BTN_NUMPAD_1);
             this.Controls.Add(this.BTN_NUMPAD_0);
+            this.KeyPreview = true;
             this.Name = "NumPadForm";
             this.Text = "NumPadForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NumPadForm_FormClosed);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NumPadForm_KeyDown);
             this.ResumeLayout(false);
 
         }

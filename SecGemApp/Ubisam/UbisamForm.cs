@@ -2730,9 +2730,11 @@ namespace SecGemApp.Ubisam
 
                     //Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName
                     //dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "RecipeID", Value = Globalo.dataManage.mesData.m_sRecipeId };//스펙별 코드 명
+
                     dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "RecipeID", Value = Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName };//스펙별 코드 명
                     dataSubList.ChildVariables.Add(dataValue);
-                    dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "RecipeIDVersion", Value = Globalo.yamlManager.mesManager.MesData.SecGemData.RecipeNo };//xx
+                    dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "RecipeIDVersion", Value = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.Version };//xx
+                    //dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "RecipeIDVersion", Value = Globalo.yamlManager.mesManager.MesData.SecGemData.RecipeNo };//xx
                     dataSubList.ChildVariables.Add(dataValue);
 
 

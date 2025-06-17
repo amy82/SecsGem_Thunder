@@ -17,8 +17,8 @@ namespace SecGemApp.TcpSocket
         private TcpClient _client;
         private NetworkStream _stream;
         private bool bConnected;
-        private readonly string _ip;
-        private readonly int _port;
+        private string _ip;
+        private int _port;
 
         //public event Action<string> OnMessageReceived;
         public event Func<string, Task> OnMessageReceivedAsync; // 비동기 이벤트
@@ -53,6 +53,11 @@ namespace SecGemApp.TcpSocket
                 _reconnectTimer.Dispose();
                 _reconnectTimer = null;
             }
+        }
+        public void handleripSet(string ip, int port)
+        {
+            _ip = ip;
+            _port = port;
         }
         public bool bHostConnectedState()
         {

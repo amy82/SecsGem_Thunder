@@ -177,6 +177,7 @@ namespace SecGemApp.Data
                 recipeInventory.recipeYamlFiles.Add(fileNameWithoutExt);
             }
 
+            Console.WriteLine("Recipe File Load");
             // 결과 출력
             foreach (var file in recipeInventory.recipeYamlFiles)
             {

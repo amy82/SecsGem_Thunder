@@ -12,12 +12,14 @@ namespace SecGemApp.Data
         public string OperatorId { get; set; }
         public string MaterialId { get; set; }
         public string MaterialType { get; set; }
-        public int ModelNo { get; set; }
-        public string CurrentModelName { get; set; }
-        public List<string> Modellist { get; set; }
-
         public int RecipeNo { get; set; }
         public string CurrentRecipeName { get; set; }
+        public int ModelNo { get; set; }
+        public string CurrentModelName { get; set; }
+
+        public List<string> Modellist { get; set; }
+
+        
     }
     public class RootModel
     {
