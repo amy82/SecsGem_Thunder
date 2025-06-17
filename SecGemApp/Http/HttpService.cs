@@ -31,35 +31,42 @@ namespace SecGemApp.Http
             //await HttpService.Stop();
             _ = HttpService.Stop();
         }
-        public static void ModelAllSend()
+        public static void ModelAllSend(int num = -1)
         {
             //eeprom : 8대 write 4대 + verify 4대
             //fw : 4대 
             //aoi  : 2대 
-            int testerPcCount = 0;
-            int ipOffset = 0;
-            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            
+            if (num == -1)
             {
-                testerPcCount = 2;
+                int testerPcCount = 0;
+                int ipOffset = 0;
+                if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+                {
+                    testerPcCount = 2;
+                }
+                if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+                {
+                    testerPcCount = 4;
+                }
+                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+                {
+                    testerPcCount = 4;
+                    //192.168.100.1~4
+                }
+                if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+                {
+                    testerPcCount = 4;
+                    ipOffset = 5;       //192.168.100.5~8
+                }
+                for (int i = 1; i <= testerPcCount; i++)
+                {
+                    Http.HttpService.ModelSend(i + ipOffset);     //tester pc1 - Model Change Click
+                }
             }
-            if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+            if (num > 0)
             {
-                testerPcCount = 4;
-            }
-            if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
-            {
-                testerPcCount = 4;
-                //192.168.100.1~4
-            }
-            if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
-            {
-                testerPcCount = 4;
-                ipOffset = 5;       //192.168.100.5~8
-            }
-
-            for (int i = 1; i <= testerPcCount; i++)
-            {
-                Http.HttpService.ModelSend(i + ipOffset);     //tester pc1 - Model Change Click
+                Http.HttpService.ModelSend(num);
             }
         }
         private async static void ModelSend(int index)
@@ -336,7 +343,16 @@ namespace SecGemApp.Http
             }
             else if (path == "/reqModel")   //여기서는 요청오는 것만 보내면될듯
             {
-                ModelAllSend();
+                using (var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding))
+                {
+                    string body = reader.ReadToEnd();
+                    var data = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
+                    int number = Convert.ToInt32(data["ipNumber"]);
+
+                    ModelAllSend(number);
+                }
+
+                
             }
             else if (path == "/recipe")
             {
