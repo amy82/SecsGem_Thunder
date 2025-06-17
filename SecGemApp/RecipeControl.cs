@@ -243,6 +243,9 @@ namespace SecGemApp
             {
                 return;
             }
+
+            //Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName
+
             if (SelectedCellRow < Globalo.yamlManager.recipeData.recipeInventory.recipeYamlFiles.Count())
             {
                 if (strData.Length < 1)
@@ -250,7 +253,7 @@ namespace SecGemApp
                     return;
                 }
 
-
+                //CurrentRecipeName
                 Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName = strData;
                 Globalo.yamlManager.mesManager.MesSave();
 
@@ -262,9 +265,12 @@ namespace SecGemApp
 
                 Globalo.yamlManager.recipeData.vPPRecipeSpecEquip = Globalo.yamlManager.recipeData.RecipeLoad(Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName);
 
-
-                Http.HttpService.RecipeSend(1);     //Aoi pc1
-                Http.HttpService.RecipeSend(2);     //Aoi pc2
+                if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+                {
+                    Http.HttpService.RecipeSend(1);     //Aoi pc1 - Recipe Change Click
+                    Http.HttpService.RecipeSend(2);     //Aoi pc2 - Recipe Change Click
+                }
+                    
             }
             SetRecipeListView();
         }

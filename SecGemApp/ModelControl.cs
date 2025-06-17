@@ -262,9 +262,11 @@ namespace SecGemApp
                 //Host로 선택 모델명 보내기
                 Globalo.tcpManager.SendModelName(Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentModelName);
 
-            }
 
-            //Globalo.yamlManager.MesLoad();
+                
+
+                Http.HttpService.ModelAllSend();
+            }
 
             SetModelListView();
         }

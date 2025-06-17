@@ -31,6 +31,103 @@ namespace SecGemApp.Http
             //await HttpService.Stop();
             _ = HttpService.Stop();
         }
+        public static void ModelAllSend()
+        {
+            //eeprom : 8대 write 4대 + verify 4대
+            //fw : 4대 
+            //aoi  : 2대 
+            int testerPcCount = 0;
+            int ipOffset = 0;
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                testerPcCount = 2;
+            }
+            if (Program.TEST_PG_SELECT == TESTER_PG.FW)
+            {
+                testerPcCount = 4;
+            }
+            if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_WRITE)
+            {
+                testerPcCount = 4;
+                //192.168.100.1~4
+            }
+            if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
+            {
+                testerPcCount = 4;
+                ipOffset = 5;       //192.168.100.5~8
+            }
+
+            for (int i = 1; i <= testerPcCount; i++)
+            {
+                Http.HttpService.ModelSend(i + ipOffset);     //tester pc1 - Model Change Click
+            }
+        }
+        private async static void ModelSend(int index)
+        {
+            var _model = new
+            {
+                MODEL = Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentModelName
+            };
+
+            String szLog = string.Empty;
+            string url = string.Empty;
+            string json = JsonConvert.SerializeObject(_model);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpClient client = new HttpClient();
+            try
+            {
+                url = string.Empty;
+                int port = 4001;    //SecsGem ------->>>  T Pg 4001
+                if (Program.NORIN_MODE == false)
+                {
+                    url = $"http://192.168.100.{index}:{port}/set-Model";
+                }
+                else
+                {
+                    url = $"http://127.0.0.1:{port}/set-Model";
+                }
+
+                Console.WriteLine($"Model Send : {url}");
+
+
+                var response = await client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Model Send Complete!");
+                    szLog = $"[Http] Model Send Complete - {url}";
+                    Globalo.LogPrint("LotProcess", szLog);
+                }
+                else
+                {
+                    Console.WriteLine($"Model Send Fail: ErrCode {(int)response.StatusCode} {response.ReasonPhrase}");
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Server Response Content: " + errorContent);
+
+
+                    szLog = $"[Http] Model Send Fail - {url}";
+                    Globalo.LogPrint("LotProcess", szLog);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine("HTTP 요청 중 오류 발생: " + ex.Message);
+                szLog = $"[Http] Model Send Error - {url}";
+                Globalo.LogPrint("LotProcess", szLog);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine("요청 시간이 초과되었습니다: " + ex.Message);
+                szLog = $"[Http] Model Send Timeout - {url}";
+                Globalo.LogPrint("LotProcess", szLog);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("알 수 없는 예외: " + ex.Message);
+                szLog = $"[Http] Model Send err - {url}";
+                Globalo.LogPrint("LotProcess", szLog);
+            }
+            
+        }
         //Apd Report
         //Tester 1  ===>  SecsGem
         //Tester 2  ===>  SecsGem
@@ -40,7 +137,7 @@ namespace SecGemApp.Http
 
             var recipe = new
             {
-                NAME = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.Ppid,
+                RECIPE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.Ppid,
                 O_RING = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["O_RING"].value,
                 CONE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["CONE"].value,
                 KEYTYPE = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["KEYTYPE"].value,
@@ -59,10 +156,12 @@ namespace SecGemApp.Http
                 DENT_MIN = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MIN"].value,
                 DENT_MAX = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap["DENT_MAX"].value
             };
-
+            String szLog = string.Empty;
+            string url = string.Empty;
             string json = JsonConvert.SerializeObject(recipe);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             HttpClient client = new HttpClient();
+
             try
             {
                 //PC Ip:
@@ -74,9 +173,9 @@ namespace SecGemApp.Http
 
                 //검사 PC Port: 4001로 전부 고정하면될듯
 
-                string url = string.Empty;
+                url = string.Empty;
                 int port = 4001;    //SecsGem ------->>>  T Pg 4001
-                if (Program.NORIN_MODE == true)
+                if (Program.NORIN_MODE == false)
                 {
                     url = $"http://192.168.100.{index}:{port}/set-recipe";
                 }
@@ -87,30 +186,42 @@ namespace SecGemApp.Http
 
                 Console.WriteLine($"Recipe Send : {url}");
 
-
+                
                 var response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
                 {
                     Console.WriteLine("Recipe Send Complete!");
+                    szLog = $"[Http] Recipe Send Complete - {url}";
+                    Globalo.LogPrint("LotProcess", szLog);
                 }
                 else
                 {
                     Console.WriteLine($"Recipe Send Fail: ErrCode {(int)response.StatusCode} {response.ReasonPhrase}");
                     string errorContent = await response.Content.ReadAsStringAsync();
                     Console.WriteLine("Server Response Content: " + errorContent);
+
+
+                    szLog = $"[Http] Recipe Send Fail - {url}";
+                    Globalo.LogPrint("LotProcess", szLog);
                 }
             }
             catch (HttpRequestException ex)
             {
                 Console.WriteLine("HTTP 요청 중 오류 발생: " + ex.Message);
+                szLog = $"[Http] Recipe Send Error - {url}";
+                Globalo.LogPrint("LotProcess", szLog);
             }
             catch (TaskCanceledException ex)
             {
                 Console.WriteLine("요청 시간이 초과되었습니다: " + ex.Message);
+                szLog = $"[Http] Recipe Send Timeout - {url}";
+                Globalo.LogPrint("LotProcess", szLog);
             }
             catch (Exception ex)
             {
                 Console.WriteLine("알 수 없는 예외: " + ex.Message);
+                szLog = $"[Http] Recipe Send err - {url}";
+                Globalo.LogPrint("LotProcess", szLog);
             }
         }
         public static void Start()
@@ -214,8 +325,18 @@ namespace SecGemApp.Http
             else if (path == "/reqRecipe")
             {
                 //aoi만 레시피 파일 있음.
-                RecipeSend(1);  //aoi pc1
-                RecipeSend(2);  //aoi pc2
+                if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+                {
+                    RecipeSend(1);  //aoi pc1
+                    RecipeSend(2);  //aoi pc2
+                }
+                    
+
+                
+            }
+            else if (path == "/reqModel")   //여기서는 요청오는 것만 보내면될듯
+            {
+                ModelAllSend();
             }
             else if (path == "/recipe")
             {
