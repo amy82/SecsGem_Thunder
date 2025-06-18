@@ -263,9 +263,14 @@ namespace SecGemApp
                 Globalo.tcpManager.SendModelName(Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentModelName);
 
 
-                
 
-                Http.HttpService.ModelAllSend();
+
+                //Http.HttpService.ModelAllSend();
+                Globalo.tcpManager.SendModelToTester(1);
+                Globalo.tcpManager.SendModelToTester(2);
+                Globalo.tcpManager.SendModelToTester(3);
+                Globalo.tcpManager.SendModelToTester(4);
+
             }
 
             SetModelListView();

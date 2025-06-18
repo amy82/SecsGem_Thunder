@@ -322,6 +322,38 @@ namespace SecGemApp.TcpSocket
             Dlg.IdlePopupForm idlePopup = new Dlg.IdlePopupForm(idleDicList);
             idlePopup.ShowDialog();
         }
+        public void SendRecipeToTester(int index)
+        {
+            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+            EqipData.Type = "EquipmentData";
+            TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
+            tData.Command = "RECV_SECS_RECIPE";
+            tData.RecipeID = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.Ppid;
+            foreach (var item in Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap)
+            {
+                TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+
+                pInfo.Name = item.Key;
+                pInfo.Value = item.Value.value;
+                tData.CommandParameter.Add(pInfo);
+            }
+
+            EqipData.Data = tData;
+
+            Globalo.tcpManager.SendMessageToTester(EqipData, index);
+        }
+        public void SendModelToTester(int index)
+        {
+            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+            EqipData.Type = "EquipmentData";
+
+            TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
+            tData.Command = "RECV_SECS_MODEL";
+            tData.DataID = Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentModelName;
+            EqipData.Data = tData;
+
+            Globalo.tcpManager.SendMessageToTester(EqipData, index);
+        }
         private void TesterMessageParse(EquipmentData data, int testerIp = -1)
         {
             int i = 0;
@@ -336,36 +368,16 @@ namespace SecGemApp.TcpSocket
 
             if (data.Command == "REQ_RECIPE")
             {
-                TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
-                EqipData.Type = "EquipmentData";
-                TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
-                tData.Command = "RECV_SECS_RECIPE";
-                foreach (var item in Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap)
-                {
-                    TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+                SendRecipeToTester(testerIp);
 
-                    pInfo.Name = item.Key;
-                    pInfo.Value = item.Value.value;
-                    tData.CommandParameter.Add(pInfo);
-                }
-
-                EqipData.Data = tData;
-
-                Globalo.tcpManager.SendMessageToTester(EqipData, testerIp);
+                
             }
             
             if (data.Command == "REQ_MODEL")
             {
+                SendModelToTester(testerIp);
                 //
-                TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
-                EqipData.Type = "EquipmentData";
-
-                TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
-                tData.Command = "RECV_SECS_MODEL";
-                tData.DataID = Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentModelName;
-                EqipData.Data = tData;
-
-                Globalo.tcpManager.SendMessageToTester(EqipData, testerIp);
+                
             }
         }
         private void clientMessageParse(EquipmentData data)
@@ -519,7 +531,7 @@ namespace SecGemApp.TcpSocket
                 return;
             }
             string jsonData = JsonConvert.SerializeObject(equipData);
-            await SecsGemServer.BroadcastMessageAsync(jsonData, clintNum);
+            await SecsGemServer.BroadcastMessageAsync(jsonData, clintNum-1);
         }
 
 

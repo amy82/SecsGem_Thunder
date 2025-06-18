@@ -105,6 +105,8 @@ namespace SecGemApp
             {
                 //Http.HttpService.RecipeSend(1);
                 //Http.HttpService.RecipeSend(2);
+                Globalo.tcpManager.SendRecipeToTester(1);
+                Globalo.tcpManager.SendRecipeToTester(2);
             }
         }
         

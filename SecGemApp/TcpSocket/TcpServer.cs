@@ -63,7 +63,7 @@ namespace SecGemApp.TcpSocket
         }
         public bool bClientConnectedState(int index)
         {
-            return bConnectedClient[index];
+            return bConnectedClient[index-1];
             //return bConnected;
         }
         // 🎯 **클라이언트로 메시지 보내는 함수**
@@ -161,7 +161,7 @@ namespace SecGemApp.TcpSocket
                             if (VerifyipToSlotIndex.TryGetValue(lastOctet, out ClientSlotIndex slot))
                             {
                                 clientNo = (int)slot;
-                                _clients[(int)slot] = client; // 배열 인덱스에 저장
+                                _clients[(int)slot-1] = client; // 배열 인덱스에 저장
                             }
                         }
                         else
@@ -169,7 +169,7 @@ namespace SecGemApp.TcpSocket
                             if (CommonpToSlotIndex.TryGetValue(lastOctet, out CommonClientSlotIndex slot))
                             {
                                 clientNo = (int)slot;
-                                _clients[(int)slot] = client; // 배열 인덱스에 저장
+                                _clients[(int)slot-1] = client; // 배열 인덱스에 저장
                             }
                         }
 
@@ -180,11 +180,11 @@ namespace SecGemApp.TcpSocket
                             return;
                         }
                         bConnected = true;
-                        bConnectedClient[clientNo] = true;
+                        bConnectedClient[clientNo-1] = true;
                         logData = $"[tcp] Client Connected";
                         Globalo.LogPrint("CCdControl", logData);
 
-                        Globalo.secsGemStatusControl.Set_TesterConnected(clientNo);
+                        Globalo.secsGemStatusControl.Set_TesterConnected(clientNo-1);
 
                         //if (clientNo == (int)ClientSlotIndex.SecsGem)
                         //{

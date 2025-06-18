@@ -60,7 +60,7 @@ namespace SecGemApp
         }
         public void Set_TesterConnected(int index, bool Connected = true)
         {
-            int tNum = index - 1;
+            int tNum = index;
             if (tNum > TesterLabel.Length - 1)
             {
                 return;

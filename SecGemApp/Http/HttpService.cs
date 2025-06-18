@@ -349,7 +349,7 @@ namespace SecGemApp.Http
 
                     if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
                     {
-                        RecipeSend(number);
+                        //RecipeSend(number);
                     }
                 }
 

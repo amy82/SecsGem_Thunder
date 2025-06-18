@@ -267,8 +267,12 @@ namespace SecGemApp
 
                 if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
                 {
-                    Http.HttpService.RecipeSend(1);     //Aoi pc1 - Recipe Change Click
-                    Http.HttpService.RecipeSend(2);     //Aoi pc2 - Recipe Change Click
+                    //Http.HttpService.RecipeSend(1);     //Aoi pc1 - Recipe Change Click
+                    //Http.HttpService.RecipeSend(2);     //Aoi pc2 - Recipe Change Click
+                    Globalo.tcpManager.SendRecipeToTester(1);
+                    Globalo.tcpManager.SendRecipeToTester(2);
+                    Globalo.tcpManager.SendRecipeToTester(3);
+                    Globalo.tcpManager.SendRecipeToTester(4);
                 }
                     
             }
