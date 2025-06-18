@@ -483,8 +483,8 @@ namespace SecGemApp.Dlg
             //레시피 값이 변경 저장되면 Test 프로그램으로 보내줘야된다.
             if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
             {
-                Http.HttpService.RecipeSend(0);     //Aoi pc1 - Recipe Save Click
-                Http.HttpService.RecipeSend(1);     //Aoi pc2 - Recipe Save Click
+                //Http.HttpService.RecipeSend(0);     //Aoi pc1 - Recipe Save Click
+                //Http.HttpService.RecipeSend(1);     //Aoi pc2 - Recipe Save Click
             }
                 
 

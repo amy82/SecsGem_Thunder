@@ -18,7 +18,7 @@ namespace SecGemApp
         public static bool NORIN_MODE = true;            //TODO:  ★★테스트 모드 설정, 실행파일 배포 할 때 false로 변경
         public static string _Ver = "Ver. 1.0.0.1";
         public static string _Build = "25/06/03";
-        public const TESTER_PG TEST_PG_SELECT = TESTER_PG.EEPROM_VERIFY;     //AOI , EEPROM , FW         //MEMO: 여기서 프로그램 선택
+        public const TESTER_PG TEST_PG_SELECT = TESTER_PG.AOI;     //AOI , EEPROM , FW         //MEMO: 여기서 프로그램 선택
 
         [STAThread]
         static void Main()

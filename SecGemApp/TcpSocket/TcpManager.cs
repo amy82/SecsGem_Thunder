@@ -76,7 +76,7 @@ namespace SecGemApp.TcpSocket
                     case "EquipmentData":
                         EquipmentData edata = JsonConvert.DeserializeObject<EquipmentData>(wrapper.Data.ToString());
                         //hostMessageParse(edata);
-                        clientMessageParse(edata);  //Verify 검사에서 들어온다.
+                        TesterMessageParse(edata, clientIndex);  //Verify 검사에서 들어온다.
                         break;
 
                     case "TesterData":      
@@ -322,7 +322,52 @@ namespace SecGemApp.TcpSocket
             Dlg.IdlePopupForm idlePopup = new Dlg.IdlePopupForm(idleDicList);
             idlePopup.ShowDialog();
         }
+        private void TesterMessageParse(EquipmentData data, int testerIp = -1)
+        {
+            int i = 0;
+            int j = 0;
+            int result = -1;
+            int cnt = data.CommandParameter.Count;
+            string logData = $"[Recv] Host Command: {data.Command} [{cnt}]";
 
+
+
+            Globalo.LogPrint("TcpManager", logData);
+
+            if (data.Command == "REQ_RECIPE")
+            {
+                TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+                EqipData.Type = "EquipmentData";
+                TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
+                tData.Command = "RECV_SECS_RECIPE";
+                foreach (var item in Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.ParamMap)
+                {
+                    TcpSocket.EquipmentParameterInfo pInfo = new TcpSocket.EquipmentParameterInfo();
+
+                    pInfo.Name = item.Key;
+                    pInfo.Value = item.Value.value;
+                    tData.CommandParameter.Add(pInfo);
+                }
+
+                EqipData.Data = tData;
+
+                Globalo.tcpManager.SendMessageToTester(EqipData, testerIp);
+            }
+            
+            if (data.Command == "REQ_MODEL")
+            {
+                //
+                TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+                EqipData.Type = "EquipmentData";
+
+                TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
+                tData.Command = "RECV_SECS_MODEL";
+                tData.DataID = Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentModelName;
+                EqipData.Data = tData;
+
+                Globalo.tcpManager.SendMessageToTester(EqipData, testerIp);
+            }
+        }
         private void clientMessageParse(EquipmentData data)
         {
             int i = 0;
@@ -335,8 +380,8 @@ namespace SecGemApp.TcpSocket
 
             Globalo.LogPrint("TcpManager", logData);
 
-
-            if(data.Command == "APS_RECIPE_ACK")    //"APS_PPID_RES")
+            
+            if (data.Command == "APS_RECIPE_ACK")    //"APS_PPID_RES")
             {
                 //Console.WriteLine($"Recv PPID: {data.DataID}");
 
@@ -464,6 +509,17 @@ namespace SecGemApp.TcpSocket
             }
             string jsonData = JsonConvert.SerializeObject(data);
             await _client.SendDataAsync(jsonData);
+        }
+
+        public async void SendMessageToTester(TcpSocket.MessageWrapper equipData, int clintNum = -1)
+        {
+            if (SecsGemServer.bClientConnectedState(clintNum) == false || clintNum == -1)
+            {
+                Console.WriteLine($"bClientConnectedState - {clintNum}");
+                return;
+            }
+            string jsonData = JsonConvert.SerializeObject(equipData);
+            await SecsGemServer.BroadcastMessageAsync(jsonData, clintNum);
         }
 
 
