@@ -277,8 +277,13 @@ namespace SecGemApp.TcpSocket
                     {
                         Globalo.dataManage.mesData.IdleSetTimeInterval = 5;  //min  1min = 60000
                     }
-
                     _IdleTimer.Interval = 60000 * Globalo.dataManage.mesData.IdleSetTimeInterval; // 초기값 5분
+                    if (Program.NORIN_MODE == false)
+                    {
+                        _IdleTimer.Interval = 10000;
+
+                    }
+                        
                     _IdleTimer.Start();         //IDLE_REPORT 받는 곳
 
 

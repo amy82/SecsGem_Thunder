@@ -12,7 +12,7 @@ namespace SecGemApp.TcpSocket
 {
     public enum ClientSlotIndex
     {
-        Tester1 = 5,    // IP 뒷자리 5  ex)192.168.100.1
+        Tester1 = 5,    // IP 뒷자리 5  ex)192.168.100.1  Verify Tester
         Tester2 = 6,    // IP 뒷자리 6  ex)192.168.100.2
         Tester3 = 7,    // IP 뒷자리 7
         Tester4 = 8,    // IP 뒷자리 8
@@ -58,7 +58,7 @@ namespace SecGemApp.TcpSocket
             {
                 bConnectedClient[i] = false;
             }
-            string logData = $"[tcp] Server Create:{ip} / {port}";
+            string logData = $"[tcp] Tester Server Create:{ip} / {port}";
             Globalo.LogPrint("CCdControl", logData);
         }
         public bool bClientConnectedState(int index)
@@ -122,7 +122,7 @@ namespace SecGemApp.TcpSocket
         {
             _listener.Start();
             Console.WriteLine("서버가 시작되었습니다.");
-            string logData = $"[tcp] Server Start";
+            string logData = $"[tcp] Tester Server Start";
             Globalo.LogPrint("CCdControl", logData);
             try
             {

@@ -125,7 +125,12 @@ namespace SecGemApp
         private void button5_Click(object sender, EventArgs e)
         {
             //Object Report
-            Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.OBJECT_ID_REPORT_10701);
+            //Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.OBJECT_ID_REPORT_10701);
+
+            //수동모드 조작
+            Globalo.dataManage.mesData.m_dEqupOperationMode[0] = 1; //1 = fullauto , 9 = manual
+            Globalo.dataManage.mesData.m_dEqupOperationMode[1] = 2;     //1 = host ,2 = operator
+            Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.EQUIPMENT_OPERATION_MODE_CHANGED_REPORT_10301);
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -134,6 +139,16 @@ namespace SecGemApp
             bool alarmLevel = false;
 
             Globalo.ubisamForm.AlarmSendFn(alarmNum, alarmLevel);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Globalo.tcpManager.IdleStateChange(true);       //ObjectIdProcessAsync timer stop
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.LOT_PROCESSING_STARTED_REPORT_10704);
         }
     }
 }
