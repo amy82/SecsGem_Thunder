@@ -15,7 +15,7 @@ namespace SecGemApp.TcpSocket
     {
         private System.Timers.Timer _IdleTimer;
 
-        public TcpServer VerifyServer;
+        public TcpServer SecsGemServer;
         private CancellationTokenSource _cts;
 
         private readonly List<TcpClientHandler> _clients = new List<TcpClientHandler>();
@@ -59,7 +59,7 @@ namespace SecGemApp.TcpSocket
         // 서버 시작
         public async Task StartServerAsync()
         {
-            await VerifyServer.StartAsync(_cts.Token);
+            await SecsGemServer.StartAsync(_cts.Token);
         }
         private async Task TesterClientMessageAsync(string receivedData, int clientIndex)
         {
@@ -110,8 +110,8 @@ namespace SecGemApp.TcpSocket
         }
         public void SetServer(string ip, int port)
         {
-            VerifyServer = new TcpServer("", port);
-            VerifyServer.OnServerMessageReceivedAsync += TesterClientMessageAsync;
+            SecsGemServer = new TcpServer("", port);
+            SecsGemServer.OnServerMessageReceivedAsync += TesterClientMessageAsync;
             serverStart();
         }
         public void SetClient(string ip, int port)
@@ -460,6 +460,8 @@ namespace SecGemApp.TcpSocket
             string jsonData = JsonConvert.SerializeObject(data);
             await _client.SendDataAsync(jsonData);
         }
+
+
         public async void SendMessageToHostNew(MessageWrapper data)//string message)
         {
             if (_client.bHostConnectedState() == false)
