@@ -347,7 +347,7 @@ namespace SecGemApp.Dlg
 
                 //250603 AOI 레시피 전용
                 string titleChk = dataGridView_Recipe.Rows[e.RowIndex].Cells[1].Value.ToString();
-                if (titleChk == "O_RING" || titleChk == "CONE")
+                if (titleChk == "O_RING" || titleChk == "CONE" || titleChk == "GASKET")
                 {
                     //0하고 1만 반복
                     if (sValue == "0")

@@ -85,7 +85,7 @@ namespace SecGemApp
 
 
 
-            Http.HttpService.Start();
+            //Http.HttpService.Start();
             //Http.HttpService.RecipySend(0);       //test
 
             
@@ -100,11 +100,11 @@ namespace SecGemApp
             ModeChanged(0);
 
 
-            Http.HttpService.ModelAllSend();
+            //Http.HttpService.ModelAllSend();
             if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
             {
-                Http.HttpService.RecipeSend(1);
-                Http.HttpService.RecipeSend(2);
+                //Http.HttpService.RecipeSend(1);
+                //Http.HttpService.RecipeSend(2);
             }
         }
         

@@ -16,7 +16,13 @@ namespace SecGemApp.TcpSocket
         Tester2 = 6,    // IP 뒷자리 6  ex)192.168.100.2
         Tester3 = 7,    // IP 뒷자리 7
         Tester4 = 8,    // IP 뒷자리 8
-        Tester5 = 1,    // IP 뒷자리 1
+    }
+    public enum CommonClientSlotIndex
+    {
+        Tester1 = 1,    // IP 뒷자리 1  ex)192.168.100.1
+        Tester2 = 2,    // IP 뒷자리 2  ex)192.168.100.2
+        Tester3 = 3,    // IP 뒷자리 3
+        Tester4 = 4,    // IP 뒷자리 4
     }
     public class TcpServer
     {
@@ -24,26 +30,31 @@ namespace SecGemApp.TcpSocket
         //private bool _isRunning;
         private bool bConnected;
 
-        private bool[] bConnectedClient = new bool[10];
+        private bool[] bConnectedClient = new bool[4];
+        private readonly TcpClient[] _clients = new TcpClient[4];       //eeprom verify 만 통신 - 착/완공받기
 
- 
-        private readonly TcpClient[] _clients = new TcpClient[5];       //eeprom verify 만 통신 - 착/완공받기
-        private readonly Dictionary<int, ClientSlotIndex> ipToSlotIndex = new Dictionary<int, ClientSlotIndex>
+        private readonly Dictionary<int, ClientSlotIndex> VerifyipToSlotIndex = new Dictionary<int, ClientSlotIndex>
         {
             { 5, ClientSlotIndex.Tester1 },     //여기 앞에 숫자를 ip주소 끝자리와 맞혀야 된다.
             { 6, ClientSlotIndex.Tester2 },
             { 7, ClientSlotIndex.Tester3 },
-            { 8, ClientSlotIndex.Tester4 },
-            { 1, ClientSlotIndex.Tester5 }
+            { 8, ClientSlotIndex.Tester4 }
+        };
+        private readonly Dictionary<int, CommonClientSlotIndex> CommonpToSlotIndex = new Dictionary<int, CommonClientSlotIndex>
+        {
+            { 1, CommonClientSlotIndex.Tester1 },     //여기 앞에 숫자를 ip주소 끝자리와 맞혀야 된다.
+            { 2, CommonClientSlotIndex.Tester2 },
+            { 3, CommonClientSlotIndex.Tester3 },
+            { 4, CommonClientSlotIndex.Tester4 },
         };
         public event Func<string,int, Task> OnServerMessageReceivedAsync; // 비동기 이벤트
 
         public TcpServer(string ip, int port)
         {
             bConnected = false;
-            _listener = new TcpListener(IPAddress.Any, port);//IPAddress.Parse(ip), port);
+            _listener = new TcpListener(IPAddress.Any, port);   //IPAddress.Parse(ip), port);
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < bConnectedClient.Length; i++)
             {
                 bConnectedClient[i] = false;
             }
@@ -141,19 +152,33 @@ namespace SecGemApp.TcpSocket
                         //_clientsList.Add(client); // 클라이언트 추가
                         //// _clientMap[lastOctet] = client;
                         // 클라이언트 접속 시 (IP 뒷자리 lastOctet)
+
                         int clientNo = -1;
-                        if (ipToSlotIndex.TryGetValue(lastOctet, out ClientSlotIndex slot))
+
+                        
+                        if (Program.TEST_PG_SELECT == TESTER_PG.EEPROM_VERIFY)
                         {
-                            clientNo = (int)slot;
-                            _clients[(int)slot] = client; // 배열 인덱스에 저장
+                            if (VerifyipToSlotIndex.TryGetValue(lastOctet, out ClientSlotIndex slot))
+                            {
+                                clientNo = (int)slot;
+                                _clients[(int)slot] = client; // 배열 인덱스에 저장
+                            }
                         }
                         else
+                        {
+                            if (CommonpToSlotIndex.TryGetValue(lastOctet, out CommonClientSlotIndex slot))
+                            {
+                                clientNo = (int)slot;
+                                _clients[(int)slot] = client; // 배열 인덱스에 저장
+                            }
+                        }
+
+                        if (clientNo == -1)
                         {
                             // 정의되지 않은 IP 뒷자리 처리
                             Console.WriteLine($"Client Connect Fail:{clientNo}");
                             return;
                         }
-
                         bConnected = true;
                         bConnectedClient[clientNo] = true;
                         logData = $"[tcp] Client Connected";
