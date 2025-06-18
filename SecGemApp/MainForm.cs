@@ -17,7 +17,7 @@ namespace SecGemApp
 {
     public partial class MainForm : Form
     {
-        private int DlgGap = 6;
+        private int DlgGap = 4;
         private int DefaultWidth = 400;
         private int EngineerWidth = 800;
 
@@ -77,8 +77,13 @@ namespace SecGemApp
 
             //Globalo.tcpManager.AddClient("127.0.0.1", 2001);
 
+            Globalo.tcpManager = new TcpSocket.TcpManager();
+            Globalo.tcpManager.SetServer("", 5000);
             Globalo.tcpManager.SetClient(Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerIp, Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerPort);// "127.0.0.1", 2001);
             Globalo.ubisamForm.UbisamUgcLoad();
+
+
+
 
             Http.HttpService.Start();
             //Http.HttpService.RecipySend(0);       //test
@@ -96,11 +101,13 @@ namespace SecGemApp
 
 
             Http.HttpService.ModelAllSend();
-
-            Http.HttpService.RecipeSend(1);
-            Http.HttpService.RecipeSend(2);
+            if (Program.TEST_PG_SELECT == TESTER_PG.AOI)
+            {
+                Http.HttpService.RecipeSend(1);
+                Http.HttpService.RecipeSend(2);
+            }
         }
-
+        
         private void sendBtn()
         {
             // 리스트 생성

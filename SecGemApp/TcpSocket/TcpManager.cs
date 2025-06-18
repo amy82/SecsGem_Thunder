@@ -13,11 +13,15 @@ namespace SecGemApp.TcpSocket
 {
     public class TcpManager
     {
-        //private ConcurrentDictionary<string, TcpLotTask> LottasksDic = new ConcurrentDictionary<string, TcpLotTask>();
-        ///public TcpLotTask lotTask = new TcpLotTask();
         private System.Timers.Timer _IdleTimer;
+
+        public TcpServer SecsGemServer;
+        private CancellationTokenSource _cts;
+
         private readonly List<TcpClientHandler> _clients = new List<TcpClientHandler>();
-        public TcpClientHandler _client;   // = new TcpClientHandler();
+        public TcpClientHandler _client;
+
+
         public TcpManager()
         {
             if (Program.NORIN_MODE == true)
@@ -29,10 +33,13 @@ namespace SecGemApp.TcpSocket
             {
                 _IdleTimer = new System.Timers.Timer(60000 * 5); // 초기값 5분
             }
+            
 
             _IdleTimer.Elapsed += Timer_IdleReason;
             _IdleTimer.AutoReset = false;   //한 번만 실행
             Event.EventManager.PgExitCall += OnPgExitCall;
+            _cts = new CancellationTokenSource();
+            
         }
         private void OnPgExitCall(object sender, EventArgs e)
         {
@@ -45,23 +52,78 @@ namespace SecGemApp.TcpSocket
                 _IdleTimer = null;
             }
         }
+        private async void serverStart()
+        {
+            await StartServerAsync();
+        }
+        // 서버 시작
+        public async Task StartServerAsync()
+        {
+            await SecsGemServer.StartAsync(_cts.Token);
+        }
+        private async Task TesterClientMessageAsync(string receivedData, int clientIndex)
+        {
+            //Console.WriteLine($"JSON 데이터 길이: {receivedData.Length}");
+
+            using (StreamReader sr = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(receivedData))))
+            using (JsonTextReader reader = new JsonTextReader(sr))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                var wrapper = serializer.Deserialize<MessageWrapper>(reader);
+
+                switch (wrapper.Type)
+                {
+                    case "EquipmentData":
+                        EquipmentData edata = JsonConvert.DeserializeObject<EquipmentData>(wrapper.Data.ToString());
+                        //hostMessageParse(edata);
+                        clientMessageParse(edata);  //Verify 검사에서 들어온다.
+                        break;
+
+                    case "TesterData":      
+                        TesterData socketState = JsonConvert.DeserializeObject<TesterData>(wrapper.Data.ToString());
+                        socketMessageParse(socketState, clientIndex);
+                        break;
+                }
+
+
+                try
+                {
+
+                    await Task.Delay(10); // 가짜 비동기 작업 (예: DB 저장)
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"hostMessageParse 처리 중 예외 발생: {ex.Message}");
+                }
+            }
+        }
+        private void socketMessageParse(TesterData data, int index)        //index = ip뒷자리
+        {
+            int i = 0;
+            int result = -1;
+
+            string dataName = data.Name;
+            string cmd = data.Cmd;
+            int nStep = data.Step;
+
+
+        }
+        public void SetServer(string ip, int port)
+        {
+            SecsGemServer = new TcpServer("", port);
+            SecsGemServer.OnServerMessageReceivedAsync += TesterClientMessageAsync;
+            serverStart();
+        }
         public void SetClient(string ip, int port)
         {
             _client = new TcpClientHandler(ip, port, this);
-            //_client.OnMessageReceived += OnMessageReceived;
-            _client.OnMessageReceivedAsync += HandleClientMessageAsync;
+            _client.OnClientMessageReceivedAsync += HandleClientMessageAsync;
             _client.Connect();
         }
         // ✅ 클라이언트가 메시지를 보낼 때 실행될 비동기 함수
         private async Task HandleClientMessageAsync(string receivedData)
         {
-            //Console.WriteLine($"클라이언트 메시지 수신: {receivedData}");
-
-            // 예제: 메시지 처리 후 서버 응답
-            //await Task.Delay(1000); // 가짜 비동기 작업 (예: DB 저장)
-
-            //Console.WriteLine($"TcpManager에서 처리한 메시지: {receivedData}");
-            Console.WriteLine($"JSON 데이터 길이: {receivedData.Length}");
+            //Console.WriteLine($"JSON 데이터 길이: {receivedData.Length}");
 
             using (StreamReader sr = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(receivedData))))
             using (JsonTextReader reader = new JsonTextReader(sr))
@@ -151,27 +213,7 @@ namespace SecGemApp.TcpSocket
             SendMessageToHost(eepData);
         }
 
-        private void OnMessageReceived(string receivedData)
-        {
-            //Console.WriteLine($"TcpManager에서 처리한 메시지: {receivedData}");
-            Console.WriteLine($"JSON 데이터 길이: {receivedData.Length}");
-            using (StreamReader sr = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(receivedData))))
-            using (JsonTextReader reader = new JsonTextReader(sr))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                EquipmentData data = serializer.Deserialize<EquipmentData>(reader);
-
-                try
-                {
-                    clientMessageParse(data);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"hostMessageParse 처리 중 예외 발생: {ex.Message}");
-                }
-
-            }
-        }
+        
         public void TerminalMsgReport(string receivedData)
         {
             //Terminal Confirm 버튼 눌렀을 때 넘어온다.
@@ -321,8 +363,6 @@ namespace SecGemApp.TcpSocket
                 {
                     Globalo.dataManage.mesData.m_dPPChangeArr[0] = int.Parse(data.CommandParameter[0].Value);
                     Globalo.dataManage.mesData.m_dPPChangeArr[1] = int.Parse(data.CommandParameter[1].Value);
-                    //Globalo.dataManage.mesData.m_dPPChangeArr[0] = (int)Ubisam.ePP_CHANGE_STATE.eCreated;            //4 = UploadListChanged   2 = Edited
-                    //Globalo.dataManage.mesData.m_dPPChangeArr[1] = (int)Ubisam.ePP_CHANGE_ORDER_TYPE.eOperator;      //1 = Host, 2 = Operator
 
                     Globalo.LogPrint("MainControl", "[Rerpot] Process Program State Changed Report - Created");
 
@@ -344,35 +384,6 @@ namespace SecGemApp.TcpSocket
             }
 
 
-            //if (data.Command == "IDLE_REPORT")       //IDLE 상태 변경
-            //{
-            //    if (Globalo.dataManage.mesData.m_dEqupControlState[1] == (int)Ubisam.eCURRENT_CONTROL_STATE.eOnlineLocal &&
-            //    Globalo.dataManage.mesData.m_dEqupControlState[0] != Globalo.dataManage.mesData.m_dEqupControlState[1])
-            //    {
-
-            //        Globalo.dataManage.mesData.m_dProcessState[0] = Globalo.dataManage.mesData.m_dProcessState[1];
-            //        Globalo.dataManage.mesData.m_dProcessState[1] = (int)Ubisam.ePROCESS_STATE_INFO.eIDLE;
-            //        Globalo.dataManage.mesData.m_uAlarmList.Clear();
-
-            //        Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.PROCESS_STATE_CHANGED_REPORT_10401);
-
-            //        Globalo.LogPrint("MainControl", "[Rerpot] Process State State Changed Report - IDLE");
-            //        Globalo.taskWork.m_szIdleStartTime = DateTime.Now.ToString("yyMMddhhmmss");
-
-
-            //        _IdleTimer.Stop();
-            //        if (Globalo.dataManage.mesData.IdleSetTimeInterval < 1)
-            //        {
-            //            Globalo.dataManage.mesData.IdleSetTimeInterval = 5;  //min  1min = 60000
-            //        }
-
-            //        _IdleTimer.Interval = 60000 * Globalo.dataManage.mesData.IdleSetTimeInterval; // 초기값 5분
-            //        _IdleTimer.Start();         //IDLE_REPORT 받는 곳
-
-
-            //        Globalo.tcpManager.SendProcessState("IDLE");        //eeprom에서 idle보낸거라서 안보내도 될듯
-            //    }
-            //}
             if (data.Command == "OBJECT_ID_REPORT")       //착공
             {
                 //OBJECT_ID_REPORT 로 FAIL 해도 무조건 OBJECT ID REPORT로 온다.
@@ -439,36 +450,6 @@ namespace SecGemApp.TcpSocket
                 Globalo.threadControl.autoRunthread.Start();
             }
             
-            //if (data.Command == CMD_POPUP_MESSAGE.cpFmt_PPReq.ToString())
-            //{
-            //    try
-            //    {
-            //        if (Globalo.yamlManager.vPPRecipeSpec__Host != null)
-            //        {
-            //            //설비 pc에서 ask 팝업에서 Yes 선택 한 경우 들어온다.
-            //            Globalo.dataManage.mesData.m_dPPChangeArr[0] = (int)Ubisam.ePP_CHANGE_STATE.eEdited;                //2 (Edited)
-            //            Globalo.dataManage.mesData.m_dPPChangeArr[1] = (int)Ubisam.ePP_CHANGE_ORDER_TYPE.eOperator;         //1 = Host, 2 = Operator
-
-            //            Globalo.yamlManager.RecipeSave(Globalo.yamlManager.vPPRecipeSpec__Host);
-
-            //            Globalo.LogPrint("MainControl", "[Rerpot] Process Program State Changed Report - eEdited");
-
-            //            Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.PROCESS_PROGRAM_STATE_CHANGED_REPORT_10601, Globalo.yamlManager.vPPRecipeSpec__Host.RECIPE.Ppid); //SEND S6F11
-            //        }
-            //        else
-            //        {
-            //            Console.WriteLine($"Fmt_PPReq Host Recipe Empty");
-
-            //            Globalo.LogPrint("MainControl", "Fmt_PPReq Host Recipe Empty");
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Globalo.LogPrint("MainControl", $"Fmt_PPReq 처리 중 예외 발생: {ex.Message}");
-            //    }
-                
-
-            //}
         }
         public async void SendMessageToHost(EquipmentData data)//string message)
         {
@@ -479,6 +460,8 @@ namespace SecGemApp.TcpSocket
             string jsonData = JsonConvert.SerializeObject(data);
             await _client.SendDataAsync(jsonData);
         }
+
+
         public async void SendMessageToHostNew(MessageWrapper data)//string message)
         {
             if (_client.bHostConnectedState() == false)
@@ -495,23 +478,22 @@ namespace SecGemApp.TcpSocket
         //
         //
         //
-        public void AddClient(string ip, int port)
-        {
-            var clientHandler = new TcpClientHandler(ip, port, this);
+        //public void AddClient(string ip, int port)
+        //{
+        //    var clientHandler = new TcpClientHandler(ip, port, this);
 
-            //clientHandler.OnMessageReceived += message => Console.WriteLine($"Message from {ip}:{port} - {message}");
-            clientHandler.OnMessageReceivedAsync += async message =>
-            {
-                Console.WriteLine($"Message from {ip}:{port} - {message}");
-                await Task.CompletedTask; // 비동기 컨텍스트 유지
-            };
-            clientHandler.OnDisconnected += () => Console.WriteLine($"Disconnected from {ip}:{port}");
+        //    clientHandler.OnClientMessageReceivedAsync += async message =>
+        //    {
+        //        Console.WriteLine($"Message from {ip}:{port} - {message}");
+        //        await Task.CompletedTask; // 비동기 컨텍스트 유지
+        //    };
+        //    clientHandler.OnDisconnected += () => Console.WriteLine($"Disconnected from {ip}:{port}");
 
-            if (clientHandler.Connect())
-            {
-                _clients.Add(clientHandler);        //접속이 실패하면 이쪽으로 안들어온다. 
-            }
-        }
+        //    if (clientHandler.Connect())
+        //    {
+        //        _clients.Add(clientHandler);        //접속이 실패하면 이쪽으로 안들어온다. 
+        //    }
+        //}
         public async void SendMessageToAll(string message)
         {
             foreach (var client in _clients)

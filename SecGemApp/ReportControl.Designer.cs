@@ -141,7 +141,7 @@ namespace SecGemApp
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(12)))), ((int)(((byte)(45)))));
             this.Controls.Add(this.parrotGroupBox6);
             this.Name = "ReportControl";
-            this.Size = new System.Drawing.Size(380, 91);
+            this.Size = new System.Drawing.Size(380, 88);
             this.parrotGroupBox6.ResumeLayout(false);
             this.parrotGroupBox6.PerformLayout();
             this.ResumeLayout(false);

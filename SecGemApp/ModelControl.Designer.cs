@@ -78,7 +78,7 @@ namespace SecGemApp
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(12)))), ((int)(((byte)(45)))));
             this.Controls.Add(this.parrotGroupBox1);
             this.Name = "ModelControl";
-            this.Size = new System.Drawing.Size(380, 117);
+            this.Size = new System.Drawing.Size(380, 112);
             this.parrotGroupBox1.ResumeLayout(false);
             this.parrotGroupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Model)).EndInit();

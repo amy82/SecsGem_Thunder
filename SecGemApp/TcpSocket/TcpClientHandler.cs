@@ -20,8 +20,7 @@ namespace SecGemApp.TcpSocket
         private string _ip;
         private int _port;
 
-        //public event Action<string> OnMessageReceived;
-        public event Func<string, Task> OnMessageReceivedAsync; // 비동기 이벤트
+        public event Func<string, Task> OnClientMessageReceivedAsync; // 비동기 이벤트
 
         public event Action OnDisconnected;
         public event Action OnReconnecting;
@@ -73,7 +72,6 @@ namespace SecGemApp.TcpSocket
                 _stream = _client.GetStream();
                 _cancellationTokenSource = new CancellationTokenSource();
 
-                //StartListening();
                 newStartListening(_client);
                 _syncContext.Send(_ =>
                 {
@@ -136,18 +134,6 @@ namespace SecGemApp.TcpSocket
             // 데이터 전송
             await _stream.WriteAsync(buffer, 0, buffer.Length);
             Console.WriteLine("데이터가 서버로 전송되었습니다.");
-
-            //using (TcpClient client = new TcpClient(ip, port))
-            //{
-            //    using (NetworkStream stream = client.GetStream())
-            //    {
-            //        byte[] buffer = Encoding.UTF8.GetBytes(data);
-
-            //        // 데이터 전송
-            //        await stream.WriteAsync(buffer, 0, buffer.Length);
-            //        Console.WriteLine("데이터가 서버로 전송되었습니다.");
-            //    }
-            //}
         }
         public void SendMessage(string message)
         {
@@ -188,9 +174,9 @@ namespace SecGemApp.TcpSocket
                             sb.Clear(); // StringBuilder 초기화 (다음 JSON 수신을 위해)
 
                             // 메시지 수신 시 비동기 이벤트 호출
-                            if (OnMessageReceivedAsync != null)
+                            if (OnClientMessageReceivedAsync != null)
                             {
-                                await OnMessageReceivedAsync.Invoke(receivedData);
+                                await OnClientMessageReceivedAsync.Invoke(receivedData);
                             }
                         }
                     }
@@ -210,50 +196,7 @@ namespace SecGemApp.TcpSocket
             }
             
         }
-        private async void StartListening()
-        {
-            byte[] buffer = new byte[1024];
-            while (!_cancellationTokenSource.Token.IsCancellationRequested)
-            {
-                try
-                {
-                    int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length, _cancellationTokenSource.Token);
 
-                    // CancellationToken이 취소되었는지 체크
-                    if (_cancellationTokenSource.Token.IsCancellationRequested)
-                    {
-                        Console.WriteLine("취소 요청이 발생했습니다.");
-                        break;
-                    }
-
-                    if (bytesRead > 0)
-                    {
-                        string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        //OnMessageReceived?.Invoke(receivedData);
-
-
-                        // ✅ 메시지 수신 시 비동기 이벤트 호출
-                        if (OnMessageReceivedAsync != null)
-                        {
-                            await OnMessageReceivedAsync.Invoke(receivedData);
-                        }
-                    }
-                    else
-                    {
-                        // ⚠️ 서버가 연결을 끊었을 때
-                        Console.WriteLine("서버에서 연결을 끊었습니다.");
-                        Disconnect(true);
-                        break;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error receiving data: {ex.Message}");
-                    Disconnect(true);
-                    break;
-                }
-            }
-        }
         private void InitializeReconnectTimer()
         {
             _reconnectTimer = new System.Timers.Timer(_reconnectInterval);

@@ -51,10 +51,10 @@ namespace SecGemApp
             this.BottomPanel.Controls.Add(this.label_CommunicationStateVal);
             this.BottomPanel.Controls.Add(this.bigLabel10);
             this.BottomPanel.Controls.Add(this.button_UgcOpenFile);
-            this.BottomPanel.Location = new System.Drawing.Point(0, 554);
+            this.BottomPanel.Location = new System.Drawing.Point(0, 568);
             this.BottomPanel.Margin = new System.Windows.Forms.Padding(0);
             this.BottomPanel.Name = "BottomPanel";
-            this.BottomPanel.Size = new System.Drawing.Size(380, 191);
+            this.BottomPanel.Size = new System.Drawing.Size(380, 240);
             this.BottomPanel.TabIndex = 2;
             // 
             // label_CommunicationStateVal
@@ -103,7 +103,7 @@ namespace SecGemApp
             this.LeftPanel.Location = new System.Drawing.Point(0, 45);
             this.LeftPanel.Margin = new System.Windows.Forms.Padding(0);
             this.LeftPanel.Name = "LeftPanel";
-            this.LeftPanel.Size = new System.Drawing.Size(380, 509);
+            this.LeftPanel.Size = new System.Drawing.Size(380, 523);
             this.LeftPanel.TabIndex = 1;
             // 
             // crownSeparator1
@@ -177,7 +177,7 @@ namespace SecGemApp
             this.RightPanel.Location = new System.Drawing.Point(380, 45);
             this.RightPanel.Margin = new System.Windows.Forms.Padding(0);
             this.RightPanel.Name = "RightPanel";
-            this.RightPanel.Size = new System.Drawing.Size(400, 700);
+            this.RightPanel.Size = new System.Drawing.Size(400, 763);
             this.RightPanel.TabIndex = 2;
             // 
             // MainForm
@@ -185,7 +185,7 @@ namespace SecGemApp
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(12)))), ((int)(((byte)(45)))));
-            this.ClientSize = new System.Drawing.Size(784, 751);
+            this.ClientSize = new System.Drawing.Size(784, 811);
             this.Controls.Add(this.RightPanel);
             this.Controls.Add(this.bigLabel_TopMode);
             this.Controls.Add(this.crownSeparator1);
