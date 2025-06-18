@@ -150,18 +150,16 @@ namespace SecGemApp.TcpSocket
                         else
                         {
                             // 정의되지 않은 IP 뒷자리 처리
-                        }
-
-                        if(clientNo == -1)
-                        {
                             Console.WriteLine($"Client Connect Fail:{clientNo}");
                             return;
                         }
-                        
+
                         bConnected = true;
                         bConnectedClient[clientNo] = true;
                         logData = $"[tcp] Client Connected";
                         Globalo.LogPrint("CCdControl", logData);
+
+                        Globalo.secsGemStatusControl.Set_TesterConnected(clientNo);
 
                         //if (clientNo == (int)ClientSlotIndex.SecsGem)
                         //{
@@ -239,6 +237,8 @@ namespace SecGemApp.TcpSocket
             string logData = $"[tcp] Client DisConnected";
             Globalo.LogPrint("CCdControl", logData);
             //Globalo.MainForm.ClientConnected(false);
+
+            Globalo.secsGemStatusControl.Set_TesterConnected(clientIndex, false);
             Console.WriteLine("클라이언트 연결이 종료되었습니다.");
         }
 

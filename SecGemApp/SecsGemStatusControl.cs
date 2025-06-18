@@ -12,6 +12,7 @@ namespace SecGemApp
 {
     public partial class SecsGemStatusControl : UserControl
     {
+        private Label[] TesterLabel;
         public SecsGemStatusControl()
         {
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace SecGemApp
             label_OperatorId.Size = new Size(label_ControlStateVal.Size.Width, 23);
             label_EquipStatusVal.Size = new Size(label_ControlStateVal.Size.Width, 23);
 
+            TesterLabel = new Label[] { label_Tester1, label_Tester2, label_Tester3, label_Tester4 };
         }
 
         public void Set_SecsGemC_State(string state, string state2, int Connected)
@@ -54,6 +56,24 @@ namespace SecGemApp
             {
                 label_CommunicationStateVal.BackColor = Globalo.DisconnectColor;
                 label_ControlStateVal.BackColor = Globalo.DisconnectColor;
+            }
+        }
+        public void Set_TesterConnected(int index, bool Connected = true)
+        {
+            int tNum = index - 1;
+            if (tNum > TesterLabel.Length - 1)
+            {
+                return;
+            }
+            if (Connected == true)
+            {
+                TesterLabel[tNum].BackColor = Color.Moccasin;
+                TesterLabel[tNum].ForeColor = Color.Black;
+            }
+            else
+            {
+                TesterLabel[tNum].BackColor = Color.Transparent;
+                TesterLabel[tNum].ForeColor = Color.White;
             }
         }
         public void Set_OperatorId(string opid)

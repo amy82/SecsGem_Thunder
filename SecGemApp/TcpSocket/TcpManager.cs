@@ -76,10 +76,10 @@ namespace SecGemApp.TcpSocket
                     case "EquipmentData":
                         EquipmentData edata = JsonConvert.DeserializeObject<EquipmentData>(wrapper.Data.ToString());
                         //hostMessageParse(edata);
-                        clientMessageParse(edata);
+                        clientMessageParse(edata);  //Verify 검사에서 들어온다.
                         break;
 
-                    case "TesterData":      //Verify 검사에서 들어온다.
+                    case "TesterData":      
                         TesterData socketState = JsonConvert.DeserializeObject<TesterData>(wrapper.Data.ToString());
                         socketMessageParse(socketState, clientIndex);
                         break;

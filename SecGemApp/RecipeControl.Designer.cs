@@ -30,9 +30,9 @@ namespace SecGemApp
         private void InitializeComponent()
         {
             this.parrotGroupBox2 = new ReaLTaiizor.Controls.ParrotGroupBox();
+            this.crownButton_Recipe_View = new ReaLTaiizor.Controls.CrownButton();
             this.dataGridView_Recipe = new System.Windows.Forms.DataGridView();
             this.crownButton_Recipe_Change = new ReaLTaiizor.Controls.CrownButton();
-            this.crownButton_Recipe_View = new ReaLTaiizor.Controls.CrownButton();
             this.parrotGroupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Recipe)).BeginInit();
             this.SuspendLayout();
@@ -52,6 +52,17 @@ namespace SecGemApp
             this.parrotGroupBox2.TabStop = false;
             this.parrotGroupBox2.Text = "RECIPE";
             this.parrotGroupBox2.TextColor = System.Drawing.Color.White;
+            // 
+            // crownButton_Recipe_View
+            // 
+            this.crownButton_Recipe_View.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.crownButton_Recipe_View.Location = new System.Drawing.Point(276, 53);
+            this.crownButton_Recipe_View.Name = "crownButton_Recipe_View";
+            this.crownButton_Recipe_View.Padding = new System.Windows.Forms.Padding(5);
+            this.crownButton_Recipe_View.Size = new System.Drawing.Size(89, 25);
+            this.crownButton_Recipe_View.TabIndex = 57;
+            this.crownButton_Recipe_View.Text = "View";
+            this.crownButton_Recipe_View.Click += new System.EventHandler(this.crownButton_Recipe_View_Click);
             // 
             // dataGridView_Recipe
             // 
@@ -73,17 +84,6 @@ namespace SecGemApp
             this.crownButton_Recipe_Change.Text = "Change";
             this.crownButton_Recipe_Change.Click += new System.EventHandler(this.crownButton_Recipe_Change_Click);
             // 
-            // crownButton_Recipe_View
-            // 
-            this.crownButton_Recipe_View.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.crownButton_Recipe_View.Location = new System.Drawing.Point(276, 53);
-            this.crownButton_Recipe_View.Name = "crownButton_Recipe_View";
-            this.crownButton_Recipe_View.Padding = new System.Windows.Forms.Padding(5);
-            this.crownButton_Recipe_View.Size = new System.Drawing.Size(89, 25);
-            this.crownButton_Recipe_View.TabIndex = 57;
-            this.crownButton_Recipe_View.Text = "View";
-            this.crownButton_Recipe_View.Click += new System.EventHandler(this.crownButton_Recipe_View_Click);
-            // 
             // RecipeControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -91,7 +91,7 @@ namespace SecGemApp
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(12)))), ((int)(((byte)(45)))));
             this.Controls.Add(this.parrotGroupBox2);
             this.Name = "RecipeControl";
-            this.Size = new System.Drawing.Size(380, 117);
+            this.Size = new System.Drawing.Size(380, 113);
             this.parrotGroupBox2.ResumeLayout(false);
             this.parrotGroupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Recipe)).EndInit();

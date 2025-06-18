@@ -17,7 +17,7 @@ namespace SecGemApp
 {
     public partial class MainForm : Form
     {
-        private int DlgGap = 6;
+        private int DlgGap = 4;
         private int DefaultWidth = 400;
         private int EngineerWidth = 800;
 
