@@ -481,7 +481,7 @@ namespace SecGemApp.TcpSocket
 
                 Globalo.tcpManager.SendMessageToHost(ObjectRtn);
             }
-            else if (data.Command == "LOT_APD_REPORT")       //결과값
+            else if (data.Command == "LOT_APD_REPORT")       //From Tester pg, apd 보고
             {
                 Console.WriteLine($"LOT_APD_REPORT Recv [{data.CommandParameter.Count}]");
                 Globalo.dataManage.mesData.vMesApdData.Clear();

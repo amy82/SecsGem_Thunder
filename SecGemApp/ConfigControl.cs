@@ -352,8 +352,6 @@ namespace SecGemApp
 
             Globalo.configControl.label_Handler_Port.Text = Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerPort.ToString();
             Globalo.configControl.label_Tester_Port.Text = Globalo.yamlManager.configManager.configData.DrivingSettings.TesterPort.ToString();
-
-
         }
         private void crownButton_Config_Save_Click(object sender, EventArgs e)
         {

@@ -78,7 +78,7 @@ namespace SecGemApp
             //Globalo.tcpManager.AddClient("127.0.0.1", 2001);
 
             Globalo.tcpManager = new TcpSocket.TcpManager();
-            Globalo.tcpManager.SetServer("", 5000);
+            Globalo.tcpManager.SetServer("", Globalo.yamlManager.configManager.configData.DrivingSettings.TesterPort);// 5000);
             Globalo.tcpManager.SetClient(Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerIp, Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerPort);// "127.0.0.1", 2001);
             Globalo.ubisamForm.UbisamUgcLoad();
 

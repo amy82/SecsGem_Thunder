@@ -271,7 +271,6 @@ namespace SecGemApp.TcpSocket
         public void Stop()
         {
             _listener.Stop();
-            
             Console.WriteLine("서버가 중지되었습니다.");
         }
     }
