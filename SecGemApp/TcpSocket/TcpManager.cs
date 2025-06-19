@@ -360,7 +360,7 @@ namespace SecGemApp.TcpSocket
             int j = 0;
             int result = -1;
             int cnt = data.CommandParameter.Count;
-            string logData = $"[Recv] Host Command: {data.Command} [{cnt}]";
+            string logData = $"[Recv] Frome Tester Command: {data.Command} [{cnt}]";
 
 
 
@@ -378,6 +378,24 @@ namespace SecGemApp.TcpSocket
                 SendModelToTester(testerIp);
                 //
                 
+            }
+
+            else if (data.Command == "LOT_APD_REPORT")       //From Tester pg, apd 보고
+            {
+                Console.WriteLine($"LOT_APD_REPORT Recv [{data.CommandParameter.Count}]");
+                Globalo.dataManage.mesData.vMesApdData.Clear();
+                Globalo.dataManage.TaskWork.m_szChipID = data.LotID;            //LOT_APD_REPORT
+
+                Globalo.dataManage.mesData.m_nMesFinalResult = data.Judge;          //apd 양불 판정때만 1 = 양품 , 0 = 불량
+
+                foreach (var item in data.CommandParameter) 
+                {
+                    Data.ApdData apddata = new Data.ApdData();
+                    apddata.DATANAME = item.Name;
+                    apddata.DATAVALUE = item.Value;
+
+                    Globalo.dataManage.mesData.vMesApdData.Add(apddata);
+                }
             }
         }
         private void clientMessageParse(EquipmentData data)
@@ -497,6 +515,7 @@ namespace SecGemApp.TcpSocket
 
                     Globalo.dataManage.mesData.vMesApdData.Add(apddata);
                 }
+
                 //TODO: APS 1~ N개의 값이 넘어 오면 다 담아야 된다.
                 //
                 //Globalo.dataManage.mesData.vMesApdData   

@@ -623,7 +623,6 @@ namespace SecGemApp.Process
                     nRetStep = 1100;
                     break;
                 case 1100:
-                    //Object id report
                     Globalo.dataManage.TaskWork.bRecv_S6F12_Lot_Apd = -1;
 
                     szLog = $"[APD] Lot APD Report Send [STEP : {nRetStep}]";
