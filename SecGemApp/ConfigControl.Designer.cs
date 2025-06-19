@@ -31,6 +31,7 @@ namespace SecGemApp
         {
             this.bigLabel5 = new ReaLTaiizor.Controls.BigLabel();
             this.parrotGroupBox2 = new ReaLTaiizor.Controls.ParrotGroupBox();
+            this.bigLabel6 = new ReaLTaiizor.Controls.BigLabel();
             this.label_Handler_Port = new System.Windows.Forms.Label();
             this.label_Handler_Ip4 = new System.Windows.Forms.Label();
             this.label_Handler_Ip3 = new System.Windows.Forms.Label();
@@ -58,7 +59,8 @@ namespace SecGemApp
             this.bigLabel1 = new ReaLTaiizor.Controls.BigLabel();
             this.crownButton1 = new ReaLTaiizor.Controls.CrownButton();
             this.crownButton_Driver_Init = new ReaLTaiizor.Controls.CrownButton();
-            this.bigLabel6 = new ReaLTaiizor.Controls.BigLabel();
+            this.bigLabel7 = new ReaLTaiizor.Controls.BigLabel();
+            this.label_Tester_Port = new System.Windows.Forms.Label();
             this.parrotGroupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,6 +81,8 @@ namespace SecGemApp
             // 
             this.parrotGroupBox2.BorderColor = System.Drawing.Color.White;
             this.parrotGroupBox2.BorderWidth = 1;
+            this.parrotGroupBox2.Controls.Add(this.label_Tester_Port);
+            this.parrotGroupBox2.Controls.Add(this.bigLabel7);
             this.parrotGroupBox2.Controls.Add(this.bigLabel6);
             this.parrotGroupBox2.Controls.Add(this.label_Handler_Port);
             this.parrotGroupBox2.Controls.Add(this.label_Handler_Ip4);
@@ -116,6 +120,19 @@ namespace SecGemApp
             this.parrotGroupBox2.TabStop = false;
             this.parrotGroupBox2.Text = "Configuration";
             this.parrotGroupBox2.TextColor = System.Drawing.Color.White;
+            // 
+            // bigLabel6
+            // 
+            this.bigLabel6.AutoSize = true;
+            this.bigLabel6.BackColor = System.Drawing.Color.Transparent;
+            this.bigLabel6.Font = new System.Drawing.Font("돋움", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.bigLabel6.ForeColor = System.Drawing.Color.White;
+            this.bigLabel6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.bigLabel6.Location = new System.Drawing.Point(180, 350);
+            this.bigLabel6.Name = "bigLabel6";
+            this.bigLabel6.Size = new System.Drawing.Size(16, 19);
+            this.bigLabel6.TabIndex = 74;
+            this.bigLabel6.Text = "/";
             // 
             // label_Handler_Port
             // 
@@ -239,7 +256,7 @@ namespace SecGemApp
             this.checkBox_IdleReportPass.EnabledUncheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(158)))), ((int)(((byte)(161)))));
             this.checkBox_IdleReportPass.Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_IdleReportPass.ForeColor = System.Drawing.Color.White;
-            this.checkBox_IdleReportPass.Location = new System.Drawing.Point(24, 401);
+            this.checkBox_IdleReportPass.Location = new System.Drawing.Point(24, 440);
             this.checkBox_IdleReportPass.Name = "checkBox_IdleReportPass";
             this.checkBox_IdleReportPass.Size = new System.Drawing.Size(212, 20);
             this.checkBox_IdleReportPass.TabIndex = 64;
@@ -455,18 +472,33 @@ namespace SecGemApp
             this.crownButton_Driver_Init.Text = "Initialize";
             this.crownButton_Driver_Init.Click += new System.EventHandler(this.crownButton_Driver_Init_Click);
             // 
-            // bigLabel6
+            // bigLabel7
             // 
-            this.bigLabel6.AutoSize = true;
-            this.bigLabel6.BackColor = System.Drawing.Color.Transparent;
-            this.bigLabel6.Font = new System.Drawing.Font("돋움", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.bigLabel6.ForeColor = System.Drawing.Color.White;
-            this.bigLabel6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.bigLabel6.Location = new System.Drawing.Point(180, 350);
-            this.bigLabel6.Name = "bigLabel6";
-            this.bigLabel6.Size = new System.Drawing.Size(16, 19);
-            this.bigLabel6.TabIndex = 74;
-            this.bigLabel6.Text = "/";
+            this.bigLabel7.AutoSize = true;
+            this.bigLabel7.BackColor = System.Drawing.Color.Transparent;
+            this.bigLabel7.Font = new System.Drawing.Font("돋움", 9.75F);
+            this.bigLabel7.ForeColor = System.Drawing.Color.White;
+            this.bigLabel7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.bigLabel7.Location = new System.Drawing.Point(20, 383);
+            this.bigLabel7.Name = "bigLabel7";
+            this.bigLabel7.Size = new System.Drawing.Size(89, 13);
+            this.bigLabel7.TabIndex = 75;
+            this.bigLabel7.Text = "TESTER PORT";
+            // 
+            // label_Tester_Port
+            // 
+            this.label_Tester_Port.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.label_Tester_Port.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label_Tester_Port.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label_Tester_Port.Font = new System.Drawing.Font("나눔고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label_Tester_Port.ForeColor = System.Drawing.Color.White;
+            this.label_Tester_Port.Location = new System.Drawing.Point(24, 400);
+            this.label_Tester_Port.Name = "label_Tester_Port";
+            this.label_Tester_Port.Size = new System.Drawing.Size(65, 30);
+            this.label_Tester_Port.TabIndex = 76;
+            this.label_Tester_Port.Text = "5000";
+            this.label_Tester_Port.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Tester_Port.Click += new System.EventHandler(this.label_Tester_Port_Click);
             // 
             // ConfigControl
             // 
@@ -513,5 +545,7 @@ namespace SecGemApp
         public System.Windows.Forms.Label label_Handler_Ip2;
         public System.Windows.Forms.Label label_Handler_Port;
         private ReaLTaiizor.Controls.BigLabel bigLabel6;
+        private ReaLTaiizor.Controls.BigLabel bigLabel7;
+        public System.Windows.Forms.Label label_Tester_Port;
     }
 }

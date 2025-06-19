@@ -12,6 +12,7 @@ namespace SecGemApp.Data
         public bool IdleReportPass { get; set; }
         public string HandlerIp { get; set; }
         public int HandlerPort { get; set; }
+        public int TesterPort { get; set; }
     }
     public class ConfigData
     {
@@ -27,40 +28,42 @@ namespace SecGemApp.Data
 
         }
 
-        public void GetConfigData()
-        {
-            configData.DrivingSettings.IdleReportPass = Globalo.configControl.checkBox_IdleReportPass.Checked;
+        //public void GetConfigData()
+        //{
+        //    configData.DrivingSettings.IdleReportPass = Globalo.configControl.checkBox_IdleReportPass.Checked;
 
-            string Handlerip = Globalo.configControl.label_Handler_Ip1.Text + "."
-                + Globalo.configControl.label_Handler_Ip2.Text + "."
-                + Globalo.configControl.label_Handler_Ip3.Text + "."
-                + Globalo.configControl.label_Handler_Ip4.Text;
+        //    string Handlerip = Globalo.configControl.label_Handler_Ip1.Text + "."
+        //        + Globalo.configControl.label_Handler_Ip2.Text + "."
+        //        + Globalo.configControl.label_Handler_Ip3.Text + "."
+        //        + Globalo.configControl.label_Handler_Ip4.Text;
 
 
-            configData.DrivingSettings.HandlerIp = Handlerip;      //label_Handler_Ip1
-            configData.DrivingSettings.HandlerPort = int.Parse(Globalo.configControl.label_Handler_Port.Text);      //label_Handler_Ip1
+        //    configData.DrivingSettings.HandlerIp = Handlerip;
+        //    configData.DrivingSettings.HandlerPort = int.Parse(Globalo.configControl.label_Handler_Port.Text);
+        //    configData.DrivingSettings.TesterPort = int.Parse(Globalo.configControl.label_Tester_Port.Text);
 
-        }
+        //}
 
-        public void ShowConfigData()
-        {
-            Globalo.configControl.checkBox_IdleReportPass.Checked = configData.DrivingSettings.IdleReportPass;
+        //public void ShowConfigData()
+        //{
+        //    Globalo.configControl.checkBox_IdleReportPass.Checked = configData.DrivingSettings.IdleReportPass;
 
-            string Handlerip = configData.DrivingSettings.HandlerIp;
-            string[] parts = Handlerip.Split('.');
+        //    string Handlerip = configData.DrivingSettings.HandlerIp;
+        //    string[] parts = Handlerip.Split('.');
 
-            Globalo.configControl.label_Handler_Ip1.Text = parts[0];
-            Globalo.configControl.label_Handler_Ip2.Text = parts[1];
-            Globalo.configControl.label_Handler_Ip3.Text = parts[2];
-            Globalo.configControl.label_Handler_Ip4.Text = parts[3];
+        //    Globalo.configControl.label_Handler_Ip1.Text = parts[0];
+        //    Globalo.configControl.label_Handler_Ip2.Text = parts[1];
+        //    Globalo.configControl.label_Handler_Ip3.Text = parts[2];
+        //    Globalo.configControl.label_Handler_Ip4.Text = parts[3];
 
-            Globalo.configControl.label_Handler_Port.Text = configData.DrivingSettings.HandlerPort.ToString();
+        //    Globalo.configControl.label_Handler_Port.Text = configData.DrivingSettings.HandlerPort.ToString();
+        //    Globalo.configControl.label_Tester_Port.Text = configData.DrivingSettings.TesterPort.ToString();
 
-        }
+
+        //}
 
         public bool configDataSave()
         {
-            GetConfigData();
 
             string filePath = Path.Combine(CPath.BASE_ENV_PATH, CPath.yamlFilePathConfig);
             try
@@ -98,7 +101,7 @@ namespace SecGemApp.Data
                     return false;
                 }
 
-                ShowConfigData();
+                ///ShowConfigData();
                 return true;
             }
             catch (Exception ex)

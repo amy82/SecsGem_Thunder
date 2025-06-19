@@ -26,6 +26,7 @@ namespace SecGemApp
             //string fileName = Path.GetFileName(openFileDialog.FileName);
             label_UgcPath.Text = Globalo.yamlManager.ugcSetFile.ugcFilePath;
         }
+
         public void DriverButtonSet(int index)
         {
             if(index == 1)
@@ -322,7 +323,38 @@ namespace SecGemApp
             Globalo.ubisamForm.OnMnuOnLIne();
             Globalo.LogPrint("[config]", $"[Config] UbiGem Online ");
         }
+        public void GetConfigData()
+        {
+            Globalo.yamlManager.configManager.configData.DrivingSettings.IdleReportPass = Globalo.configControl.checkBox_IdleReportPass.Checked;
 
+            string Handlerip = Globalo.configControl.label_Handler_Ip1.Text + "."
+                + Globalo.configControl.label_Handler_Ip2.Text + "."
+                + Globalo.configControl.label_Handler_Ip3.Text + "."
+                + Globalo.configControl.label_Handler_Ip4.Text;
+
+
+            Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerIp = Handlerip;
+            Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerPort = int.Parse(Globalo.configControl.label_Handler_Port.Text);
+            Globalo.yamlManager.configManager.configData.DrivingSettings.TesterPort = int.Parse(Globalo.configControl.label_Tester_Port.Text);
+
+        }
+        public void ShowConfigData()
+        {
+            Globalo.configControl.checkBox_IdleReportPass.Checked = Globalo.yamlManager.configManager.configData.DrivingSettings.IdleReportPass;
+
+            string Handlerip = Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerIp;
+            string[] parts = Handlerip.Split('.');
+
+            Globalo.configControl.label_Handler_Ip1.Text = parts[0];
+            Globalo.configControl.label_Handler_Ip2.Text = parts[1];
+            Globalo.configControl.label_Handler_Ip3.Text = parts[2];
+            Globalo.configControl.label_Handler_Ip4.Text = parts[3];
+
+            Globalo.configControl.label_Handler_Port.Text = Globalo.yamlManager.configManager.configData.DrivingSettings.HandlerPort.ToString();
+            Globalo.configControl.label_Tester_Port.Text = Globalo.yamlManager.configManager.configData.DrivingSettings.TesterPort.ToString();
+
+
+        }
         private void crownButton_Config_Save_Click(object sender, EventArgs e)
         {
             string logStr = $"설정 저장 하시겠습니까 ?";
@@ -333,6 +365,8 @@ namespace SecGemApp
 
             if (result == DialogResult.Yes)
             {
+
+                GetConfigData();
                 Globalo.yamlManager.configManager.configDataSave();
                 Globalo.LogPrint("[config]", $"[Config] Data Save Complete");
 
@@ -342,7 +376,8 @@ namespace SecGemApp
 
         private void crownButton_Config_Refresh_Click(object sender, EventArgs e)
         {
-            Globalo.yamlManager.configManager.ShowConfigData();
+            //Globalo.yamlManager.configManager.ShowConfigData();
+            ShowConfigData();
         }
 
         private void label_Handler_Port_Click(object sender, EventArgs e)
@@ -402,6 +437,18 @@ namespace SecGemApp
             if (dialogResult == DialogResult.OK)
             {
                 label_Handler_Ip4.Text = popupForm.NumPadResult;
+            }
+        }
+
+        private void label_Tester_Port_Click(object sender, EventArgs e)
+        {
+            string sValue = label_Tester_Port.Text;
+            Dlg.NumPadForm popupForm = new Dlg.NumPadForm(sValue);
+
+            DialogResult dialogResult = popupForm.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                label_Tester_Port.Text = popupForm.NumPadResult;
             }
         }
     }

@@ -91,6 +91,9 @@ namespace SecGemApp
             
 
             Globalo.configControl.setUgcPath();
+            Globalo.configControl.ShowConfigData();
+
+
             // MEMO: ubisam Start는 설비와 연결된후 하는게 좋을듯 사용중인 레시피 ppid 받아와야돼서
 
             Globalo.yamlManager.recipeData.vPPRecipeSpecEquip = Globalo.yamlManager.recipeData.RecipeLoad(Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName);
