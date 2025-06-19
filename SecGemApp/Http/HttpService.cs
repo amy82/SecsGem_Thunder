@@ -327,7 +327,7 @@ namespace SecGemApp.Http
 
                         apddata.DATANAME = pair.Key;
                         apddata.DATAVALUE = pair.Value.ToString();
-                        Globalo.dataManage.mesData.vMesApdData.Add(apddata);
+                        Globalo.dataManage.mesData.vMesApdData.Add(apddata);        //http 사용x
 
                         Console.WriteLine($"{key} = {value}");
                     }

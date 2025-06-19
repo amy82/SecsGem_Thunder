@@ -14,6 +14,8 @@ namespace SecGemApp.Process
         public int m_nStartStep { get; set; }
         public int EndStep { get; set; }
 
+        public List<Data.ApdData> vMesMultiApdData{ get; set; }
+        public int m_nMesMultiFinalResult { get; set; }
         //----------------------------------------------------------
         //
         //착공 변수
@@ -36,30 +38,5 @@ namespace SecGemApp.Process
         public int bRecv_S6F12_Lot_Apd { get; set; }
         public int bRecv_S6F12_Lot_Processing_Completed { get; set; }
         public int bRecv_S6F12_Lot_Processing_Completed_Ack { get; set; }
-
-        public ParallelTaskWork()
-        {
-            Reset(); // 생성 시 초기화
-        }
-        public void Reset()
-        {
-            m_szChipID = string.Empty;
-            CurrentStep = 0;
-            m_nStartStep = 0;
-            EndStep = 0;
-
-            bRecv_Lgit_Pp_select = 0;
-            bRecv_S2F49_LG_Lot_Start = 0;
-            bRecv_S6F12_Process_State_Change = 0;
-            bRecv_S6F12_PP_Selected = 0;
-            bRecv_S7F25_Formatted_Process_Program = 0;
-            bRecv_S2F49_PP_UpLoad_Confirm = 0;
-            bRecv_S6F12_PP_UpLoad_Completed = 0;
-            bRecv_S6F12_Lot_Processing_Started = 0;
-
-            bRecv_S6F12_Lot_Apd = 0;
-            bRecv_S6F12_Lot_Processing_Completed = 0;
-            bRecv_S6F12_Lot_Processing_Completed_Ack = 0;
-        }
     }
 }

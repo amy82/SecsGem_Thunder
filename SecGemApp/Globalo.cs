@@ -35,8 +35,8 @@ namespace SecGemApp
         public static EquipCode.EEpromVerifyEquip eepromVerifyEquip = new EquipCode.EEpromVerifyEquip();
         public static Dlg.TerminalMsgForm terminalMsgForm = new Dlg.TerminalMsgForm();       //terminal message 로드 
         public static Http.HttpService httpService = new Http.HttpService();
-
-
+        public static Dictionary<string, Process.ParallelTaskWork> activeTasks = new Dictionary<string, Process.ParallelTaskWork>();
+        public static Process.MultiLotProcess multiLotProcess = new Process.MultiLotProcess();
 
         public static bool ENGINEER_MODE = false;      //엔지니어 모드 상태
         public static bool HOST_CONNECTED = false;      //MES 와 연결상태

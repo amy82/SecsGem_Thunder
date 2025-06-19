@@ -382,19 +382,25 @@ namespace SecGemApp.TcpSocket
 
             else if (data.Command == "LOT_APD_REPORT")       //From Tester pg, apd 보고
             {
-                Console.WriteLine($"LOT_APD_REPORT Recv [{data.CommandParameter.Count}]");
-                Globalo.dataManage.mesData.vMesApdData.Clear();
-                Globalo.dataManage.TaskWork.m_szChipID = data.LotID;            //LOT_APD_REPORT
+                Globalo.multiLotProcess.ApdReport_LotProcess(data.LotID, data.Judge, data.CommandParameter);
+                //
 
-                Globalo.dataManage.mesData.m_nMesFinalResult = data.Judge;          //apd 양불 판정때만 1 = 양품 , 0 = 불량
-
-                foreach (var item in data.CommandParameter) 
+                if (false)      //기존 apd 보고 250619_1
                 {
-                    Data.ApdData apddata = new Data.ApdData();
-                    apddata.DATANAME = item.Name;
-                    apddata.DATAVALUE = item.Value;
+                    Console.WriteLine($"LOT_APD_REPORT Recv [{data.CommandParameter.Count}]");
+                    Globalo.dataManage.mesData.vMesApdData.Clear();
+                    Globalo.dataManage.TaskWork.m_szChipID = data.LotID;            //LOT_APD_REPORT
 
-                    Globalo.dataManage.mesData.vMesApdData.Add(apddata);
+                    Globalo.dataManage.mesData.m_nMesFinalResult = data.Judge;          //apd 양불 판정때만 1 = 양품 , 0 = 불량
+
+                    foreach (var item in data.CommandParameter)
+                    {
+                        Data.ApdData apddata = new Data.ApdData();
+                        apddata.DATANAME = item.Name;
+                        apddata.DATAVALUE = item.Value;
+
+                        Globalo.dataManage.mesData.vMesApdData.Add(apddata);
+                    }
                 }
             }
         }

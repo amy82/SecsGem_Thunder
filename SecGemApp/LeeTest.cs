@@ -110,7 +110,7 @@ namespace SecGemApp
                 Data.ApdData apddata = new Data.ApdData();
                 apddata.DATANAME = apdName[i];
                 apddata.DATAVALUE = (0.1 + i).ToString();
-                Globalo.dataManage.mesData.vMesApdData.Add(apddata);
+                Globalo.dataManage.mesData.vMesApdData.Add(apddata);        //test button
             }
 
             Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.LOT_APD_REPORT_10711);
