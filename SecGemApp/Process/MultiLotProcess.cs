@@ -13,7 +13,7 @@ namespace SecGemApp.Process
         {
 
         }
-        public void ApdReport_LotProcess(string productId, int nFinal, List<TcpSocket.EquipmentParameterInfo> parameterInfos)
+        public void ApdReport_LotProcess(string productId, int nFinal, string socketNum, List<TcpSocket.EquipmentParameterInfo> parameterInfos)
         {
             if (Globalo.activeTasks.ContainsKey(productId))
             {
@@ -26,6 +26,7 @@ namespace SecGemApp.Process
                 CurrentStep = 1000,
                 m_nStartStep = 1000,
                 EndStep = 2000,
+                selfSocketIp = -1,
                 vMesMultiApdData = new List<Data.ApdData>(),
                 m_nMesMultiFinalResult = 0,
                 //
@@ -44,6 +45,7 @@ namespace SecGemApp.Process
             };
 
             Globalo.activeTasks[productId] = taskWork;
+            Globalo.activeTasks[productId].selfSocketIp = int.Parse(socketNum);
             Globalo.activeTasks[productId].m_nMesMultiFinalResult = nFinal;
             foreach (var item in parameterInfos)
             {
@@ -100,7 +102,7 @@ namespace SecGemApp.Process
                             nRetStep = 1200;
                             break;
                         case 1200:
-                            if (Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Apd == 0)
+                            if (Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Apd == 0)           //bRecv_S6F12_Lot_Apd
                             {
                                 szLog = $"[APD]{productId} Lot APD Send Acknowledge [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
@@ -163,6 +165,8 @@ namespace SecGemApp.Process
                                 ProcessComData.ErrText = "[LOT] Lot Processing Completed CT TimeOut";
                                 Globalo.tcpManager.SendMessageToHost(ProcessComData);
 
+                                
+
 
                                 szLog = $"[LOT]{productId} Lot Processing Completed CT TimeOut [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
@@ -175,12 +179,33 @@ namespace SecGemApp.Process
                             break;
                         case 1900:
                             //완공 성공
-                            TcpSocket.EquipmentData LotCompleteData = new TcpSocket.EquipmentData();
-                            LotCompleteData.Command = "APS_LOT_COMPLETE_CMD";
+                            if (false)      // old
+                            {
+                                //TcpSocket.EquipmentData LotCompleteData = new TcpSocket.EquipmentData();
+                                //LotCompleteData.Command = "APS_LOT_COMPLETE_CMD";
+                                //LotCompleteData.Judge = Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Processing_Completed_Ack;
+                                //Globalo.tcpManager.SendMessageToHost(LotCompleteData);
+                            }
 
-                            LotCompleteData.Judge = Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Processing_Completed_Ack;
 
-                            Globalo.tcpManager.SendMessageToHost(LotCompleteData);
+                            //
+                            //
+                            //
+                            TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+                            EqipData.Type = "EquipmentData";
+                            TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
+                            tData.Command = "APS_LOT_COMPLETE_CMD";
+                            tData.Judge = Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Processing_Completed_Ack;
+
+                            EqipData.Data = tData;
+
+                            Globalo.tcpManager.SendMessageToTester(EqipData, Globalo.activeTasks[productId].selfSocketIp);
+
+
+
+
+
+
 
                             nRetStep = taskWork.EndStep+99;
                             break;

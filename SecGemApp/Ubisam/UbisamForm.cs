@@ -1101,8 +1101,21 @@ namespace SecGemApp.Ubisam
                     }
                     if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_PP_UPLOAD_FAIL)
                     {
-                        
+
                     }
+                    if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_APD_RESULT)     //New
+                    {
+                        Globalo.activeTasks[Globalo.dataManage.mesData.m_sLotId].bNRecv_S6F12_Lot_Apd = 0;
+                    }
+                    if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_LOT_PROCESSING_STARTED_RESULT)     //New
+                    {
+                        Globalo.activeTasks[Globalo.dataManage.mesData.m_sLotId].bNRecv_S6F12_Lot_Processing_Completed = 0;
+                        if (paramInfo.Name == "RESULT")
+                        {
+                            Globalo.activeTasks[Globalo.dataManage.mesData.m_sLotId].bNRecv_S6F12_Lot_Processing_Completed_Ack = (int)paramInfo.Value;
+                        }
+                    }
+                    
                     if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_MATERIAL_ID_CONFIRM)
                     {
                         if (paramInfo.Name == "MATERIALID")

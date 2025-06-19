@@ -14,6 +14,8 @@ namespace SecGemApp.Process
         public int m_nStartStep { get; set; }
         public int EndStep { get; set; }
 
+        public int selfSocketIp { get; set; }
+
         public List<Data.ApdData> vMesMultiApdData{ get; set; }
         public int m_nMesMultiFinalResult { get; set; }
         //----------------------------------------------------------

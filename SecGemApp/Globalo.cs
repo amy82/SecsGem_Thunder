@@ -219,7 +219,9 @@ namespace SecGemApp
         public static readonly string LGIT_EEPROM_DATA = "LGIT_EEPROM_DATA";
         public static readonly string LGIT_EEPROM_FAIL = "LGIT_EEPROM_FAIL";
 
-
+        //New 250619 멕시코
+        public static readonly string LGIT_APD_RESULT = "LGIT_APD_RESULT";
+        public static readonly string LGIT_LOT_PROCESSING_STARTED_RESULT = "LGIT_LOT_PROCESSING_STARTED_RESULT";
 
     }
 }

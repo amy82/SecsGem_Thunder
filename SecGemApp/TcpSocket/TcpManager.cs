@@ -382,7 +382,7 @@ namespace SecGemApp.TcpSocket
 
             else if (data.Command == "LOT_APD_REPORT")       //From Tester pg, apd 보고
             {
-                Globalo.multiLotProcess.ApdReport_LotProcess(data.LotID, data.Judge, data.CommandParameter);
+                Globalo.multiLotProcess.ApdReport_LotProcess(data.LotID, data.Judge, data.DataID, data.CommandParameter);
                 //
 
                 if (false)      //기존 apd 보고 250619_1
