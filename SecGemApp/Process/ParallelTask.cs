@@ -35,8 +35,8 @@ namespace SecGemApp.Process
         //완공 변수
         //
         //
-        public int bRecv_S6F12_Lot_Apd { get; set; }
-        public int bRecv_S6F12_Lot_Processing_Completed { get; set; }
-        public int bRecv_S6F12_Lot_Processing_Completed_Ack { get; set; }
+        public int bNRecv_S6F12_Lot_Apd { get; set; }
+        public int bNRecv_S6F12_Lot_Processing_Completed { get; set; }
+        public int bNRecv_S6F12_Lot_Processing_Completed_Ack { get; set; }
     }
 }

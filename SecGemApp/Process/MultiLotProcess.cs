@@ -38,9 +38,9 @@ namespace SecGemApp.Process
                 bRecv_S6F12_PP_UpLoad_Completed = -1,
                 bRecv_S6F12_Lot_Processing_Started = -1,
                 //
-                bRecv_S6F12_Lot_Apd = -1,
-                bRecv_S6F12_Lot_Processing_Completed = -1,
-                bRecv_S6F12_Lot_Processing_Completed_Ack = -1
+                bNRecv_S6F12_Lot_Apd = -1,
+                bNRecv_S6F12_Lot_Processing_Completed = -1,
+                bNRecv_S6F12_Lot_Processing_Completed_Ack = -1
             };
 
             Globalo.activeTasks[productId] = taskWork;
@@ -78,20 +78,20 @@ namespace SecGemApp.Process
                             if (Globalo.activeTasks[productId].vMesMultiApdData.Count < 1)
                             {
                                 //fail
-                                szLog = $"[APD] Lot APD Data Empty [STEP : {nRetStep}]";
+                                szLog = $"[APD]{productId} Lot APD Data Empty [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
                                 nRetStep = -1;
                                 break;
                             }
 
-                            szLog = $"[APD] Lot APD Data Count: {Globalo.activeTasks[productId].vMesMultiApdData.Count} [STEP : {nRetStep}]";
+                            szLog = $"[APD]{productId} Lot APD Data Count: {Globalo.activeTasks[productId].vMesMultiApdData.Count} [STEP : {nRetStep}]";
                             Globalo.LogPrint("LotProcess", szLog);
                             nRetStep = 1100;
                             break;
                         case 1100:
-                            Globalo.activeTasks[productId].bRecv_S6F12_Lot_Apd = -1;
+                            Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Apd = -1;
 
-                            szLog = $"[APD] Lot APD Report Send [STEP : {nRetStep}]";
+                            szLog = $"[APD]{productId} Lot APD Report Send [STEP : {nRetStep}]";
                             Globalo.LogPrint("LotProcess", szLog);
 
                             Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.LOT_APD_REPORT_10711);
@@ -100,15 +100,15 @@ namespace SecGemApp.Process
                             nRetStep = 1200;
                             break;
                         case 1200:
-                            if (Globalo.activeTasks[productId].bRecv_S6F12_Lot_Apd == 0)
+                            if (Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Apd == 0)
                             {
-                                szLog = $"[APD] Lot APD Send Acknowledge [STEP : {nRetStep}]";
+                                szLog = $"[APD]{productId} Lot APD Send Acknowledge [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
 
-                                Globalo.activeTasks[productId].bRecv_S6F12_Lot_Processing_Completed = -1;
-                                Globalo.activeTasks[productId].bRecv_S6F12_Lot_Processing_Completed_Ack = -1;
+                                Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Processing_Completed = -1;
+                                Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Processing_Completed_Ack = -1;
 
-                                szLog = $"[APD] Lot Processing Completed Report Send [STEP : {nRetStep}]";
+                                szLog = $"[APD]{productId} Lot Processing Completed Report Send [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
 
                                 Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.LOT_PROCESSING_COMPLETED_REPORT_10710);
@@ -125,7 +125,7 @@ namespace SecGemApp.Process
                                 ProcessComData.ErrText = "[LOT] Lot APD CT TimeOut";
                                 Globalo.tcpManager.SendMessageToHost(ProcessComData);
 
-                                szLog = $"[LOT] Lot APD CT TimeOut [STEP : {nRetStep}]";
+                                szLog = $"[LOT]{productId} Lot APD CT TimeOut [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
 
                                 Globalo.ubisamForm.cTTimeOutSendFn("S06F12", "10711");
@@ -135,17 +135,18 @@ namespace SecGemApp.Process
                             }
                             break;
                         case 1300:
-                            if (Globalo.activeTasks[productId].bRecv_S6F12_Lot_Processing_Completed == 0)
+                            if (Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Processing_Completed == 0)
                             {
-                                if (Globalo.activeTasks[productId].bRecv_S6F12_Lot_Processing_Completed_Ack == 0)
+                                int nack = Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Processing_Completed_Ack;
+                                if (nack == 0)
                                 {
-                                    szLog = $"[LOT] Lot Processing Completed Acknowledge -{Globalo.activeTasks[productId].bRecv_S6F12_Lot_Processing_Completed_Ack} [STEP : {nRetStep}]";
+                                    szLog = $"[LOT]{productId} Lot Processing Completed Acknowledge - {nack} [STEP : {nRetStep}]";
                                     Globalo.LogPrint("LotProcess", szLog);
                                 }
                                 else
                                 {
                                     //UbisamForm.cs 에서 추가  "LOT_PROCESSING_COMPLETE_FAIL"
-                                    szLog = $"[LOT] Lot Processing Completed Fail -{Globalo.activeTasks[productId].bRecv_S6F12_Lot_Processing_Completed_Ack}[STEP : {nRetStep}]";
+                                    szLog = $"[LOT]{productId} Lot Processing Completed Fail - {nack}[STEP : {nRetStep}]";
                                     Globalo.LogPrint("LotProcess", szLog);
                                 }
 
@@ -163,7 +164,7 @@ namespace SecGemApp.Process
                                 Globalo.tcpManager.SendMessageToHost(ProcessComData);
 
 
-                                szLog = $"[LOT] Lot Processing Completed CT TimeOut [STEP : {nRetStep}]";
+                                szLog = $"[LOT]{productId} Lot Processing Completed CT TimeOut [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
 
                                 Globalo.ubisamForm.cTTimeOutSendFn("S06F12", "10710");
@@ -176,7 +177,9 @@ namespace SecGemApp.Process
                             //완공 성공
                             TcpSocket.EquipmentData LotCompleteData = new TcpSocket.EquipmentData();
                             LotCompleteData.Command = "APS_LOT_COMPLETE_CMD";
-                            LotCompleteData.Judge = Globalo.activeTasks[productId].bRecv_S6F12_Lot_Processing_Completed_Ack;
+
+                            LotCompleteData.Judge = Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Processing_Completed_Ack;
+
                             Globalo.tcpManager.SendMessageToHost(LotCompleteData);
 
                             nRetStep = taskWork.EndStep+99;
@@ -184,8 +187,12 @@ namespace SecGemApp.Process
                         default:
                             break;
                     }
-                    taskWork.CurrentStep = nRetStep;
 
+                    taskWork.CurrentStep = nRetStep;
+                    if (taskWork.CurrentStep < 0)
+                    {
+                        break;
+                    }
                     await Task.Delay(50);
                 }
                 Console.WriteLine($"Task Remove - {productId}");
