@@ -27,6 +27,7 @@ namespace SecGemApp.Process
                 EndStep = 1000,
                 selfSocketIp = -1,
                 //
+                //착공
                 //
                 bRecv_Lgit_Pp_select = -1,
                 bRecv_S2F49_LG_Lot_Start = -1,
@@ -38,6 +39,7 @@ namespace SecGemApp.Process
                 bRecv_S6F12_Lot_Processing_Started = -1,
                 SpecialDataParameter = new List<TcpSocket.EquipmentParameterInfo>(),
                 //
+                //완공
                 //
                 bNRecv_S6F12_Lot_Apd = -1,
                 bNRecv_S6F12_Lot_Processing_Completed = -1,
@@ -551,20 +553,20 @@ namespace SecGemApp.Process
                             break;
                         case 950:
                             //착공 성공
-                            if (false)
-                            {
-                                TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
-                                LotstartData.Command = "APS_LOT_START_CMD";
-                                LotstartData.Judge = 0;
-                                LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
-                                Globalo.tcpManager.SendMessageToHost(LotstartData);
-                            }
+                            //if (false)    기존 착공 코드
+                            //{
+                            //    TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
+                            //    LotstartData.Command = "APS_LOT_START_CMD";
+                            //    LotstartData.Judge = 0;
+                            //    LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
+                            //    Globalo.tcpManager.SendMessageToHost(LotstartData);
+                            //}
 
                             TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
                             EqipData.Type = "EquipmentData";
                             TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
                             tData.Command = "APS_LOT_START_CMD";
-                            //tData.CommandParameter
+                            tData.CommandParameter = Globalo.activeTasks[productId].SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
 
                             EqipData.Data = tData;
 
@@ -608,7 +610,6 @@ namespace SecGemApp.Process
                 m_nStartStep = 1000,
                 EndStep = 2000,
                 selfSocketIp = -1,
-                
                 //
                 //착공
                 //
