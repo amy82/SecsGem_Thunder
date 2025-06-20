@@ -1460,9 +1460,14 @@ namespace SecGemApp.Ubisam
             
             if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_LOT_START)      //TODO: 
             {
-                Globalo.dataManage.TaskWork.SpecialDataParameter.Clear();
+                //Globalo.dataManage.TaskWork.SpecialDataParameter.Clear();
+                
+                int sIndex = 0;
                 foreach (var item in Globalo.dataManage.mesData.vLotStart)
                 {
+                    Globalo.ObjectActiveTasks.ArrSpecialData[sIndex].Clear();
+                    
+
                     foreach (var Sub in item.Children)
                     {
                         if (Sub.name == "SPECIAL_DATA")
@@ -1471,20 +1476,25 @@ namespace SecGemApp.Ubisam
                             foreach (var sData in Sub.Children)
                             {
                                 Console.WriteLine($"{sData.name} : {sData.value}");
-                                Globalo.dataManage.TaskWork.SpecialDataParameter.Add(new TcpSocket.EquipmentParameterInfo
+                                Globalo.ObjectActiveTasks.ArrSpecialData[sIndex].Add(new TcpSocket.EquipmentParameterInfo
                                 {
                                     Name = sData.name,
                                     Value = sData.value
                                 });
+                                //Globalo.dataManage.TaskWork.SpecialDataParameter.Add(new TcpSocket.EquipmentParameterInfo
+                                //{
+                                //    Name = sData.name,
+                                //    Value = sData.value
+                                //});
                             }
                                 
                         }
                     }
-
+                    sIndex++;
                 }
 
-                TcpSocket.EquipmentData testtttData = new TcpSocket.EquipmentData();
-                testtttData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
+                //TcpSocket.EquipmentData testtttData = new TcpSocket.EquipmentData();
+                //testtttData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
                 Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start = 0;
 
                 Globalo.ObjectActiveTasks.bNRecv_S2F49_LG_Lot_Start = 0;       //recv

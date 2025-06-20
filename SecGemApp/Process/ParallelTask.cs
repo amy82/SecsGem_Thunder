@@ -28,9 +28,10 @@ namespace SecGemApp.Process
         public int bNRecv_S2F49_PP_UpLoad_Confirm { get; set; }
         public int bNRecv_S6F12_PP_UpLoad_Completed { get; set; }
         public int bNRecv_S6F12_Lot_Processing_Started { get; set; }
+        //public List<TcpSocket.EquipmentParameterInfo> SpecialDataParameter { get; set; }
 
-        public List<TcpSocket.EquipmentParameterInfo> SpecialDataParameter { get; set; }
-        
+        public List<TcpSocket.EquipmentParameterInfo>[] ArrSpecialData { get; set; }
+        //public List<TcpSocket.EquipmentParameterInfo>[] ArrSpecialData = new List<TcpSocket.EquipmentParameterInfo>[4];
     }
 
     public class ApdParallelTaskWork

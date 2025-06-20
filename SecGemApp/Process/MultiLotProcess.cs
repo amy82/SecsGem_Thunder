@@ -13,6 +13,7 @@ namespace SecGemApp.Process
         {
 
         }
+        #region [착공]
         public void ObjectReport_LotProcess(string productId, List<string> vLotList, string socketNum, List<TcpSocket.EquipmentParameterInfo> parameterInfos)
         {
            // if (Globalo.activeTasks.ContainsKey(productId))
@@ -40,12 +41,18 @@ namespace SecGemApp.Process
                     bNRecv_S2F49_PP_UpLoad_Confirm = -1,
                     bNRecv_S6F12_PP_UpLoad_Completed = -1,
                     bNRecv_S6F12_Lot_Processing_Started = -1,
-                    SpecialDataParameter = new List<TcpSocket.EquipmentParameterInfo>()
+                    //SpecialDataParameter = new List<TcpSocket.EquipmentParameterInfo>(),
+                    ArrSpecialData = new List<TcpSocket.EquipmentParameterInfo>[4]
                 };
 
+                
                 Globalo.ObjectActiveTasks = taskWork;
                 Globalo.ObjectActiveTasks.selfSocketIp = int.Parse(socketNum);
 
+                for (int i = 0; i < Globalo.ObjectActiveTasks.ArrSpecialData.Length; i++)
+                {
+                    Globalo.ObjectActiveTasks.ArrSpecialData[i] = new List<TcpSocket.EquipmentParameterInfo>();
+                }
                 //foreach (var item in parameterInfos)
                 //{
                 //    Data.ApdData apddata = new Data.ApdData();
@@ -283,7 +290,6 @@ namespace SecGemApp.Process
                                     Globalo.ObjectActiveTasks.bNRecv_S7F25_Formatted_Process_Program = -1;
                                     szLog = $"[LOT] Formatted Process Program Request [STEP : {nRetStep}]";
                                     Globalo.LogPrint("LotProcess", szLog);
-
 
                                     m_dTickCount = Environment.TickCount;
 
@@ -558,7 +564,7 @@ namespace SecGemApp.Process
                                 EqipData.Type = "EquipmentData";
                                 TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
                                 tData.Command = "APS_LOT_START_CMD";
-                                tData.CommandParameter = Globalo.ObjectActiveTasks.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
+                                tData.CommandParameter = Globalo.ObjectActiveTasks.ArrSpecialData[0].Select(item => item.DeepCopy()).ToList();
 
                                 EqipData.Data = tData;
 
@@ -594,9 +600,12 @@ namespace SecGemApp.Process
             {
                 Globalo.ObjectActiveTasks.vNChipID.Clear();
                 Globalo.ObjectActiveTasks.bRunning = false;
-                Console.WriteLine($"ObjectReport_LotProcess 처리 중 예외 발생: {ex.Message}");
+                Console.WriteLine($"ObjectReport LotProcess 처리 중 예외 발생: {ex.Message}");
             }
         }
+        #endregion
+
+        #region [완공]
         public void ApdReport_LotProcess(string productId, int nFinal, string socketNum, List<TcpSocket.EquipmentParameterInfo> parameterInfos)
         {
             if (Globalo.activeTasks.ContainsKey(productId))
@@ -776,6 +785,7 @@ namespace SecGemApp.Process
                             EqipData.Type = "EquipmentData";
                             TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
                             tData.Command = "APS_LOT_COMPLETE_CMD";
+                            tData.LotID = Globalo.activeTasks[productId].m_szNChipID;
                             tData.Judge = Globalo.activeTasks[productId].bNRecv_S6F12_Lot_Processing_Completed_Ack;
 
                             EqipData.Data = tData;
@@ -800,5 +810,6 @@ namespace SecGemApp.Process
             Globalo.activeTasks.Remove(productId);
             });
         }
+        #endregion
     }
 }

@@ -86,7 +86,7 @@ namespace SecGemApp
             TcpSocket.EquipmentData LotstartData = new TcpSocket.EquipmentData();
             LotstartData.Command = "APS_LOT_START_CMD";
             LotstartData.Judge = 0;
-            LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
+            //LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
 
 
             objectData.Data = LotstartData;
