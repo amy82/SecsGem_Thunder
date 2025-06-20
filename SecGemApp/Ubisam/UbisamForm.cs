@@ -1313,7 +1313,7 @@ namespace SecGemApp.Ubisam
             if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_LOT_ID_FAIL)
             {
                 Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start = 1;       //recv
-                Globalo.activeTasks[Globalo.dataManage.mesData.m_sLotId].bNRecv_S2F49_LG_Lot_Start = 1;       //recv
+                Globalo.ObjectActiveTasks.bNRecv_S2F49_LG_Lot_Start = 1;       //recv
                 
                 TcpSocket.EquipmentData LotFailData = new TcpSocket.EquipmentData();
                 LotFailData.Command = remoteCommandInfo.RemoteCommand;
@@ -1409,12 +1409,12 @@ namespace SecGemApp.Ubisam
                 if (Globalo.dataManage.mesData.m_sRecipeId == Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName)     //확인필요
                 {
                     Globalo.dataManage.TaskWork.bRecv_Lgit_Pp_select = 0;   //Recv
-                    Globalo.activeTasks[Globalo.dataManage.mesData.m_sLotId].bNRecv_Lgit_Pp_select = 0;   //N Recv
+                    Globalo.ObjectActiveTasks.bNRecv_Lgit_Pp_select = 0;   //N Recv
                 }
                 else
                 {
                     Globalo.dataManage.TaskWork.bRecv_Lgit_Pp_select = 1;   //Recv
-                    Globalo.activeTasks[Globalo.dataManage.mesData.m_sLotId].bNRecv_Lgit_Pp_select = 1;   //N Recv
+                    Globalo.ObjectActiveTasks.bNRecv_Lgit_Pp_select = 1;   //N Recv
 
                     //레시피가 다른 경우로
                     ////자동운전 중이면 리트라이 팝업 띄워야 된다.
@@ -1484,7 +1484,8 @@ namespace SecGemApp.Ubisam
                 TcpSocket.EquipmentData testtttData = new TcpSocket.EquipmentData();
                 testtttData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
                 Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start = 0;
-                Globalo.activeTasks[Globalo.dataManage.mesData.m_sLotId].bNRecv_S2F49_LG_Lot_Start = 0;       //recv
+
+                Globalo.ObjectActiveTasks.bNRecv_S2F49_LG_Lot_Start = 0;       //recv
             }
             if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_MATERIAL_ID_CONFIRM)
             {
@@ -2612,7 +2613,7 @@ namespace SecGemApp.Ubisam
                 }
                 if (variableInfo.VID == "10024")	//LotInfo
                 {
-                    int lotCount = 0;//vNChipID
+                    List<string> vModuleIdLIst = new List<string>();
                     string lotId = "";
                     string pcId = "";
                     string pdId = "";
@@ -2650,6 +2651,11 @@ namespace SecGemApp.Ubisam
                                 {
                                     pdId = Sub.value;
                                 }
+                                if (Sub.name == "MODULEID")
+                                {
+                                    vModuleIdLIst.Add(Sub.value);
+                                }
+
                             }
 
                         }
@@ -2673,6 +2679,10 @@ namespace SecGemApp.Ubisam
                                 if (Sub.name == "PRODID")
                                 {
                                     pdId = Sub.value;
+                                }
+                                if (Sub.name == "MODULEID")
+                                {
+                                    vModuleIdLIst.Add(Sub.value);
                                 }
                             }
 
@@ -2700,17 +2710,19 @@ namespace SecGemApp.Ubisam
                                 {
                                     pdId = Sub.value;
                                 }
+                                if (Sub.name == "MODULEID")
+                                {
+                                    vModuleIdLIst.Add(Sub.value);
+                                }
                             }
-
                         }
-
                     }
                     else if (strSendCeId == ReportConstants.OBJECT_ID_REPORT_10701)
                     {
                         Globalo.dataManage.mesData.m_dLotProcessingState = (int)Ubisam.eLOT_PROCESSING_STATE.eScan;
                         pdId = Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentModelName;
 
-                        lotCount = Globalo.activeTasks["ObjectStart"].vNChipID.Count;
+                        vModuleIdLIst = Globalo.ObjectActiveTasks.vNChipID.Select(item => string.Copy(item)).ToList();
 
                     }
                     else if (strSendCeId == ReportConstants.ABORTED_REPORT_10712)        //사용x
@@ -2720,9 +2732,7 @@ namespace SecGemApp.Ubisam
                         pdId = Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentModelName;
                     }
 
-                    
-
-                    for (int i = 0; i < lotCount; i++)
+                    for (int i = 0; i < vModuleIdLIst.Count; i++)
                     {
                         VariableInfo dataSubList = new VariableInfo() { VID = "", Format = SECSItemFormat.L, Name = "LotInfo" };
                         dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.U4, Name = "PortID", Value = 1 };    //PortID 1로 고정
@@ -2731,7 +2741,8 @@ namespace SecGemApp.Ubisam
                         dataSubList.ChildVariables.Add(dataValue);
                         dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "PocketID", Value = "" };  //blank
                         dataSubList.ChildVariables.Add(dataValue);
-                        dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ModuleID", Value = Globalo.dataManage.TaskWork.m_szChipID };  //BCR ID
+                        //dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ModuleID", Value = Globalo.dataManage.TaskWork.m_szChipID };  //BCR ID
+                        dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ModuleID", Value = vModuleIdLIst[i] };  //BCR ID
                         dataSubList.ChildVariables.Add(dataValue);
                         dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ProcessID", Value = pcId };//PP 에서 받은
                         dataSubList.ChildVariables.Add(dataValue);

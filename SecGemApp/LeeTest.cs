@@ -125,7 +125,8 @@ namespace SecGemApp
         private void button5_Click(object sender, EventArgs e)
         {
             //Object Report
-            Globalo.dataManage.TaskWork.m_szChipID = "lot test lee";
+            Globalo.ObjectActiveTasks.vNChipID = new List<string>();
+            Globalo.ObjectActiveTasks.vNChipID.Add("lot test lee");
             Globalo.ubisamForm.EventReportSendFn(Ubisam.ReportConstants.OBJECT_ID_REPORT_10701);
 
             

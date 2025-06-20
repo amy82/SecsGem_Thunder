@@ -398,7 +398,7 @@ namespace SecGemApp.TcpSocket
                         int m_dTickCount = Environment.TickCount;
                         while (vLotStackList.Count > 0)
                         {
-                            if (clientCount == vLotStackList.Count)
+                            if (3 == vLotStackList.Count)//if (clientCount == vLotStackList.Count)
                             {
                                 //착공?
                                 Console.WriteLine("Verify 착공");

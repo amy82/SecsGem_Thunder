@@ -10,7 +10,7 @@ namespace SecGemApp.Process
     {
         //public string m_szChipID { get; set; }
         public List<string> vNChipID { get; set; }
-
+        public bool bRunning { get; set; }
         public int CurrentStep { get; set; }
         public int m_nStartStep { get; set; }
         public int EndStep { get; set; }
