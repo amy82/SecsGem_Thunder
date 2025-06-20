@@ -13,7 +13,7 @@ namespace SecGemApp.Process
         {
 
         }
-        public void ObjectReport_LotProcess(string productId, int nFinal, string socketNum, List<TcpSocket.EquipmentParameterInfo> parameterInfos)
+        public void ObjectReport_LotProcess(string productId, List<string> vLotList, string socketNum, List<TcpSocket.EquipmentParameterInfo> parameterInfos)
         {
             if (Globalo.activeTasks.ContainsKey(productId))
             {
@@ -21,7 +21,7 @@ namespace SecGemApp.Process
             }
             var taskWork = new ParallelTaskWork
             {
-                m_szChipID = productId,
+                vNChipID = vLotList.Select(item => string.Copy(item)).ToList(),
                 CurrentStep = 100,
                 m_nStartStep = 100,
                 EndStep = 1000,
@@ -29,8 +29,8 @@ namespace SecGemApp.Process
                 //
                 //착공
                 //
-                bRecv_Lgit_Pp_select = -1,
-                bRecv_S2F49_LG_Lot_Start = -1,
+                bNRecv_Lgit_Pp_select = -1,
+                bNRecv_S2F49_LG_Lot_Start = -1,
                 bRecv_S6F12_Process_State_Change = -1,
                 bRecv_S6F12_PP_Selected = -1,
                 bRecv_S7F25_Formatted_Process_Program = -1,
@@ -50,7 +50,6 @@ namespace SecGemApp.Process
 
             Globalo.activeTasks[productId] = taskWork;
             Globalo.activeTasks[productId].selfSocketIp = int.Parse(socketNum);
-            Globalo.activeTasks[productId].m_nMesMultiFinalResult = nFinal;
 
             //foreach (var item in parameterInfos)
             //{
@@ -86,11 +85,12 @@ namespace SecGemApp.Process
                             Globalo.dataManage.mesData.m_dProcessState[1] = (int)Ubisam.ePROCESS_STATE_INFO.eIDLE;  //0,1 값이 같으면 진행이 안돼서 추가한듯
 
                             Globalo.tcpManager.IdleStateChange(false);       //ObjectIdProcessAsync timer stop
+                            nRetStep = 150;
                             break;
                         case 150:
                             //Object id report
-                            Globalo.activeTasks[productId].bRecv_Lgit_Pp_select = -1;
-                            Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start = -1;
+                            Globalo.activeTasks[productId].bNRecv_Lgit_Pp_select = -1;
+                            Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start = -1;
                             //Globalo.activeTasks[productId].bRecv_S2F49_LG_EEprom_Data = -1;        //jump해서 미리 초기화해야된다.
                             //Globalo.activeTasks[productId].bRecv_S2F49_LG_EEprom_Fail = -1;
 
@@ -104,32 +104,32 @@ namespace SecGemApp.Process
                             nRetStep = 200;
                             break;
                         case 200:
-                            if (Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start == 0)
+                            if (Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start == 0)
                             {
                                 szLog = $"[LOT]{productId} Lot Id Start Recv [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
 
                                 nRetStep = 700;     //jump Step
                             }
-                            else if (Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start == 1)
+                            else if (Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start == 1)
                             {
-                                Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start = -1;
+                                Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start = -1;
                                 //Recv LGIT_LOT_ID_FAIL
 
                                 szLog = $"[LOT]{productId} Lot Id Fail Recv [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
                                 nRetStep = -1;      //X X X X X
                             }
-                            else if (Globalo.activeTasks[productId].bRecv_Lgit_Pp_select == 0)
+                            else if (Globalo.activeTasks[productId].bNRecv_Lgit_Pp_select == 0)
                             {
                                 szLog = $"[LOT]{productId} Lgit PP Select Recv OK [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
 
-                                Globalo.activeTasks[productId].bRecv_Lgit_Pp_select = -1;
+                                Globalo.activeTasks[productId].bNRecv_Lgit_Pp_select = -1;
 
                                 nRetStep = 250;
                             }
-                            else if (Globalo.activeTasks[productId].bRecv_Lgit_Pp_select == 1)
+                            else if (Globalo.activeTasks[productId].bNRecv_Lgit_Pp_select == 1)
                             {
                                 //LGIT_PP_SELECT 가 왔는데, 사용중인 레시피 명과 다를 경우
                                 //eeprom 쪽에서 팝업 띄운다 250325 확인 완료
@@ -220,7 +220,7 @@ namespace SecGemApp.Process
                                 Globalo.activeTasks[productId].bRecv_S6F12_PP_Selected = -1;
                                 Globalo.activeTasks[productId].bRecv_S7F25_Formatted_Process_Program = -1;       //<--미리 초기화
                                 Globalo.activeTasks[productId].bRecv_S2F49_PP_UpLoad_Confirm = -1;
-                                Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start = -1;        //미리 초기화
+                                Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start = -1;        //미리 초기화
 
 
                                 szLog = $"[LOT] PP-Selected Report  [STEP : {nRetStep}]";
@@ -303,18 +303,18 @@ namespace SecGemApp.Process
                                 Globalo.LogPrint("LotProcess", szLog);
                                 nRetStep = -1;
                             }
-                            else if (Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start == 0)     //500
+                            else if (Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start == 0)     //500
                             {
-                                Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start = -1;
+                                Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start = -1;
 
                                 szLog = $"[LOT] Lot Id Start Recv [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
                                 m_dTickCount = Environment.TickCount;
                                 nRetStep = 700; //Jump Step
                             }
-                            else if (Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start == 1)
+                            else if (Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start == 1)
                             {
-                                Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start = -1;
+                                Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start = -1;
 
                                 szLog = $"[LOT] Lot Id Fail Recv [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
@@ -347,7 +347,7 @@ namespace SecGemApp.Process
                                 //LGIT_PP_UPLOAD_CONFIRM 오고 S2F50보낸뒤 , 정상 진행
                                 Globalo.activeTasks[productId].bRecv_S2F49_PP_UpLoad_Confirm = -1;
                                 Globalo.activeTasks[productId].bRecv_S6F12_PP_UpLoad_Completed = -1;
-                                Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start = -1;      //미리 초기화
+                                Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start = -1;      //미리 초기화
 
                                 szLog = $"[LOT] PP Upload Completed Report [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
@@ -413,12 +413,12 @@ namespace SecGemApp.Process
                             }
                             break;
                         case 650:
-                            if (Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start == 0)  //650
+                            if (Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start == 0)  //650
                             {
                                 szLog = $"[LOT] Lgit Lot Start Send acknowledge [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
 
-                                Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start = -1;
+                                Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start = -1;
 
                                 //Recv LGIT_LOT_START
                                 m_dTickCount = Environment.TickCount;
@@ -426,7 +426,7 @@ namespace SecGemApp.Process
                                 nRetStep = 700;
                                 break;
                             }
-                            else if (Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start == 1)
+                            else if (Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start == 1)
                             {
                                 szLog = $"[LOT] Lot Id Fail Recv [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
@@ -476,7 +476,7 @@ namespace SecGemApp.Process
 
                                 Globalo.activeTasks[productId].bRecv_S6F12_Process_State_Change = -1;
                                 Globalo.activeTasks[productId].bRecv_S6F12_Lot_Processing_Started = -1;
-                                Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start = -1;
+                                Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start = -1;
 
                                 szLog = $"[LOT] Lot Processing Started Report [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
@@ -527,7 +527,7 @@ namespace SecGemApp.Process
 
                                 nRetStep = -1;
                             }
-                            else if (Globalo.activeTasks[productId].bRecv_S2F49_LG_Lot_Start == 1) //LGIT_LOT_ID_FAIL
+                            else if (Globalo.activeTasks[productId].bNRecv_S2F49_LG_Lot_Start == 1) //LGIT_LOT_ID_FAIL
                             {
                                 szLog = $"[LOT] Lot Id Fail Recv [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
@@ -605,7 +605,8 @@ namespace SecGemApp.Process
 
             var taskWork = new ParallelTaskWork
             {
-                m_szChipID = productId,
+                //m_szChipID = productId,
+                vNChipID = new List<string>(),
                 CurrentStep = 1000,
                 m_nStartStep = 1000,
                 EndStep = 2000,
@@ -613,8 +614,8 @@ namespace SecGemApp.Process
                 //
                 //착공
                 //
-                bRecv_Lgit_Pp_select = -1,
-                bRecv_S2F49_LG_Lot_Start = -1,
+                bNRecv_Lgit_Pp_select = -1,
+                bNRecv_S2F49_LG_Lot_Start = -1,
                 bRecv_S6F12_Process_State_Change = -1,
                 bRecv_S6F12_PP_Selected = -1,
                 bRecv_S7F25_Formatted_Process_Program = -1,
@@ -631,7 +632,7 @@ namespace SecGemApp.Process
                 vMesMultiApdData = new List<Data.ApdData>(),
                 m_nMesMultiFinalResult = 0
             };
-
+            Globalo.activeTasks[productId].vNChipID.Add(productId);
             Globalo.activeTasks[productId] = taskWork;
             Globalo.activeTasks[productId].selfSocketIp = int.Parse(socketNum);
             Globalo.activeTasks[productId].m_nMesMultiFinalResult = nFinal;

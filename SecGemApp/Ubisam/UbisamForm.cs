@@ -1312,7 +1312,8 @@ namespace SecGemApp.Ubisam
             }
             if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_LOT_ID_FAIL)
             {
-                Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start = 1;
+                Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start = 1;       //recv
+                Globalo.activeTasks[Globalo.dataManage.mesData.m_sLotId].bNRecv_S2F49_LG_Lot_Start = 1;       //recv
                 
                 TcpSocket.EquipmentData LotFailData = new TcpSocket.EquipmentData();
                 LotFailData.Command = remoteCommandInfo.RemoteCommand;
@@ -1407,11 +1408,13 @@ namespace SecGemApp.Ubisam
                 //Recipe ID Check 
                 if (Globalo.dataManage.mesData.m_sRecipeId == Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName)     //확인필요
                 {
-                    Globalo.dataManage.TaskWork.bRecv_Lgit_Pp_select = 0;		//Recv
+                    Globalo.dataManage.TaskWork.bRecv_Lgit_Pp_select = 0;   //Recv
+                    Globalo.activeTasks[Globalo.dataManage.mesData.m_sLotId].bNRecv_Lgit_Pp_select = 0;   //N Recv
                 }
                 else
                 {
                     Globalo.dataManage.TaskWork.bRecv_Lgit_Pp_select = 1;   //Recv
+                    Globalo.activeTasks[Globalo.dataManage.mesData.m_sLotId].bNRecv_Lgit_Pp_select = 1;   //N Recv
 
                     //레시피가 다른 경우로
                     ////자동운전 중이면 리트라이 팝업 띄워야 된다.
@@ -1481,6 +1484,7 @@ namespace SecGemApp.Ubisam
                 TcpSocket.EquipmentData testtttData = new TcpSocket.EquipmentData();
                 testtttData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
                 Globalo.dataManage.TaskWork.bRecv_S2F49_LG_Lot_Start = 0;
+                Globalo.activeTasks[Globalo.dataManage.mesData.m_sLotId].bNRecv_S2F49_LG_Lot_Start = 0;       //recv
             }
             if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_MATERIAL_ID_CONFIRM)
             {
@@ -2608,13 +2612,13 @@ namespace SecGemApp.Ubisam
                 }
                 if (variableInfo.VID == "10024")	//LotInfo
                 {
-
+                    int lotCount = 0;//vNChipID
                     string lotId = "";
                     string pcId = "";
                     string pdId = "";
 
                     VariableInfo dataMainList = new VariableInfo() { VID = variableInfo.VID, Format = SECSItemFormat.L, Name = "LotList" };
-                    VariableInfo dataSubList = new VariableInfo() { VID = "", Format = SECSItemFormat.L, Name = "LotInfo" };
+                    
                     VariableInfo dataValue;
 
 
@@ -2622,11 +2626,11 @@ namespace SecGemApp.Ubisam
                     {
                         Globalo.dataManage.mesData.m_dLotProcessingState = (int)Ubisam.eLOT_PROCESSING_STATE.eProcessing;
                     }
-                    if (strSendCeId == ReportConstants.LOT_PROCESSING_COMPLETED_REPORT_10710)
+                    else if (strSendCeId == ReportConstants.LOT_PROCESSING_COMPLETED_REPORT_10710)
                     {
                         Globalo.dataManage.mesData.m_dLotProcessingState = (int)Ubisam.eLOT_PROCESSING_STATE.eCompleted;
                     }
-                    if (strSendCeId == ReportConstants.PP_SELECTED_REPORT_10702)
+                    else if (strSendCeId == ReportConstants.PP_SELECTED_REPORT_10702)
                     {
                         Globalo.dataManage.mesData.m_dLotProcessingState = (int)Ubisam.eLOT_PROCESSING_STATE.eScan;
 
@@ -2652,7 +2656,7 @@ namespace SecGemApp.Ubisam
 
 
                     }
-                    if (strSendCeId == ReportConstants.PP_UPLOAD_COMPLETED_REPORT_10703)
+                    else if (strSendCeId == ReportConstants.PP_UPLOAD_COMPLETED_REPORT_10703)
                     {
                         foreach (var item in Globalo.dataManage.mesData.vPPUploadConfirm)
                         {
@@ -2675,7 +2679,7 @@ namespace SecGemApp.Ubisam
                         }
 
                     }
-                    if (strSendCeId == ReportConstants.LOT_PROCESSING_STARTED_REPORT_10704 ||
+                    else if (strSendCeId == ReportConstants.LOT_PROCESSING_STARTED_REPORT_10704 ||
                         strSendCeId == ReportConstants.LOT_PROCESSING_COMPLETED_REPORT_10710 ||
                         strSendCeId == ReportConstants.LOT_APD_REPORT_10711)
                     {
@@ -2701,55 +2705,47 @@ namespace SecGemApp.Ubisam
                         }
 
                     }
-                    //
-                    //
-
-
-                    //
-                    //
-                    if (strSendCeId == ReportConstants.OBJECT_ID_REPORT_10701)
+                    else if (strSendCeId == ReportConstants.OBJECT_ID_REPORT_10701)
                     {
                         Globalo.dataManage.mesData.m_dLotProcessingState = (int)Ubisam.eLOT_PROCESSING_STATE.eScan;
-                        //pdId = ModelList.m_szCurrentModel;	//가장 아래에서 받아야 된다.
                         pdId = Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentModelName;
+
+                        lotCount = Globalo.activeTasks["ObjectStart"].vNChipID.Count;
+
                     }
-                    if (strSendCeId == ReportConstants.ABORTED_REPORT_10712)        //사용x
+                    else if (strSendCeId == ReportConstants.ABORTED_REPORT_10712)        //사용x
                     {
-                        //lotId = g_clReportData.strAbortedLot;// "C124C10V0500001";// 입력 받을수 있게 해야된다
-                        //pcId = "CA4TS03051";
-                        //pdId = ModelList.m_szCurrentModel;
                         lotId = "";
                         pcId = "CA4TS03051";
                         pdId = Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentModelName;
                     }
 
-                    dataMainList.ChildVariables.Add(dataSubList);
+                    
 
-                    dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.U4, Name = "PortID", Value = 1 };    //PortID 1로 고정
-                    dataSubList.ChildVariables.Add(dataValue);
-                    dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "LotID", Value = lotId };
-                    dataSubList.ChildVariables.Add(dataValue);
-                    dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "PocketID", Value = "" };  //blank
-                    dataSubList.ChildVariables.Add(dataValue);
-                    dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ModuleID", Value = Globalo.dataManage.TaskWork.m_szChipID };//BCR ID
-                    dataSubList.ChildVariables.Add(dataValue);
-                    dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ProcessID", Value = pcId };//PP 에서 받은
-                    dataSubList.ChildVariables.Add(dataValue);
-                    dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ProductID", Value = pdId };//PP 에서 받은
-                    dataSubList.ChildVariables.Add(dataValue);
-                    dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.U1, Name = "LotProcessingState", Value = Globalo.dataManage.mesData.m_dLotProcessingState };
-                    dataSubList.ChildVariables.Add(dataValue);
-
-
-                    //Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName
-                    //dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "RecipeID", Value = Globalo.dataManage.mesData.m_sRecipeId };//스펙별 코드 명
-
-                    dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "RecipeID", Value = Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName };//스펙별 코드 명
-                    dataSubList.ChildVariables.Add(dataValue);
-                    dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "RecipeIDVersion", Value = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.Version };//xx
-                    //dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "RecipeIDVersion", Value = Globalo.yamlManager.mesManager.MesData.SecGemData.RecipeNo };//xx
-                    dataSubList.ChildVariables.Add(dataValue);
-
+                    for (int i = 0; i < lotCount; i++)
+                    {
+                        VariableInfo dataSubList = new VariableInfo() { VID = "", Format = SECSItemFormat.L, Name = "LotInfo" };
+                        dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.U4, Name = "PortID", Value = 1 };    //PortID 1로 고정
+                        dataSubList.ChildVariables.Add(dataValue);
+                        dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "LotID", Value = lotId };
+                        dataSubList.ChildVariables.Add(dataValue);
+                        dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "PocketID", Value = "" };  //blank
+                        dataSubList.ChildVariables.Add(dataValue);
+                        dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ModuleID", Value = Globalo.dataManage.TaskWork.m_szChipID };  //BCR ID
+                        dataSubList.ChildVariables.Add(dataValue);
+                        dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ProcessID", Value = pcId };//PP 에서 받은
+                        dataSubList.ChildVariables.Add(dataValue);
+                        dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "ProductID", Value = pdId };//PP 에서 받은
+                        dataSubList.ChildVariables.Add(dataValue);
+                        dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.U1, Name = "LotProcessingState", Value = Globalo.dataManage.mesData.m_dLotProcessingState };
+                        dataSubList.ChildVariables.Add(dataValue);
+                        dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "RecipeID", Value = Globalo.yamlManager.mesManager.MesData.SecGemData.CurrentRecipeName };//스펙별 코드 명
+                        dataSubList.ChildVariables.Add(dataValue);
+                        dataValue = new VariableInfo() { VID = "", Format = SECSItemFormat.A, Name = "RecipeIDVersion", Value = Globalo.yamlManager.recipeData.vPPRecipeSpecEquip.RECIPE.Version };//xx
+                        dataSubList.ChildVariables.Add(dataValue);
+                        dataMainList.ChildVariables.Add(dataSubList);
+                    }
+                    
 
                     _gemDriver.SetVariable(dataMainList);
                 }

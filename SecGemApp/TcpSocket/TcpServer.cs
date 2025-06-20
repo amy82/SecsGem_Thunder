@@ -30,7 +30,7 @@ namespace SecGemApp.TcpSocket
         //private bool _isRunning;
         private bool bConnected;
 
-        private bool[] bConnectedClient = new bool[4];
+        public bool[] bConnectedClient = new bool[4];
         private readonly TcpClient[] _clients = new TcpClient[4];       //eeprom verify 만 통신 - 착/완공받기
 
         private readonly Dictionary<int, ClientSlotIndex> VerifyipToSlotIndex = new Dictionary<int, ClientSlotIndex>
@@ -263,7 +263,7 @@ namespace SecGemApp.TcpSocket
             Globalo.LogPrint("CCdControl", logData);
             //Globalo.MainForm.ClientConnected(false);
 
-            Globalo.secsGemStatusControl.Set_TesterConnected(clientIndex, false);
+            Globalo.secsGemStatusControl.Set_TesterConnected(clientIndex-1, false);
             Console.WriteLine("클라이언트 연결이 종료되었습니다.");
         }
 

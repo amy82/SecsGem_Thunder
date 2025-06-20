@@ -21,7 +21,7 @@ namespace SecGemApp.TcpSocket
         private readonly List<TcpClientHandler> _clients = new List<TcpClientHandler>();
         public TcpClientHandler _client;
 
-
+        public List<string> vLotStackList = new List<string>();
         public TcpManager()
         {
             if (Program.NORIN_MODE == true)
@@ -372,35 +372,72 @@ namespace SecGemApp.TcpSocket
 
                 
             }
-            
+
             if (data.Command == "REQ_MODEL")
             {
                 SendModelToTester(testerIp);
                 //
+
+            }
+            else if (data.Command == "VERIFY_OBJECT_REPORT")       //From Tester pg, apd 보고
+            {
+                vLotStackList.Add(data.LotID);
+                int connectedCnt = SecsGemServer.bConnectedClient.Length;
+                int clientCount = 0;
+                for (i = 0; i < connectedCnt; i++)
+                {
+                    if (SecsGemServer.bConnectedClient[i] == true)
+                    {
+                        clientCount++;
+                    }
+                }
+                if (vLotStackList.Count == 1)
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        int m_dTickCount = Environment.TickCount;
+                        while (vLotStackList.Count > 0)
+                        {
+                            if (clientCount == vLotStackList.Count)
+                            {
+                                //착공?
+                                Console.WriteLine("Verify 착공");
+                                Globalo.multiLotProcess.ObjectReport_LotProcess("ObjectStart", new List<string>(vLotStackList), data.DataID, data.CommandParameter);
+                                vLotStackList.Clear();
+                                break;
+                            }
+                            if ((Environment.TickCount - m_dTickCount) > 10000)
+                            {
+                                vLotStackList.Clear();
+                                break;
+                            }
+                            await Task.Delay(50);
+                        }
+
+                    });
+                }
                 
             }
-
             else if (data.Command == "LOT_APD_REPORT")       //From Tester pg, apd 보고
             {
                 Globalo.multiLotProcess.ApdReport_LotProcess(data.LotID, data.Judge, data.DataID, data.CommandParameter);
-                //
 
                 if (false)      //기존 apd 보고 250619_1
                 {
-                    Console.WriteLine($"LOT_APD_REPORT Recv [{data.CommandParameter.Count}]");
-                    Globalo.dataManage.mesData.vMesApdData.Clear();
-                    Globalo.dataManage.TaskWork.m_szChipID = data.LotID;            //LOT_APD_REPORT
+                    //Console.WriteLine($"LOT_APD_REPORT Recv [{data.CommandParameter.Count}]");
+                    //Globalo.dataManage.mesData.vMesApdData.Clear();
+                    //Globalo.dataManage.TaskWork.m_szChipID = data.LotID;            //LOT_APD_REPORT
 
-                    Globalo.dataManage.mesData.m_nMesFinalResult = data.Judge;          //apd 양불 판정때만 1 = 양품 , 0 = 불량
+                    //Globalo.dataManage.mesData.m_nMesFinalResult = data.Judge;          //apd 양불 판정때만 1 = 양품 , 0 = 불량
 
-                    foreach (var item in data.CommandParameter)
-                    {
-                        Data.ApdData apddata = new Data.ApdData();
-                        apddata.DATANAME = item.Name;
-                        apddata.DATAVALUE = item.Value;
+                    //foreach (var item in data.CommandParameter)
+                    //{
+                    //    Data.ApdData apddata = new Data.ApdData();
+                    //    apddata.DATANAME = item.Name;
+                    //    apddata.DATAVALUE = item.Value;
 
-                        Globalo.dataManage.mesData.vMesApdData.Add(apddata);
-                    }
+                    //    Globalo.dataManage.mesData.vMesApdData.Add(apddata);
+                    //}
                 }
             }
         }

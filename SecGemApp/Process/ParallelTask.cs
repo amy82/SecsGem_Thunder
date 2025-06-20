@@ -8,7 +8,8 @@ namespace SecGemApp.Process
 {
     public class ParallelTaskWork
     {
-        public string m_szChipID { get; set; }
+        //public string m_szChipID { get; set; }
+        public List<string> vNChipID { get; set; }
 
         public int CurrentStep { get; set; }
         public int m_nStartStep { get; set; }
@@ -19,8 +20,8 @@ namespace SecGemApp.Process
         //착공 변수
         //
         //
-        public int bRecv_Lgit_Pp_select { get; set; }
-        public int bRecv_S2F49_LG_Lot_Start { get; set; }
+        public int bNRecv_Lgit_Pp_select { get; set; }
+        public int bNRecv_S2F49_LG_Lot_Start { get; set; }
         public int bRecv_S6F12_Process_State_Change { get; set; }
         public int bRecv_S6F12_PP_Selected { get; set; }
         public int bRecv_S7F25_Formatted_Process_Program { get; set; }
