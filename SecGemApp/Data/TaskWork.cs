@@ -36,7 +36,7 @@ namespace SecGemApp.Data
         public string m_szIdleStartTime;
         public string m_szIdleEndTime;
 
-        //public List<TcpSocket.EquipmentParameterInfo> SpecialDataParameter { get; set; } = new List<TcpSocket.EquipmentParameterInfo>();
+        public List<TcpSocket.EquipmentParameterInfo> SpecialDataParameter { get; set; } = new List<TcpSocket.EquipmentParameterInfo>();
 
         public TaskWork()
         {
