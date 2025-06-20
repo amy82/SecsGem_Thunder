@@ -13,11 +13,7 @@ namespace SecGemApp.Process
         public int CurrentStep { get; set; }
         public int m_nStartStep { get; set; }
         public int EndStep { get; set; }
-
         public int selfSocketIp { get; set; }
-
-        public List<Data.ApdData> vMesMultiApdData{ get; set; }
-        public int m_nMesMultiFinalResult { get; set; }
         //----------------------------------------------------------
         //
         //착공 변수
@@ -32,6 +28,7 @@ namespace SecGemApp.Process
         public int bRecv_S6F12_PP_UpLoad_Completed { get; set; }
         public int bRecv_S6F12_Lot_Processing_Started { get; set; }
 
+        public List<TcpSocket.EquipmentParameterInfo> SpecialDataParameter { get; set; }
         //----------------------------------------------------------
         //
         //완공 변수
@@ -40,5 +37,8 @@ namespace SecGemApp.Process
         public int bNRecv_S6F12_Lot_Apd { get; set; }
         public int bNRecv_S6F12_Lot_Processing_Completed { get; set; }
         public int bNRecv_S6F12_Lot_Processing_Completed_Ack { get; set; }
+
+        public int m_nMesMultiFinalResult { get; set; }
+        public List<Data.ApdData> vMesMultiApdData { get; set; }
     }
 }
