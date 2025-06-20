@@ -10,7 +10,6 @@ namespace SecGemApp.Data
     {
         public WorkData workData = new WorkData();
         public TaskWork TaskWork = new TaskWork();
-        //public ParallelTaskWork parallelTaskWork = new ParallelTaskWork();
 
         public CMesData mesData = new CMesData();
 

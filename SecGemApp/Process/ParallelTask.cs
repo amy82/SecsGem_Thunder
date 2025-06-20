@@ -30,11 +30,22 @@ namespace SecGemApp.Process
         public int bNRecv_S6F12_Lot_Processing_Started { get; set; }
 
         public List<TcpSocket.EquipmentParameterInfo> SpecialDataParameter { get; set; }
+        
+    }
+
+    public class ApdParallelTaskWork
+    {
         //----------------------------------------------------------
         //
         //완공 변수
         //
         //
+        public string m_szNChipID { get; set; }
+        public bool bRunning { get; set; }
+        public int CurrentStep { get; set; }
+        public int m_nStartStep { get; set; }
+        public int EndStep { get; set; }
+        public int selfSocketIp { get; set; }
         public int bNRecv_S6F12_Lot_Apd { get; set; }
         public int bNRecv_S6F12_Lot_Processing_Completed { get; set; }
         public int bNRecv_S6F12_Lot_Processing_Completed_Ack { get; set; }

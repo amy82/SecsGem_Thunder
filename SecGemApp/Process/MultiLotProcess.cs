@@ -40,15 +40,7 @@ namespace SecGemApp.Process
                     bNRecv_S2F49_PP_UpLoad_Confirm = -1,
                     bNRecv_S6F12_PP_UpLoad_Completed = -1,
                     bNRecv_S6F12_Lot_Processing_Started = -1,
-                    SpecialDataParameter = new List<TcpSocket.EquipmentParameterInfo>(),
-                    //
-                    //완공
-                    //
-                    bNRecv_S6F12_Lot_Apd = -1,
-                    bNRecv_S6F12_Lot_Processing_Completed = -1,
-                    bNRecv_S6F12_Lot_Processing_Completed_Ack = -1,
-                    vMesMultiApdData = new List<Data.ApdData>(),
-                    m_nMesMultiFinalResult = 0
+                    SpecialDataParameter = new List<TcpSocket.EquipmentParameterInfo>()
                 };
 
                 Globalo.ObjectActiveTasks = taskWork;
@@ -612,10 +604,9 @@ namespace SecGemApp.Process
                 return; // 이미 처리 중이면 무시
             }
 
-            var taskWork = new ParallelTaskWork
+            var taskWork = new ApdParallelTaskWork
             {
-                //m_szChipID = productId,
-                vNChipID = new List<string>(),
+                m_szNChipID = productId,
                 CurrentStep = 1000,
                 m_nStartStep = 1000,
                 EndStep = 2000,
@@ -623,15 +614,6 @@ namespace SecGemApp.Process
                 //
                 //착공
                 //
-                bNRecv_Lgit_Pp_select = -1,
-                bNRecv_S2F49_LG_Lot_Start = -1,
-                bNRecv_S6F12_Process_State_Change = -1,
-                bNRecv_S6F12_PP_Selected = -1,
-                bNRecv_S7F25_Formatted_Process_Program = -1,
-                bNRecv_S2F49_PP_UpLoad_Confirm = -1,
-                bNRecv_S6F12_PP_UpLoad_Completed = -1,
-                bNRecv_S6F12_Lot_Processing_Started = -1,
-                SpecialDataParameter = new List<TcpSocket.EquipmentParameterInfo>(),
                 //
                 //완공
                 //
@@ -641,10 +623,11 @@ namespace SecGemApp.Process
                 vMesMultiApdData = new List<Data.ApdData>(),
                 m_nMesMultiFinalResult = 0
             };
-            Globalo.activeTasks[productId].vNChipID.Add(productId);
+
             Globalo.activeTasks[productId] = taskWork;
             Globalo.activeTasks[productId].selfSocketIp = int.Parse(socketNum);
             Globalo.activeTasks[productId].m_nMesMultiFinalResult = nFinal;
+
             foreach (var item in parameterInfos)
             {
                 Data.ApdData apddata = new Data.ApdData();
@@ -674,11 +657,11 @@ namespace SecGemApp.Process
                             {
                                 nRunTimeOutSec = 60 * 1000;
                             }
-                        //if (Globalo.dataManage.mesData.vMesApdData.Count < 1)
-                        if (Globalo.activeTasks[productId].vMesMultiApdData.Count < 1)
+                            //if (Globalo.dataManage.mesData.vMesApdData.Count < 1)
+                            if (Globalo.activeTasks[productId].vMesMultiApdData.Count < 1)
                             {
-                            //fail
-                            szLog = $"[APD]{productId} Lot APD Data Empty [STEP : {nRetStep}]";
+                                //fail
+                                szLog = $"[APD]{productId} Lot APD Data Empty [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
                                 nRetStep = -1;
                                 break;

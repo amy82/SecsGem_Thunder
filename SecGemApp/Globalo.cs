@@ -35,7 +35,7 @@ namespace SecGemApp
         public static EquipCode.EEpromVerifyEquip eepromVerifyEquip = new EquipCode.EEpromVerifyEquip();
         public static Dlg.TerminalMsgForm terminalMsgForm = new Dlg.TerminalMsgForm();       //terminal message 로드 
         public static Http.HttpService httpService = new Http.HttpService();
-        public static Dictionary<string, Process.ParallelTaskWork> activeTasks = new Dictionary<string, Process.ParallelTaskWork>();
+        public static Dictionary<string, Process.ApdParallelTaskWork> activeTasks = new Dictionary<string, Process.ApdParallelTaskWork>();
         public static Process.ParallelTaskWork ObjectActiveTasks = new Process.ParallelTaskWork();
 
 

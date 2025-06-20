@@ -2477,11 +2477,9 @@ namespace SecGemApp.Ubisam
             {
                 Globalo.dataManage.TaskWork.bRecv_S6F12_Lot_Processing_Started = ack;
                 Globalo.ObjectActiveTasks.bNRecv_S6F12_Lot_Processing_Started = ack;
-
                 if (ack != 0)
                 {
                     //FAIL
-
                     ////자동운전 중이면 리트라이 팝업 띄워야 된다.
                     if (Globalo.threadControl.autoRunthread.GetThreadRun() == true)
                     {
