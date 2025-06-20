@@ -22,12 +22,12 @@ namespace SecGemApp.Process
         //
         public int bNRecv_Lgit_Pp_select { get; set; }
         public int bNRecv_S2F49_LG_Lot_Start { get; set; }
-        public int bRecv_S6F12_Process_State_Change { get; set; }
-        public int bRecv_S6F12_PP_Selected { get; set; }
-        public int bRecv_S7F25_Formatted_Process_Program { get; set; }
-        public int bRecv_S2F49_PP_UpLoad_Confirm { get; set; }
-        public int bRecv_S6F12_PP_UpLoad_Completed { get; set; }
-        public int bRecv_S6F12_Lot_Processing_Started { get; set; }
+        public int bNRecv_S6F12_Process_State_Change { get; set; }
+        public int bNRecv_S6F12_PP_Selected { get; set; }
+        public int bNRecv_S7F25_Formatted_Process_Program { get; set; }
+        public int bNRecv_S2F49_PP_UpLoad_Confirm { get; set; }
+        public int bNRecv_S6F12_PP_UpLoad_Completed { get; set; }
+        public int bNRecv_S6F12_Lot_Processing_Started { get; set; }
 
         public List<TcpSocket.EquipmentParameterInfo> SpecialDataParameter { get; set; }
         //----------------------------------------------------------

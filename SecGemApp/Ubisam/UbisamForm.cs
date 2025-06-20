@@ -1296,6 +1296,7 @@ namespace SecGemApp.Ubisam
             if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_PP_UPLOAD_FAIL)
             {
                 Globalo.dataManage.TaskWork.bRecv_S2F49_PP_UpLoad_Confirm = 1;		//LGIT_PP_UPLOAD_FAIL
+                Globalo.ObjectActiveTasks.bNRecv_S2F49_PP_UpLoad_Confirm = 1;		//LGIT_PP_UPLOAD_FAIL
                 
                 if (Globalo.threadControl.autoRunthread.GetThreadRun() == true)
                 {
@@ -1454,6 +1455,7 @@ namespace SecGemApp.Ubisam
             if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_PP_UPLOAD_CONFIRM)     //설비 pc Send xxxx
             {
                 Globalo.dataManage.TaskWork.bRecv_S2F49_PP_UpLoad_Confirm = 0;		//LGIT_PP_UPLOAD_CONFIRM
+                Globalo.ObjectActiveTasks.bNRecv_S2F49_PP_UpLoad_Confirm = 0;		//LGIT_PP_UPLOAD_CONFIRM
             }
             
             if (remoteCommandInfo.RemoteCommand == SecsGemData.LGIT_LOT_START)      //TODO: 
@@ -1796,6 +1798,7 @@ namespace SecGemApp.Ubisam
             _gemDriver.ReplyFmtPPRequestAck(systemBytes, ppid, fmtPPCollection, result);
 
             Globalo.dataManage.TaskWork.bRecv_S7F25_Formatted_Process_Program = 0;
+            Globalo.ObjectActiveTasks.bNRecv_S7F25_Formatted_Process_Program = 0;
         }
 
         /// <summary>
@@ -2439,6 +2442,7 @@ namespace SecGemApp.Ubisam
             if (ceid == ReportConstants.PROCESS_STATE_CHANGED_REPORT_10401)
             {
                 Globalo.dataManage.TaskWork.bRecv_S6F12_Process_State_Change = 0;
+                Globalo.ObjectActiveTasks.bNRecv_S6F12_Process_State_Change = 0;
 
                 if (Globalo.dataManage.mesData.m_dProcessState[1] == (int)ePROCESS_STATE_INFO.ePAUSE)
                 {
@@ -2462,16 +2466,19 @@ namespace SecGemApp.Ubisam
             if (ceid == ReportConstants.PP_SELECTED_REPORT_10702)
             {
                 Globalo.dataManage.TaskWork.bRecv_S6F12_PP_Selected = 0;
+                Globalo.ObjectActiveTasks.bNRecv_S6F12_PP_Selected = 0;
             }
             if (ceid == ReportConstants.PP_UPLOAD_COMPLETED_REPORT_10703)
             {
                 Globalo.dataManage.TaskWork.bRecv_S6F12_PP_UpLoad_Completed = 0;
+                Globalo.ObjectActiveTasks.bNRecv_S6F12_PP_UpLoad_Completed = 0;
             }
             if (ceid == ReportConstants.LOT_PROCESSING_STARTED_REPORT_10704)
             {
                 Globalo.dataManage.TaskWork.bRecv_S6F12_Lot_Processing_Started = ack;
+                Globalo.ObjectActiveTasks.bNRecv_S6F12_Lot_Processing_Started = ack;
 
-                if (Globalo.dataManage.TaskWork.bRecv_S6F12_Lot_Processing_Started != 0)
+                if (ack != 0)
                 {
                     //FAIL
 
@@ -2482,7 +2489,7 @@ namespace SecGemApp.Ubisam
 
                         //자동운전 중이면 리트라이 팝업 띄워야 된다.
                         TcpSocket.EquipmentData ProcessFailData = new TcpSocket.EquipmentData();
-                        ProcessFailData.Judge = Globalo.dataManage.TaskWork.bRecv_S6F12_Lot_Processing_Started;
+                        ProcessFailData.Judge = ack;
                         ProcessFailData.Command = "LOT_PROCESSING_STARTED_FAIL";
                         Globalo.tcpManager.SendMessageToHost(ProcessFailData);
                     }
