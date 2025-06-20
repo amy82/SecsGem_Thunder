@@ -22,6 +22,7 @@ namespace SecGemApp.TcpSocket
         public TcpClientHandler _client;
 
         public List<string> vLotStackList = new List<string>();
+        public List<int> vIpStackList = new List<int>();
         public TcpManager()
         {
             if (Program.NORIN_MODE == true)
@@ -382,6 +383,8 @@ namespace SecGemApp.TcpSocket
             else if (data.Command == "VERIFY_OBJECT_REPORT")       //From Tester pg, apd 보고
             {
                 vLotStackList.Add(data.LotID);
+                vIpStackList.Add(testerIp);
+
                 int connectedCnt = SecsGemServer.bConnectedClient.Length;
                 int clientCount = 0;
                 for (i = 0; i < connectedCnt; i++)
@@ -402,13 +405,15 @@ namespace SecGemApp.TcpSocket
                             {
                                 //착공?
                                 Console.WriteLine("Verify 착공");
-                                Globalo.multiLotProcess.ObjectReport_LotProcess("ObjectStart", new List<string>(vLotStackList), data.DataID, data.CommandParameter);
+                                Globalo.multiLotProcess.ObjectReport_LotProcess("ObjectStart", vLotStackList, vIpStackList, data.CommandParameter);
                                 vLotStackList.Clear();
+                                vIpStackList.Clear();
                                 break;
                             }
                             if ((Environment.TickCount - m_dTickCount) > 10000)
                             {
                                 vLotStackList.Clear();
+                                vIpStackList.Clear();
                                 break;
                             }
                             await Task.Delay(50);

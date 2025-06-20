@@ -14,7 +14,8 @@ namespace SecGemApp.Process
         public int CurrentStep { get; set; }
         public int m_nStartStep { get; set; }
         public int EndStep { get; set; }
-        public int selfSocketIp { get; set; }
+        //public int selfSocketIp { get; set; }
+        public List<int> vSocketIp { get; set; }
         //----------------------------------------------------------
         //
         //착공 변수
@@ -30,8 +31,17 @@ namespace SecGemApp.Process
         public int bNRecv_S6F12_Lot_Processing_Started { get; set; }
         //public List<TcpSocket.EquipmentParameterInfo> SpecialDataParameter { get; set; }
 
-        public List<TcpSocket.EquipmentParameterInfo>[] ArrSpecialData { get; set; }
+        public List<TcpSocket.EquipmentParameterInfo>[] ArrSpecialData { get; set; } = new List<TcpSocket.EquipmentParameterInfo>[4];
         //public List<TcpSocket.EquipmentParameterInfo>[] ArrSpecialData = new List<TcpSocket.EquipmentParameterInfo>[4];
+        public ParallelTaskWork()
+        {
+            vNChipID = new List<string>();
+            vSocketIp = new List<int>();
+            for (int i = 0; i < ArrSpecialData.Length; i++)
+            {
+                ArrSpecialData[i] = new List<TcpSocket.EquipmentParameterInfo>();
+            }
+        }
     }
 
     public class ApdParallelTaskWork

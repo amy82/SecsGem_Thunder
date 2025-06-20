@@ -14,7 +14,7 @@ namespace SecGemApp.Process
 
         }
         #region [착공]
-        public void ObjectReport_LotProcess(string productId, List<string> vLotList, string socketNum, List<TcpSocket.EquipmentParameterInfo> parameterInfos)
+        public void ObjectReport_LotProcess(string productId, List<string> vLotList, List<int> vsocketNum,List<TcpSocket.EquipmentParameterInfo> parameterInfos)
         {
            // if (Globalo.activeTasks.ContainsKey(productId))
             if (Globalo.ObjectActiveTasks.bRunning)
@@ -26,10 +26,11 @@ namespace SecGemApp.Process
                 var taskWork = new ParallelTaskWork
                 {
                     vNChipID = vLotList.Select(item => string.Copy(item)).ToList(),
+                    vSocketIp = vsocketNum.ToList(),
                     CurrentStep = 100,
                     m_nStartStep = 100,
                     EndStep = 1000,
-                    selfSocketIp = -1,
+                    //selfSocketIp = -1,
                     //
                     //착공
                     //
@@ -42,12 +43,11 @@ namespace SecGemApp.Process
                     bNRecv_S6F12_PP_UpLoad_Completed = -1,
                     bNRecv_S6F12_Lot_Processing_Started = -1,
                     //SpecialDataParameter = new List<TcpSocket.EquipmentParameterInfo>(),
-                    ArrSpecialData = new List<TcpSocket.EquipmentParameterInfo>[4]
+                    //ArrSpecialData = new List<TcpSocket.EquipmentParameterInfo>[4]
                 };
 
                 
                 Globalo.ObjectActiveTasks = taskWork;
-                Globalo.ObjectActiveTasks.selfSocketIp = int.Parse(socketNum);
 
                 for (int i = 0; i < Globalo.ObjectActiveTasks.ArrSpecialData.Length; i++)
                 {
@@ -64,6 +64,7 @@ namespace SecGemApp.Process
 
                 _ = Task.Run(async () =>
                 {
+                    int i = 0;
                     int nRunTimeOutSec = 60000;
                     string szLog = string.Empty;
                     int m_dTickCount = 0;
@@ -559,16 +560,22 @@ namespace SecGemApp.Process
                                 //    LotstartData.CommandParameter = Globalo.dataManage.TaskWork.SpecialDataParameter.Select(item => item.DeepCopy()).ToList();
                                 //    Globalo.tcpManager.SendMessageToHost(LotstartData);
                                 //}
+                                for (i = 0; i < Globalo.ObjectActiveTasks.vNChipID.Count; i++)
+                                {
+                                    TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
+                                    EqipData.Type = "EquipmentData";
+                                    TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
+                                    tData.Command = "APS_LOT_START_CMD";
+                                    tData.LotID = Globalo.ObjectActiveTasks.vNChipID[i];
+                                    tData.CommandParameter = Globalo.ObjectActiveTasks.ArrSpecialData[0].Select(item => item.DeepCopy()).ToList();
 
-                                TcpSocket.MessageWrapper EqipData = new TcpSocket.MessageWrapper();
-                                EqipData.Type = "EquipmentData";
-                                TcpSocket.EquipmentData tData = new TcpSocket.EquipmentData();
-                                tData.Command = "APS_LOT_START_CMD";
-                                tData.CommandParameter = Globalo.ObjectActiveTasks.ArrSpecialData[0].Select(item => item.DeepCopy()).ToList();
+                                    EqipData.Data = tData;
 
-                                EqipData.Data = tData;
+                                    Globalo.tcpManager.SendMessageToTester(EqipData, Globalo.ObjectActiveTasks.vSocketIp[i]);
+                                }
+                                
 
-                                Globalo.tcpManager.SendMessageToTester(EqipData, Globalo.ObjectActiveTasks.selfSocketIp);
+                                //착공 건 Lot만큼 뿌려줘야된다.
 
                                 szLog = $"[LOT] Lot Processing Start Complete [STEP : {nRetStep}]";
                                 Globalo.LogPrint("LotProcess", szLog);
